@@ -1,0 +1,5 @@
+1. Create start screen that shows for 2 seconds
+2. Create a scrollable view with the available timelines and orientation shifts
+3. Create a "join" screen with data fields for input
+4. Create a create timeline generation view
+5. Create a timeline display view
