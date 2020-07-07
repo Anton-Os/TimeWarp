@@ -4,9 +4,9 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/;
 import 'package:flutter/cupertino.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:timewarpsoc/time_types.dart';
+import 'package:timewarpsoc/db_logic.dart';
 
 /* class TimelineSegment {
 
@@ -51,7 +51,7 @@ Expanded genYearDesc(String str, double height){
       color: Colors.white,
       decoration: TextDecoration.none,
 
-      fontFamily: 'Amita'
+      fontFamily: 'JosefinSlab'
   );
 
   return Expanded(
@@ -86,6 +86,7 @@ Expanded genEmptyDesc(double height){
 
 class TimelineDesc {
   TimelineDesc({Key key, String str}) {
+    // TODO: Height needs to be correctly adjusted
     assert(str != null);
     assert(str.length < 180);
 
@@ -109,7 +110,7 @@ class TimelineDesc {
 class TimelineSegment {
   TimelineSegment({Key key, int index}){
     switch (index){
-      case 0: {
+      case 0: { // Header
         targetWidgetL = Expanded(flex: 1, child: Container(color: topperColor_sides, height: 70.0));
         targetWidgetM = Expanded(flex: 10, child: Container(color: topperColor_middle, height: 70.0));
         targetWidgetR = Expanded(flex: 1, child: Container(color: topperColor_sides, height: 70.0));
@@ -117,24 +118,23 @@ class TimelineSegment {
       break;
 
       default: {
-        if(index % 2 == 1) { // Blank space
+        if(index % 2 == 1) { // Filler
           targetWidgetL = Expanded(flex: 2, child: Container(color: sideColor, height: 80.0));
           targetWidgetM = Expanded(flex: 1, child: Container(color: timelineColor, height: 80.0));
           targetWidgetR = Expanded(flex: 2, child: Container(color: sideColor, height: 80.0));
         }
         else {
-          TimelineDesc desc1 = TimelineDesc(str: "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
-          TimelineDesc desc2 = TimelineDesc(str: "There are 0 2's types of people on this planet, the ones who understand binary and the ones who dont");
-
-          if(index % 4 == 0) { // Right hand side text display
-            targetWidgetM = genYearDesc("788 ADE", desc1.height);
-            targetWidgetL = genEmptyDesc(desc1.height);
-            targetWidgetR = genEventDesc(desc1.outputStr, desc1.height);
-          } else { // Left hand side text display
-
-            targetWidgetM = genYearDesc("1455 BCE", desc2.height);
-            targetWidgetR = genEmptyDesc(desc2.height);
-            targetWidgetL = genEventDesc(desc2.outputStr, desc2.height);
+          TimelineDesc desc; // Must be initialized from fiebase and probably put in a switch(case) block
+          if(index % 4 == 0) { // Right side display
+            desc = TimelineDesc(str: "I go shopping every day twice a week for c c c c c cc kc kc kck ckc!");
+            targetWidgetM = genYearDesc("788 ADE", desc.height);
+            targetWidgetL = genEmptyDesc(desc.height);
+            targetWidgetR = genEventDesc(desc.outputStr, desc.height);
+          } else { // Left side display
+            desc = TimelineDesc(str: "WWWWWWWWWWWWWWWWWWWW We are lit");
+            targetWidgetM = genYearDesc("1455 BCE", desc.height);
+            targetWidgetR = genEmptyDesc(desc.height);
+            targetWidgetL = genEventDesc(desc.outputStr, desc.height);
           }
         }
       }
@@ -161,7 +161,7 @@ class TimelineSegment {
       fontSize: 8,
       color: Colors.black54,
       decoration: TextDecoration.none,
-      fontFamily: 'JosefinSlab'
+      fontFamily: 'IMFellDoublePicaSC'
   );
 
   static const TextStyle captionStyle = TextStyle(
@@ -169,7 +169,7 @@ class TimelineSegment {
       color: Colors.white,
       decoration: TextDecoration.underline,
       backgroundColor: Colors.blue,
-      fontFamily: 'JosefinSlab'
+      fontFamily: 'IMFellDoublePicaSC'
   );
 
   Widget targetWidgetL; // left
@@ -203,6 +203,8 @@ class _TimelineVisual extends State<TimelineVisual> {
 
   @override
   Widget build(BuildContext context) {
+    initFirebase();
+
     return MaterialApp(
       home:
       ListView.builder(
