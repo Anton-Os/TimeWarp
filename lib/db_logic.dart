@@ -8,7 +8,7 @@ class TimelineFirebaseDB {
     initFirebase();
   }
 
-  static TimelineData data;
+  static TimelineData data = new TimelineData();
 
   Future<void> initFirebase() async {
     // TODO: Support apple version as well eventually
@@ -21,29 +21,37 @@ class TimelineFirebaseDB {
       for(MapEntry entry in timelineMap){
         print("Found $entry field in timelineMap");
 
-        if(entry.key[0] == '_') // For things not displayed as timeline items
-          print("Special field encountered!"); // Handle the data here
+        if(entry.key[0] == '_') { // For things not displayed as timeline items
+          print("Special field encountered!"); // Handle the special
+        }
         else {
-          // TODO: Try to work around by using item_entries
-          Map<String, dynamic> item_entries = new Map<String, dynamic>.from(entry.value);
-          Iterable<dynamic> item_entriesDData = item_entries.values;
 
-          for(String item_entry in item_entriesDData){ // Oddly not stored as a map
-            /* switch(item_entry.key) {
+          String desc = "";
+          TimePoint tp1;
+          TimePoint tp2;
+
+          Map<String, dynamic> item_entries = new Map<String, dynamic>.from(entry.value);
+          item_entries.entries.forEach((item_entry) {
+            switch(item_entry.key) {
               case("start"):
-                print("Start!");
+                tp1 = new TimePoint(year: getYearFromStr(item_entry.value.toString()));
                 break;
               case("end"):
-                print("End!");
+                tp2 = new TimePoint(year: getYearFromStr(item_entry.value.toString()));
                 break;
               case("desc"):
-                print("Desc!");
+                desc = item_entry.value.toString(); // TODO: Fix with new
                 break;
               default:
                 print("Not yet supported!!!");
                 break;
-            } */
-          }
+            }
+          });
+
+          TimelineSegData segment = new TimelineSegData(
+              header: entry.key, desc: desc, tp1: tp1, tp2: tp2
+          );
+          data.segments.add(segment);
         }
       }
 

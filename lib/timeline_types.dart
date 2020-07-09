@@ -15,19 +15,23 @@ class TimePoint {
   int minute = 0;
   // TODO: Make a clock structure for storing hours
 }
-
+// TODO: Getter fun
 class TimelineSegData {
-  TimePoint tp1;
-  TimePoint tp2;
+  TimelineSegData({ this.header, this.desc, this.tp1, this.tp2, Image image }){
+    if(image != null) this.img = image;
+  }
 
-  String header;
-  String desc;
+  final String header; // This will be immutable
+  final String desc;
 
-  Image img;
+  final TimePoint tp1;
+  final TimePoint tp2;
+
+  Image img; // Probably needs some default
   // Location loc maybe
 }
 
-TimePoint genTpFromStr(String str){
+/* TimePoint genTpFromStr(String str){ // May not be necessary
   assert(str != null);
   
   String yearStr;
@@ -46,17 +50,26 @@ TimePoint genTpFromStr(String str){
     }
     while(str[i] == ' ') continue; // Skip all the white space
 
-    /* int extensionStartIndex = i;
-    while(i < extensionStartIndex + 3) { // Extension is 3 characters long
-      yearExtensionStr += str[i];
-      i++;
-    } */
   }
   return TimePoint(year: int.parse(yearStr)); // Default, year is all that is a must
+} */
+
+int getYearFromStr(String str){
+  String yearStr = '';
+
+  assert(int.tryParse(str[0]) != null); // First character should numeric, good check
+  for(var i = 0; i < str.length; i++) {
+    while (int.tryParse(str[i]) != null) {
+      yearStr += str[i];
+      i++; // Keep going until a non-numeric is hit
+    }
+  }
+
+  return int.parse(yearStr);
 }
 
 class TimelineData {
-  TIME_Scale scale;
-  List<TimelineSegData> segments;
-  Iterable<MapEntry<String, int>> themeColors;
+  TIME_Scale scale = TIME_Scale.Years;
+  List<TimelineSegData> segments = [];
+  Iterable<MapEntry<String, int>> themeColors = [];
 }

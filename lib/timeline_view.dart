@@ -3,10 +3,25 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:timewarpsoc/timeline_types.dart';
 import 'package:timewarpsoc/db_logic.dart';
+import 'package:timewarpsoc/ui_beauty.dart';
 
 class TimelineSegView {
   TimelineSegView({Key key, this.index, this.data}){
-    // switch case statement
+    // TODO: Code for determining theme/colors should go here
+
+    switch(index){
+      case(0): // TODO: Extract info based on the _Name field
+        print("Title! Title! Title!");
+        break;
+
+      default:
+        if(index % 2 == 0){
+          print("Item space");
+        } else {
+          print("Scalable filler space");
+        }
+        break;
+    }
   }
 
   final int index;
@@ -15,6 +30,11 @@ class TimelineSegView {
   Widget targetWidgetL; // left
   Widget targetWidgetM; // middle
   Widget targetWidgetR; // right
+
+  // TODO: Add some default color scheme values
+  TimelineColorScheme center_TCS = new TimelineColorScheme();
+  TimelineColorScheme items_TCS = new TimelineColorScheme();
+  TimelineColorScheme title_TCS = new TimelineColorScheme();
 }
 
 class TimelineVisual extends StatefulWidget {
@@ -40,7 +60,7 @@ class _TimelineVisual extends State<TimelineVisual> {
         ListView.builder(
             itemCount: TimelineFirebaseDB.data.segments.length,
             itemBuilder: (context, index) {
-              TimelineSegView segment = TimelineSegView(index: index, data: );
+              TimelineSegView segment = TimelineSegView(index: index, data: TimelineFirebaseDB.data);
 
               return
                 Container(
