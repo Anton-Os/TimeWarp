@@ -5,11 +5,12 @@ import 'package:timewarpsoc/timeline_types.dart';
 import 'package:timewarpsoc/db_logic.dart';
 
 class TimelineSegView {
-  TimelineSegView({Key key, this.index}){
+  TimelineSegView({Key key, this.index, this.data}){
     // switch case statement
   }
 
   final int index;
+  final TimelineData data;
 
   Widget targetWidgetL; // left
   Widget targetWidgetM; // middle
@@ -39,7 +40,7 @@ class _TimelineVisual extends State<TimelineVisual> {
         ListView.builder(
             itemCount: TimelineFirebaseDB.data.segments.length,
             itemBuilder: (context, index) {
-              TimelineSegView segment = TimelineSegView(index: index);
+              TimelineSegView segment = TimelineSegView(index: index, data: );
 
               return
                 Container(
