@@ -22,6 +22,9 @@ class TimelineSegView {
           itemIndex++;
         } else {
           print("Scalable filler space");
+          targetWidgetL = new Expanded(flex: 5, child: Container(color: items_TCS.filler, height: 70.0)); // The height is dynamic
+          targetWidgetM = new Expanded(flex: 2, child: Container(color: center_TCS.primary, height: 70.0)); // The height is dynamic
+          targetWidgetR = new Expanded(flex: 5, child: Container(color: items_TCS.filler, height: 70.0)); // The height is dynamic
         }
         break;
     }
@@ -60,13 +63,13 @@ class _TimelineVisual extends State<TimelineVisual> {
 
   @override
   Widget build(BuildContext context) {
-    TimelineFirebaseDB db = new TimelineFirebaseDB(); // TODO: Access a target database we have stored
+    TimelineFirebaseDB db = new TimelineFirebaseDB(firebaseDocStr: 'iLakpSBa6Ps9hok5wMCJ'); // TODO: Make this field mapped to a legible value
 
     return MaterialApp(
         home:
         ListView.builder(
             // itemCount: TimelineFirebaseDB.data.segments.length,
-            itemCount: 1,
+            itemCount: 2,
             itemBuilder: (context, index) {
               TimelineSegView segment = TimelineSegView(index: index, data: TimelineFirebaseDB.data);
 
