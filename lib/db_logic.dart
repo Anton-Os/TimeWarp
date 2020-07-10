@@ -31,20 +31,29 @@ class TimelineFirebaseDB {
           TimePoint tp2;
 
           Map<String, dynamic> item_entries = new Map<String, dynamic>.from(entry.value);
-          item_entries.entries.forEach((item_entry) {
-            switch(item_entry.key) {
-              case("start"):
-                tp1 = new TimePoint(year: getYearFromStr(item_entry.value.toString()));
-                break;
-              case("end"):
-                tp2 = new TimePoint(year: getYearFromStr(item_entry.value.toString()));
-                break;
-              case("desc"):
-                desc = item_entry.value.toString(); // TODO: Fix with new
-                break;
-              default:
-                print("Not yet supported!!!");
-                break;
+          item_entries.entries.forEach((item_entry) { // TODO: Dont like this out of range, change from .forEach to normal for loop
+            try {
+              switch (item_entry.key) {
+                case("start"):
+                  tp1 = new TimePoint(
+                      year: getYearFromStr(item_entry.value.toString()));
+                  break;
+                case("end"):
+                  tp2 = new TimePoint(
+                      year: getYearFromStr(item_entry.value.toString()));
+                  break;
+                case("desc"):
+                  desc = item_entry.value.toString(); // TODO: Fix with new
+                  break;
+                default:
+                  print("Not yet supported!!!");
+                  break;
+              }
+            } on RangeError {
+              print('Out of range detected... Doing nothing');
+              print(item_entry.toString());
+            } catch(e){
+              print('Strange list behavior!!!');
             }
           });
 

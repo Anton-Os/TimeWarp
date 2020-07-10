@@ -31,29 +31,6 @@ class TimelineSegData {
   // Location loc maybe
 }
 
-/* TimePoint genTpFromStr(String str){ // May not be necessary
-  assert(str != null);
-  
-  String yearStr;
-  String yearExtensionStr;
-
-  String monthStr;
-  String dayStr;
-  String minuteStr;
-  String secondStr;
-
-  assert(int.tryParse(str[0]) != null); // First character should numeric
-  for(var i = 0; i < str.length; i++){
-    while(int.tryParse(str[i]) != null){
-      yearStr += str[i];
-      i++; // Keep going until a non-numeric is hit
-    }
-    while(str[i] == ' ') continue; // Skip all the white space
-
-  }
-  return TimePoint(year: int.parse(yearStr)); // Default, year is all that is a must
-} */
-
 int getYearFromStr(String str){
   String yearStr = '';
 
