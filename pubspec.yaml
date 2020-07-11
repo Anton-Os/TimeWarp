@@ -81,3 +81,15 @@ flutter:
       fonts:
         - asset: res/Amita-Regular.ttf
         - style: normal
+    - family: Broadway
+      fonts:
+        - asset: res/Broadway-Regular.ttf
+        - style: normal
+    - family: Dokdo
+      fonts:
+        - asset: res/Dokdo-Regular.ttf
+        - style: normal
+    - family: EBGaramond
+      fonts:
+        - asset: res/EBGaramond-Regular.ttf
+        - style: normal
