@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
@@ -40,7 +41,6 @@ class TimelineSegView {
       default:
         if(index % 2 == 0){
           if(this.data.segments.length != 0) {
-            GlobalKey _sizeableWidgetKey = GlobalKey(); // Attach key to the target widget
             double targetHeight = getHeightFromText(this.data.segments.elementAt(itemIndex).desc.length); // We will do some crude scaling
 
             targetWidgetS1 = new Expanded(flex: 5,
@@ -55,19 +55,29 @@ class TimelineSegView {
                     ],
                   )
                 );
-            //final RenderBox _sizeableWidgetRB = _sizeableWidgetKey.currentContext.findRenderObject();
-            // final double _sizeableWidgetHeight = _sizeableWidgetRB.size.height;
+
             targetWidgetM = new Expanded(flex: 2,
-                child: Container(color: center_TCS.primary, height: targetHeight + 12.0,
-                  child: Text(
-                      this.data.segments.elementAt(itemIndex).tp1.year.toString() + "\n to \n" + this.data.segments.elementAt(itemIndex).tp2.year.toString(),
-                      style: centerDateTS, textAlign: TextAlign.center,
-                  )
-            )); // The height is dynamic
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(color: center_TCS.primary, alignment: Alignment.bottomCenter, height: targetHeight / 3.0 + 12.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
+                        child: Text(
+                            this.data.segments.elementAt(itemIndex).tp1.year.toString() + " " + getStrFromExt(this.data.segments.elementAt(itemIndex).tp1.extension),
+                            textAlign: TextAlign.center, style: centerDateTS)),
+                    Container(color: center_TCS.primary, alignment: Alignment.center, height: targetHeight / 3.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
+                        child: Text(" To ", textAlign: TextAlign.center, style: centerDateTS)),
+                    Container(color: center_TCS.primary, alignment: Alignment.topCenter, height: targetHeight / 3.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
+                        child: Text(
+                            this.data.segments.elementAt(itemIndex).tp2.year.toString() + " " + getStrFromExt(this.data.segments.elementAt(itemIndex).tp2.extension),
+                            textAlign: TextAlign.center, style: centerDateTS)),
+                  ],
+                )
+            );
             targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_TCS.filler, height: targetHeight + 12.0));
 
             itemIndex++;
-          } else { // The height is dynamic
+          } else { // This is the default pre-build, when Firebase is not up and running
             targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_TCS.primary, height: 70.0));
             targetWidgetM = new Expanded(flex: 2, child: Container(color: center_TCS.primary, height: 70.0)); // The height is dynamic
             targetWidgetS1 = new Expanded(flex: 5, child: Container(color: items_TCS.filler, height: 70.0)); // The height is dynamic
@@ -101,7 +111,7 @@ class TimelineSegView {
 
   TextStyle headerScriptTS = TextStyle( fontSize: 10, color: new Color(0xFF604040), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
   TextStyle descScriptTS = TextStyle( fontSize: 8, color: new Color(0xFF604040), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
-  TextStyle centerDateTS = TextStyle( fontSize: 9, color: new Color(0xFFE8D1D9), decoration: TextDecoration.none, fontFamily: 'Broadway');
+  TextStyle centerDateTS = TextStyle( fontSize: 6.5, color: new Color(0xFFE8D1D9), decoration: TextDecoration.none, fontFamily: 'Broadway');
 
   TextStyle titleNameTS = TextStyle( fontSize: 20, color: new Color(0xFF420D20), decoration: TextDecoration.none, fontFamily: 'Amita');
   TextStyle titleDateTS = TextStyle( fontSize: 9, color: new Color(0xFF420D20), decoration: TextDecoration.none, fontFamily: 'Dokdo');

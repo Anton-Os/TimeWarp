@@ -2,12 +2,13 @@
 import 'package:flutter/cupertino.dart';
 
 enum TIME_Months { NA, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec }
-enum TIME_Scale { Years, Epochs, Hourly}
+enum TIME_Scale { NA, Years, Epochs, Hourly}
+enum TIME_Extension { NA, ACE, BCE, MYA }
 
 class TimePoint {
-  TimePoint({this.year, TIME_Months month, int day, int hour, int minute}){}
+  TimePoint({this.year, this.extension, TIME_Months month, int day, int hour, int minute}){}
 
-  TIME_Scale scale = TIME_Scale.Years; // This will modify the suffixes and format displayed
+  TIME_Extension extension = TIME_Extension.ACE; // This will modify the suffixes and format displayed
 
   final int year; // Must be set
   TIME_Months month = TIME_Months.NA;
@@ -15,7 +16,6 @@ class TimePoint {
 
   int hour = 0;
   int minute = 0;
-  // TODO: Make a clock structure for storing hours
 }
 // TODO: Getter fun
 class TimelineSegData {
@@ -47,7 +47,44 @@ int getYearFromStr(String str){
   return int.parse(yearStr);
 }
 
+TIME_Extension getExtFromStr(String str){
+  String extensionStr = '';
+  TIME_Extension extension = TIME_Extension.NA;
+
+  for(var i = 0; i < str.length - 2; i++) {
+    extensionStr = str.substring(i, i + 3);
+    switch(extensionStr.toUpperCase()){
+      case("MYA"):
+        extension = TIME_Extension.MYA;
+        break;
+      case("BCE"):
+        extension = TIME_Extension.BCE;
+        break;
+      case("ACE"):
+        extension = TIME_Extension.ACE;
+        break;
+    }
+    if(extension != TIME_Extension.NA) break;
+  }
+
+  return extension;
+}
+
+String getStrFromExt(TIME_Extension extension){
+  switch(extension){
+    case(TIME_Extension.MYA):
+      return "MYA";
+    case(TIME_Extension.BCE):
+      return "BCE";
+    case(TIME_Extension.ACE):
+      return "ACE";
+    default:
+      return "";
+  }
+}
+
 class TimelineData {
+  TIME_Scale scale = TIME_Scale.Years;
   List<TimelineSegData> segments = [];
   Iterable<MapEntry<String, int>> themeColors = [];
 }

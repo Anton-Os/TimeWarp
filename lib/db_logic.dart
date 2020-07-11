@@ -40,11 +40,15 @@ class TimelineFirebaseDB extends ChangeNotifier {
             switch (item_entry.key) {
               case("start"):
                 tp1 = new TimePoint(
-                    year: getYearFromStr(item_entry.value.toString()));
+                    year: getYearFromStr(item_entry.value.toString()),
+                    extension: getExtFromStr(item_entry.value.toString())
+                );
                 break;
               case("end"):
                 tp2 = new TimePoint(
-                    year: getYearFromStr(item_entry.value.toString()));
+                    year: getYearFromStr(item_entry.value.toString()),
+                    extension: getExtFromStr(item_entry.value.toString())
+                );
                 break;
               case("desc"):
                 desc = item_entry.value.toString(); // TODO: Fix with new
