@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:timewarpsoc/timeline_types.dart';
 
-class TimelineFirebaseDB {
-  TimelineFirebaseDB({ this.firebaseDocStr }){
+class TimelineFirebaseDB extends ChangeNotifier {
+  TimelineFirebaseDB({ this.firebaseDocStr }) {
     initFirebase();
   }
 
@@ -15,7 +16,7 @@ class TimelineFirebaseDB {
     // TODO: Support apple version as well eventually
 
     Firestore.instance.collection('timelines').document(firebaseDocStr).get()
-      .then((DocumentSnapshot snapshot) {
+    .then((DocumentSnapshot snapshot) {
 
       Iterable<MapEntry<String, dynamic>> timelineMap = snapshot.data.entries;
       // MapEntry<String, dynamic> currentMap = timelineMap.first; // Data from first element
@@ -59,7 +60,7 @@ class TimelineFirebaseDB {
               header: entry.key, desc: desc, tp1: tp1, tp2: tp2
           );
           data.segments.add(segment);
-          print("Have a nice day!");
+          notifyListeners(); // Should send updates
         }
       }
 
