@@ -7,6 +7,8 @@ enum TIME_Scale { Years, Epochs, Hourly}
 class TimePoint {
   TimePoint({this.year, TIME_Months month, int day, int hour, int minute}){}
 
+  TIME_Scale scale = TIME_Scale.Years; // This will modify the suffixes and format displayed
+
   final int year; // Must be set
   TIME_Months month = TIME_Months.NA;
   int day = 1; // From 1 to 31, anything out of range including zero omits day
@@ -46,7 +48,6 @@ int getYearFromStr(String str){
 }
 
 class TimelineData {
-  TIME_Scale scale = TIME_Scale.Years;
   List<TimelineSegData> segments = [];
   Iterable<MapEntry<String, int>> themeColors = [];
 }

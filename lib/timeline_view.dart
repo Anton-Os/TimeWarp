@@ -7,6 +7,15 @@ import 'package:timewarpsoc/timeline_types.dart';
 import 'package:timewarpsoc/db_logic.dart';
 import 'package:timewarpsoc/ui_beauty.dart';
 
+double getHeightFromText(int charCount){ // Think I got it!!!
+  assert(charCount < 400);
+  final int charLineInc = 28; // May need to modify this
+  final double spacingLine = 8.0;
+  final double paddingLine = 10.0;
+  final double computedSpace = (charCount.toDouble() / charLineInc.toDouble()) * spacingLine.toDouble() + paddingLine.toDouble();
+  return computedSpace.floor().toDouble();
+}
+
 class TimelineSegView {
   TimelineSegView({Key key, this.index, this.data}){
     // TODO: Code for determining theme/colors should go here
@@ -32,28 +41,30 @@ class TimelineSegView {
         if(index % 2 == 0){
           if(this.data.segments.length != 0) {
             GlobalKey _sizeableWidgetKey = GlobalKey(); // Attach key to the target widget
+            double targetHeight = getHeightFromText(this.data.segments.elementAt(itemIndex).desc.length); // We will do some crude scaling
+
             targetWidgetS1 = new Expanded(flex: 5,
-                  key: _sizeableWidgetKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(color: items_TCS.secondary, height: 12.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
                           child: Text(this.data.segments.elementAt(itemIndex).header, textAlign: TextAlign.center, style: headerScriptTS)),
-                      Container(color: items_TCS.primary, height: 18.0, padding: EdgeInsets.only(top: 6.0), // Minimum values
+                      Container(color: items_TCS.primary, height: targetHeight, padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0), // Minimum values
                           child: Text(this.data.segments.elementAt(itemIndex).desc, textAlign: TextAlign.center, style: descScriptTS)),
                     ],
                   )
                 );
-            // final RenderBox _sizeableWidgetRB = _sizeableWidgetKey.currentContext.findRenderObject();
+            //final RenderBox _sizeableWidgetRB = _sizeableWidgetKey.currentContext.findRenderObject();
             // final double _sizeableWidgetHeight = _sizeableWidgetRB.size.height;
             targetWidgetM = new Expanded(flex: 2,
-                child: Container(color: center_TCS.primary, height: 30.0,
+                child: Container(color: center_TCS.primary, height: targetHeight + 12.0,
                   child: Text(
                       this.data.segments.elementAt(itemIndex).tp1.year.toString() + "\n to \n" + this.data.segments.elementAt(itemIndex).tp2.year.toString(),
                       style: centerDateTS, textAlign: TextAlign.center,
                   )
             )); // The height is dynamic
-            targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_TCS.filler, height: 30.0));
+            targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_TCS.filler, height: targetHeight + 12.0));
 
             itemIndex++;
           } else { // The height is dynamic
