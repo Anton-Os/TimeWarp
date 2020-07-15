@@ -4,26 +4,15 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:timewarpsoc/timeline_types.dart';
 
-class HomeFirebaseDB extends ChangeNotifier {
-  TimelineFirebaseDB() {
-    initFirebase();
-  }
-
-  Future<void> initFirebase() async {
-    return;
-  }
-}
-
-class TimelineFirebaseDB extends ChangeNotifier {
-  TimelineFirebaseDB({ this.firebaseDocStr }) {
-    initFirebase();
-  }
+class TimelineFirebaseDB{
+  TimelineFirebaseDB({ this.firebaseDocStr }) {}
 
   final String firebaseDocStr;
   static TimelineData data = new TimelineData();
 
-  Future<void> initFirebase() async {
+  Future<void> init() async {
     // TODO: Support apple version as well eventually
+    if(data.segments.isNotEmpty) return; // Avoiding extra re-runs
 
     Firestore.instance.collection('timelines').document(firebaseDocStr).get()
     .then((DocumentSnapshot snapshot) {
@@ -73,8 +62,9 @@ class TimelineFirebaseDB extends ChangeNotifier {
           TimelineSegData segment = new TimelineSegData(
               header: entry.key, desc: desc, tp1: tp1, tp2: tp2
           );
+
+          // if(data.segments.indexWhere((element) => !(element.header.compareTo('222') == 0))
           data.segments.add(segment);
-          notifyListeners(); // Should send updates
         }
       }
 
