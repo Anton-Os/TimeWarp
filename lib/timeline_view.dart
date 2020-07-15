@@ -18,7 +18,7 @@ double getHeightFromText(int charCount){ // Think I got it!!!
 }
 
 class TimelineSegView {
-  TimelineSegView({Key key, this.index, this.data}){
+  TimelineSegView({Key key, this.index, this.data}){ // TODO: Include a boolean to indicate portrait or landscape and resize text values
     // TODO: Code for determining theme/colors should go here
 
     switch(index){
@@ -145,8 +145,11 @@ class _TimelineVisual extends State<TimelineVisual> {
           builder: (_) => TimelineFirebaseDB(firebaseDocStr: 'iLakpSBa6Ps9hok5wMCJ'),
           child:
             ListView.builder(
+          // AnimatedList( // For scroll effects
               itemCount: (TimelineFirebaseDB.data.segments.length * 2) + 2, // + 2 to add extra filler
+              // initialItemCount: (TimelineFirebaseDB.data.segments.length * 2) + 2,
               itemBuilder: (context, index) {
+              // itemBuilder: (context, index, animation) {
 
                 if(index == 0) TimelineSegView.itemIndex = 0; // Needs to reset when the builder starts over with first element
                 segment = TimelineSegView(index: index, data: TimelineFirebaseDB.data);

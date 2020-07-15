@@ -4,6 +4,16 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:timewarpsoc/timeline_types.dart';
 
+class HomeFirebaseDB extends ChangeNotifier {
+  TimelineFirebaseDB() {
+    initFirebase();
+  }
+
+  Future<void> initFirebase() async {
+    return;
+  }
+}
+
 class TimelineFirebaseDB extends ChangeNotifier {
   TimelineFirebaseDB({ this.firebaseDocStr }) {
     initFirebase();
