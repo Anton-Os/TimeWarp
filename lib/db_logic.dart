@@ -23,7 +23,32 @@ class TimelineFirebaseDB{
         print("Found $entry field in timelineMap");
 
         if(entry.key[0] == '_') { // For things not displayed as timeline items
-          print("Special field encountered!"); // Handle the special
+          Map<String, dynamic> item_entries = new Map<String, dynamic>.from(entry.value);
+          switch(entry.key){
+            case("_Meta"):
+              item_entries.forEach((key, value) {
+                switch(key){
+                  case("dates"):
+                    data.titleDatesStr = value;
+                    break;
+                  case("description"):
+                    data.titleDescStr = value;
+                    break;
+
+                  default:
+                    print("Unknown $key field encountered!");
+                    break;
+                }
+              });
+              break;
+            case("_Theme"):
+              data.themeColors = item_entries.entries;
+              break;
+
+            deault:
+              print("Unknown $entry special field encountered");
+              break;
+          }
         }
         else {
 

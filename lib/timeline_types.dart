@@ -86,5 +86,8 @@ String getStrFromExt(TIME_Extension extension){
 class TimelineData {
   TIME_Scale scale = TIME_Scale.Years;
   List<TimelineSegData> segments = [];
-  Iterable<MapEntry<String, int>> themeColors = [];
+  Iterable<MapEntry<String, dynamic>> themeColors = [];
+
+  String titleDatesStr = "";
+  String titleDescStr = "";
 }

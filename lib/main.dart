@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:timewarpsoc/timeline_view.dart';
-import 'package:timewarpsoc/home_view.dart';
+import 'package:timewarpsoc/timeline_screen.dart';
+import 'package:timewarpsoc/home_screen.dart';
 
 void main() {
-  runApp(TimelineVisual());
-  // runApp(HomeVisual());
+  runApp(TimelineScreen());
+  // runApp(HomeScreen());
 }

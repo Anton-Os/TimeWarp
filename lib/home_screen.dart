@@ -75,8 +75,8 @@ class BottomView extends StatelessWidget {
 }
 
 
-class HomeVisual extends StatefulWidget {
-  const HomeVisual({Key key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key key}) : super(key: key);
 
   static const Color fullBk = Color(0xFF1a495e);
   static const Color topBk = Color(0xFF16ab9c);
@@ -84,10 +84,10 @@ class HomeVisual extends StatefulWidget {
   static const Color botBk = Color(0xFF1f78a1);
 
   @override
-  _HomeVisual createState() => _HomeVisual();
+  _HomeScreen createState() => _HomeScreen();
 }
 
-class _HomeVisual extends State<HomeVisual> {
+class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +95,7 @@ class _HomeVisual extends State<HomeVisual> {
     return MaterialApp(
       home:
       Container(
-        color: HomeVisual.fullBk,
+        color: HomeScreen.fullBk,
         child: Column(
             children: <Widget>[
               Padding(padding: EdgeInsets.only(top: 10)),
