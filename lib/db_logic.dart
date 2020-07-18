@@ -4,8 +4,12 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:timewarpsoc/timeline_types.dart';
 
-class TimelineFirebaseDB{
-  TimelineFirebaseDB({ this.firebaseDocStr }) {}
+class SearchRecords_FirebaseDB {
+  // TODO: Add a map I can use for the ListView.builder in BrowseTableView
+}
+
+class Timeline_FirebaseDB{
+  Timeline_FirebaseDB({ this.firebaseDocStr }) {}
 
   final String firebaseDocStr;
   static TimelineData data = new TimelineData();
@@ -94,5 +98,9 @@ class TimelineFirebaseDB{
       }
 
     });
+  }
+
+  Future<void> overwrite(TimelineData newData) async {
+    // Implement upload data
   }
 }

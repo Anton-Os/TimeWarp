@@ -29,7 +29,7 @@ class _TimelineScreen extends State<TimelineScreen> {
     // TimelineFirebaseDB db = new TimelineFirebaseDB(firebaseDocStr: 'iLakpSBa6Ps9hok5wMCJ');
 
     TimelineSegView segment;
-    TimelineFirebaseDB db = new TimelineFirebaseDB(firebaseDocStr: 'iLakpSBa6Ps9hok5wMCJ');
+    Timeline_FirebaseDB db = new Timeline_FirebaseDB(firebaseDocStr: 'iLakpSBa6Ps9hok5wMCJ');
 
     return FutureBuilder(
       future: db.init(),
@@ -40,13 +40,13 @@ class _TimelineScreen extends State<TimelineScreen> {
           home:
               ListView.builder(
             // AnimatedList( // For scroll effects
-                itemCount: (TimelineFirebaseDB.data.segments.length * 2) + 2, // + 2 to add extra filler
+                itemCount: (Timeline_FirebaseDB.data.segments.length * 2) + 2, // + 2 to add extra filler
                 // initialItemCount: (TimelineFirebaseDB.data.segments.length * 2) + 2,
                 itemBuilder: (context, index) {
                 // itemBuilder: (context, index, animation) {
 
                   if(index == 0) TimelineSegView.itemIndex = 0; // Needs to reset when the builder starts over with first element
-                  segment = TimelineSegView.fromDB(index: index, data: TimelineFirebaseDB.data);
+                  segment = TimelineSegView.fromDB(index: index, data: Timeline_FirebaseDB.data);
 
                   Row targetRow = (TimelineSegView.itemIndex % 2 == 0) ?
                     Row( // We can flip depending on the item index
