@@ -5,6 +5,71 @@ enum TIME_Months { NA, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, De
 enum TIME_Scale { NA, Years, Epochs, Hourly}
 enum TIME_Extension { NA, ACE, BCE, MYA }
 
+// Retrieve the extension, ACE, BCE, or MYA from a string
+TIME_Extension getExtFromStr(String str){
+  String extensionStr = '';
+  TIME_Extension extension = TIME_Extension.NA;
+
+  for(var i = 0; i < str.length - 2; i++) {
+    extensionStr = str.substring(i, i + 3);
+    switch(extensionStr.toUpperCase()){
+      case("MYA"):
+        extension = TIME_Extension.MYA;
+        break;
+      case("BCE"):
+        extension = TIME_Extension.BCE;
+        break;
+      case("ACE"):
+        extension = TIME_Extension.ACE;
+        break;
+    }
+    if(extension != TIME_Extension.NA) break;
+  }
+
+  return extension;
+}
+
+// Retrieve the year from the input string
+int getYearFromStr(String str){
+  String yearStr = '';
+
+  assert(int.tryParse(str[0]) != null); // Checks for validity of the string
+
+  if(str[0] == 'P'){ // PRESENT CASE, Return current year
+    String pStr = yearStr.substring(0, 7);
+    if(pStr == "Present") return 2020; // TODO: Make this get the current year
+  }
+  for(var i = 0; i < str.length; i++) {
+    while (int.tryParse(str[i]) != null) {
+      yearStr += str[i];
+      i++; // Keep going until a non-numeric is hit
+    }
+  }
+
+  TIME_Extension ext = getExtFromStr(str);
+  assert(ext != TIME_Extension.NA); // Checks for extension validity
+
+  int targetYear = (ext == TIME_Extension.ACE) ? int.parse(yearStr) : -1 * int.parse(yearStr);
+
+  return int.parse(yearStr);
+}
+
+// Get the string version of the date extension enumeration
+String getStrFromExt(TIME_Extension extension){
+  switch(extension){
+    case(TIME_Extension.MYA):
+      return "MYA";
+    case(TIME_Extension.BCE):
+      return "BCE";
+    case(TIME_Extension.ACE):
+      return "ACE";
+    default:
+      return "";
+  }
+}
+
+// More complex types and classes
+
 class TimePoint {
   TimePoint({this.year, this.extension, TIME_Months month, int day, int hour, int minute}){}
 
@@ -30,57 +95,12 @@ class TimelineSegData {
   final TimePoint tp2;
 
   Image img; // Probably needs some default
-  // Location loc maybe
+// Location loc maybe
 }
 
-int getYearFromStr(String str){
-  String yearStr = '';
+// Sorts timeline segments chronologically
+void sortTimelineSegs(List<TimelineSegData> segments){
 
-  assert(int.tryParse(str[0]) != null); // First character should numeric, good check
-  for(var i = 0; i < str.length; i++) {
-    while (int.tryParse(str[i]) != null) {
-      yearStr += str[i];
-      i++; // Keep going until a non-numeric is hit
-    }
-  }
-
-  return int.parse(yearStr);
-}
-
-TIME_Extension getExtFromStr(String str){
-  String extensionStr = '';
-  TIME_Extension extension = TIME_Extension.NA;
-
-  for(var i = 0; i < str.length - 2; i++) {
-    extensionStr = str.substring(i, i + 3);
-    switch(extensionStr.toUpperCase()){
-      case("MYA"):
-        extension = TIME_Extension.MYA;
-        break;
-      case("BCE"):
-        extension = TIME_Extension.BCE;
-        break;
-      case("ACE"):
-        extension = TIME_Extension.ACE;
-        break;
-    }
-    if(extension != TIME_Extension.NA) break;
-  }
-
-  return extension;
-}
-
-String getStrFromExt(TIME_Extension extension){
-  switch(extension){
-    case(TIME_Extension.MYA):
-      return "MYA";
-    case(TIME_Extension.BCE):
-      return "BCE";
-    case(TIME_Extension.ACE):
-      return "ACE";
-    default:
-      return "";
-  }
 }
 
 class TimelineData {

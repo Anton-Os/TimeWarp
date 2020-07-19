@@ -25,9 +25,6 @@ class _TimelineScreen extends State<TimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ValueNotifier<TimelineFirebaseDB> db = new ValueNotifier(TimelineFirebaseDB(firebaseDocStr: 'iLakpSBa6Ps9hok5wMCJ')); // TODO: Make this field mapped to a legible value
-    // TimelineFirebaseDB db = new TimelineFirebaseDB(firebaseDocStr: 'iLakpSBa6Ps9hok5wMCJ');
-
     TimelineSegView segment;
     Timeline_FirebaseDB db = new Timeline_FirebaseDB(firebaseDocStr: 'iLakpSBa6Ps9hok5wMCJ');
 
@@ -40,6 +37,7 @@ class _TimelineScreen extends State<TimelineScreen> {
           home:
               ListView.builder(
             // AnimatedList( // For scroll effects
+                padding: EdgeInsets.zero,
                 itemCount: (Timeline_FirebaseDB.data.segments.length * 2) + 2, // + 2 to add extra filler
                 // initialItemCount: (TimelineFirebaseDB.data.segments.length * 2) + 2,
                 itemBuilder: (context, index) {

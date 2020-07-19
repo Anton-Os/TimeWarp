@@ -1,6 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import 'package:timewarpsoc/timeline_screen.dart';
 import 'package:timewarpsoc/ui_beauty.dart';
@@ -21,6 +23,16 @@ class TopView extends StatefulWidget { // Stateful keeps track of an updated clo
 }
 
 class _TopView extends State<TopView>{
+  String timeStr = "00:00:00";
+  String dateStr = "0 / 0 / 0";
+  DateTime currentDT;
+
+  @override
+  void initState(){
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime()); // I believe calls periodically
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container (
@@ -35,13 +47,21 @@ class _TopView extends State<TopView>{
           Expanded(flex: 3, child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-            Text("12:23:34", style: TopView.bigTimeScript, textAlign: TextAlign.center),
-            Text("8-3-20", style: TopView.smallTimeScript, textAlign: TextAlign.center),
-            // Text("\n\n where do we go today?", style: TopView.smallTimeScript, textAlign: TextAlign.center),
+              Text(timeStr, style: TopView.bigTimeScript, textAlign: TextAlign.center),
+              Text(dateStr, style: TopView.smallTimeScript, textAlign: TextAlign.center)
+            // Text("12:23:34", style: TopView.bigTimeScript, textAlign: TextAlign.center),
+            // Text("8-3-20", style: TopView.smallTimeScript, textAlign: TextAlign.center),
+              // Text("\n\n where do we go today?", style: TopView.smallTimeScript, textAlign: TextAlign.center)
           ],))
         ],
       ),
     );
+  }
+
+  void _getTime(){
+    currentDT = DateTime.now();
+    timeStr = currentDT.hour.toString() + ':' + currentDT.minute.toString() + ':' + currentDT.second.toString();
+    dateStr = currentDT.month.toString() + ' / ' + currentDT.day.toString() + ' / ' + currentDT.year.toString();
   }
 }
 
@@ -53,7 +73,7 @@ class BrowseTableView extends StatefulWidget { //
 
   static const Color bkColor = Color(0xFF193947);
   static const Color createBtnColor = Color(0xFFa281e6);
-  static const Color showBtnColor = Color(0xFF81dae6);
+  static const Color showBtnColor = Color(0xFF8c6ad4);
   static const Color timelineBtnColor = Color(0xFF4368a3);
   static const Color starBtnColor = Color(0xFFfff6a6);
   static const Color delBtnColor = Color(0xFFffa6de);
@@ -84,7 +104,7 @@ class _BrowseTableView extends State<BrowseTableView> {
                 child: Row( // TODO: Load elements from another view class!
                 children: <Widget>[
                     Expanded(
-                      flex: 10,
+                      flex: 12,
                       child:
                         SizedBox.expand(
                             child:
@@ -102,28 +122,12 @@ class _BrowseTableView extends State<BrowseTableView> {
                         ),
                     ),
                     Expanded(
-                      flex: 1,
+                      flex: 2,
                       child:
                       SizedBox.expand(
                           child:
-                          FlatButton(
-                            color: BrowseTableView.starBtnColor,
-                            shape: ContinuousRectangleBorder(),
-                            onPressed: (){
-                              // Make sure it gets starred
-                            },
-                            // TODO: Change to a star icon
-                            child: Text("Star", style: BrowseTableView.buttonScript,),
-                          )
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child:
-                      SizedBox.expand(
-                          child:
-                          FlatButton(
-                            color: BrowseTableView.delBtnColor,
+                          RaisedButton(
+                            color: BrowseTableView.timelineBtnColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(topRight: Radius.circular(3.0), bottomRight: Radius.circular(3.0))
                             ),
@@ -131,7 +135,7 @@ class _BrowseTableView extends State<BrowseTableView> {
                               // Make sure it gets starred
                             },
                             // TODO: Change to a delete icon
-                            child: Text("Del", style: BrowseTableView.buttonScript,),
+                            child: Text("X", textAlign: TextAlign.right, style: BrowseTableView.buttonScript,),
                           )
                       ),
                     )
@@ -188,14 +192,14 @@ class _BrowseTableView extends State<BrowseTableView> {
 
 class BottomView extends StatelessWidget {
 
-  static const TextStyle buttonScript = TextStyle( fontSize: 9, color: Color(0xFF14ff9c), decoration: TextDecoration.none, fontFamily: 'Amita');
+  static const TextStyle buttonScript = TextStyle( fontSize: 9, color: Color(0xFFc4c2fc), decoration: TextDecoration.none, fontFamily: 'Quicksand');
 
-  static const Color buttonColor = Color(0xFF16ab9c);
+  static const Color buttonColor = Color(0xFF3b3a59);
 
   @override
   Widget build(BuildContext context) {
     return Container (
-        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+        margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
         height: 30,
         /* decoration: new BoxDecoration(
             borderRadius: new BorderRadius.all(Radius.circular(1.0))
@@ -211,6 +215,7 @@ class BottomView extends StatelessWidget {
                 onPressed: (){
                   // Do a navigator view push here
                 },
+                // TODO: Modify color scheme, looks horrible
                 child: Text("! Time Capsules !", textAlign: TextAlign.center, style: BottomView.buttonScript,),
               )
             )
