@@ -7,8 +7,9 @@ import 'package:timewarpsoc/ui_beauty.dart';
 
 double getHeightFromText(bool isPortrait, int charCount){ // Think I got it!!!
   assert(charCount < 400);
+
   final int charLineInc = 28; // May need to modify this
-  final double spacingLine = 8.0;
+  final double spacingLine = (isPortrait) ? 8.0: 5.0;
   final double paddingLine = 10.0;
   final double computedSpace = (charCount.toDouble() / charLineInc.toDouble()) * spacingLine.toDouble() + paddingLine.toDouble();
   return computedSpace.floor().toDouble();
@@ -20,6 +21,7 @@ class TimelineSegView {
   }
 
   static const double fillerHeight = 130.0;
+  static bool isPortrait = true;
 
   TimelineSegView.fromDB({Key key, this.index, this.data}){ // TODO: Include a boolean to indicate portrait or landscape and resize text values
     // TODO: Code for determining theme/colors should go here
@@ -46,7 +48,7 @@ class TimelineSegView {
       default:
         if(index % 2 == 0){
           if(this.data.segments.length != 0) {
-            double targetHeight = getHeightFromText(true, this.data.segments.elementAt(itemIndex).desc.length); // We will do some crude scaling
+            double targetHeight = getHeightFromText(TimelineSegView.isPortrait, this.data.segments.elementAt(itemIndex).desc.length); // We will do some crude scaling
 
             targetWidgetS1 = new Expanded(flex: 5,
                 child: Column(

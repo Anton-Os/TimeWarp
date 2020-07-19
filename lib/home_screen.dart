@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:timewarpsoc/timeline_screen.dart';
+import 'package:timewarpsoc/timeline_seg_view.dart';
 import 'package:timewarpsoc/ui_beauty.dart';
 
 /* Top View holds the logo and a current time view */
@@ -15,8 +16,9 @@ class TopView extends StatefulWidget { // Stateful keeps track of an updated clo
   static const TextStyle logoScript = TextStyle( fontSize: 9, color: Color(0xFF1a495e), decoration: TextDecoration.none, fontFamily: 'IMFellDoublePicaSC');
   static const TextStyle bigTimeScript = TextStyle( fontSize: 13, color: Color(0xFF14ff9c), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
   static const TextStyle smallTimeScript = TextStyle( fontSize: 7, color: Color(0xFF14ff9c), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
-
   static const Color bkColor = Color(0xFF16ab9c);
+
+  static bool isPortrait = true;
 
   @override
   _TopView createState() => _TopView();
@@ -38,7 +40,7 @@ class _TopView extends State<TopView>{
     return Container (
       color: TopView.bkColor,
       margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-      height: 50,
+      height: (TimelineSegView.isPortrait)? 50 : 45,
       child: Row(
         // crossAxisAlignment: CrossAxisAlignment.baseline,
         children: <Widget>[
@@ -49,8 +51,6 @@ class _TopView extends State<TopView>{
             children: <Widget>[
               Text(timeStr, style: TopView.bigTimeScript, textAlign: TextAlign.center),
               Text(dateStr, style: TopView.smallTimeScript, textAlign: TextAlign.center)
-            // Text("12:23:34", style: TopView.bigTimeScript, textAlign: TextAlign.center),
-            // Text("8-3-20", style: TopView.smallTimeScript, textAlign: TextAlign.center),
               // Text("\n\n where do we go today?", style: TopView.smallTimeScript, textAlign: TextAlign.center)
           ],))
         ],
@@ -70,13 +70,12 @@ class BrowseTableView extends StatefulWidget { //
 
   static const TextStyle buttonScript = TextStyle( fontSize: 9, color: Color(0xFFb2c8eb), decoration: TextDecoration.none, fontFamily: 'EBGaramond');
   static const TextStyle lowBtnScript = TextStyle( fontSize: 9, color: Color(0xFF193947), decoration: TextDecoration.none, fontFamily: 'Amita');
-
   static const Color bkColor = Color(0xFF193947);
   static const Color createBtnColor = Color(0xFFa281e6);
   static const Color showBtnColor = Color(0xFF8c6ad4);
   static const Color timelineBtnColor = Color(0xFF4368a3);
-  static const Color starBtnColor = Color(0xFFfff6a6);
-  static const Color delBtnColor = Color(0xFFffa6de);
+
+  static bool isPortrait = true;
 
   @override
   _BrowseTableView createState() => _BrowseTableView();
@@ -193,8 +192,9 @@ class _BrowseTableView extends State<BrowseTableView> {
 class BottomView extends StatelessWidget {
 
   static const TextStyle buttonScript = TextStyle( fontSize: 9, color: Color(0xFFc4c2fc), decoration: TextDecoration.none, fontFamily: 'Quicksand');
-
   static const Color buttonColor = Color(0xFF3b3a59);
+
+  static bool isPortrait = true;
 
   @override
   Widget build(BuildContext context) {
@@ -243,18 +243,39 @@ class _HomeScreen extends State<HomeScreen> {
     // TODO: if else statement for screen orientation, app needs to change
     return MaterialApp(
       home:
-      Container(
-        color: HomeScreen.fullBk,
-        child: Column(
-            children: <Widget>[
-              Padding(padding: EdgeInsets.only(top: 10)),
-              TopView(),
-              Padding(padding: EdgeInsets.only(top: 10)),
-              BrowseTableView(),
-              Padding(padding: EdgeInsets.only(top: 10)),
-              BottomView()
-            ],
-        )
+      OrientationBuilder(
+        builder: (context, orientation){
+          TopView.isPortrait = (orientation == Orientation.portrait) ? true : false;
+          BrowseTableView.isPortrait = (orientation == Orientation.portrait) ? true : false;
+          BottomView.isPortrait = (orientation == Orientation.portrait) ? true : false;
+
+          return (orientation == Orientation.portrait) ?
+            // Portrait mode display style
+            Container(
+              color: HomeScreen.fullBk,
+              child: Column(
+                  children: <Widget>[
+                    Padding(padding: EdgeInsets.only(top: 10)),
+                    TopView(),
+                    Padding(padding: EdgeInsets.only(top: 10)),
+                    BrowseTableView(),
+                    Padding(padding: EdgeInsets.only(top: 10)),
+                    BottomView()
+                  ],
+              )
+            )
+          : // Landscape mode display Style
+          Container(
+              color: HomeScreen.fullBk,
+              child: Column(
+                children: <Widget>[
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                  TopView(),
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                ],
+              )
+          );
+        }
       )
     );
   }

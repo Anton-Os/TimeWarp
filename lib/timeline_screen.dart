@@ -35,33 +35,36 @@ class _TimelineScreen extends State<TimelineScreen> {
         return
         MaterialApp(
           home:
-              ListView.builder(
-            // AnimatedList( // For scroll effects
-                padding: EdgeInsets.zero,
-                itemCount: (Timeline_FirebaseDB.data.segments.length * 2) + 2, // + 2 to add extra filler
-                // initialItemCount: (TimelineFirebaseDB.data.segments.length * 2) + 2,
-                itemBuilder: (context, index) {
-                // itemBuilder: (context, index, animation) {
+              OrientationBuilder(
+                builder: (context, orientation){
+                  TimelineSegView.isPortrait = (orientation == Orientation.portrait) ? true : false;
 
-                  if(index == 0) TimelineSegView.itemIndex = 0; // Needs to reset when the builder starts over with first element
-                  segment = TimelineSegView.fromDB(index: index, data: Timeline_FirebaseDB.data);
+                  return ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: (Timeline_FirebaseDB.data.segments.length * 2) + 2, // + 2 to add extra filler
+                      itemBuilder: (context, index) {
 
-                  Row targetRow = (TimelineSegView.itemIndex % 2 == 0) ?
-                    Row( // We can flip depending on the item index
-                        children: <Widget>[
-                          segment.targetWidgetS2, // targetWidgetS2,
-                          segment.targetWidgetM,
-                          segment.targetWidgetS1
-                        ]
-                    ) : Row(
-                      children: <Widget>[
-                        segment.targetWidgetS1, // targetWidgetS1,
-                        segment.targetWidgetM,
-                        segment.targetWidgetS2
-                      ]
-                    );
+                        if(index == 0) TimelineSegView.itemIndex = 0; // Needs to reset when the builder starts over with first element
+                        segment = TimelineSegView.fromDB(index: index, data: Timeline_FirebaseDB.data);
 
-                  return Container( child: targetRow);
+                        Row targetRow = (TimelineSegView.itemIndex % 2 == 0) ?
+                        Row( // We can flip depending on the item index
+                            children: <Widget>[
+                              segment.targetWidgetS2, // targetWidgetS2,
+                              segment.targetWidgetM,
+                              segment.targetWidgetS1
+                            ]
+                        ) : Row(
+                            children: <Widget>[
+                              segment.targetWidgetS1, // targetWidgetS1,
+                              segment.targetWidgetM,
+                              segment.targetWidgetS2
+                            ]
+                        );
+
+                        return Container( child: targetRow);
+                      }
+                  );
                 }
               )
         );
