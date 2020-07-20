@@ -73,10 +73,10 @@ class BrowseTableView extends StatefulWidget { //
   const BrowseTableView({Key key}) : super(key: key);
 
   static const TextStyle buttonScript = TextStyle( fontSize: 9, color: Color(0xFFb2c8eb), decoration: TextDecoration.none, fontFamily: 'EBGaramond');
-  static const TextStyle lowBtnScript = TextStyle( fontSize: 9, color: Color(0xFF193947), decoration: TextDecoration.none, fontFamily: 'Amita');
+  static const TextStyle lowBtnScript = TextStyle( fontSize: 9, color: Color(0xFF193947), decoration: TextDecoration.none, fontFamily: 'EBGaramond');
   static const Color bkColor = Color(0xFF193947);
-  static const Color createBtnColor = Color(0xFFa281e6);
-  static const Color showBtnColor = Color(0xFF8c6ad4);
+  static const Color createBtnColor = Color(0xFF14ff9c);
+  static const Color showBtnColor = Color(0xFF14cc9c);
   static const Color timelineBtnColor = Color(0xFF4368a3);
 
   static bool isPortrait = true;

@@ -50,7 +50,7 @@ class TimelineSegView {
   TimelineSegView.fromDB({Key key, this.index, this.data}){ // TODO: Include a boolean to indicate portrait or landscape and resize text values
     // TODO: Code for determining theme/colors should go here
 
-    /* if(!colorsInit) { // One time color initialization
+    if(!colorsInit && data.themeColors.isNotEmpty) { // One time color initialization
       MapEntry colorsEntry;
 
       colorsEntry = data.themeColors.firstWhere((element) => element.key == "Title Colors");
@@ -63,7 +63,7 @@ class TimelineSegView {
       items_TCS = getColorsFromMapEntry(colorsEntry);
 
       colorsInit = true;
-    } */
+    }
 
     switch(index){
       case(0): // TODO: Extract info based on the _Name field
@@ -77,8 +77,6 @@ class TimelineSegView {
                     Text("Geological Time Scale", textAlign: TextAlign.center, style: titleNameTS), // TODO: This needs to be dynamic as well
                     Text(this.data.titleDatesStr, textAlign: TextAlign.center, style: titleDateTS),
                     Text("\n\n" + this.data.titleDescStr, textAlign: TextAlign.center, style: titleSubscriptTS)
-                    // Text("550,000,000 years ago to Present", textAlign: TextAlign.center, style: titleDateTS),
-                    // Text("\n\nIn the study of early species and formation of the planet is observed through geological epochs", textAlign: TextAlign.center, style: titleSubscriptTS)
                   ],)
             ));
         targetWidgetS2 = new Expanded(flex: 1, child: Container(color: title_TCS.secondary, height: 300.0));
@@ -150,12 +148,12 @@ class TimelineSegView {
   Widget targetWidgetM; // middle
   Widget targetWidgetS2; // right
 
-  TimelineColorScheme center_TCS =
-  new TimelineColorScheme(primary: new Color(0xFF6D665F), secondary: new Color(0xFF5E5A57), text: new Color(0xFF604040));
-  TimelineColorScheme items_TCS = // Requires a filler color
-  new TimelineColorScheme(primary: new Color(0xFFFFD385), secondary: new Color(0xFFDDAC5D), text: new Color(0xFF604040), filler: new Color(0xFFB19592));
-  TimelineColorScheme title_TCS =
-  new TimelineColorScheme(primary: new Color(0xFFFAEDC8), secondary: new Color(0xFFDED3B4), text: new Color(0xFF604040));
+  TimelineColorScheme center_TCS;
+  // = new TimelineColorScheme(primary: new Color(0xFF6D665F), secondary: new Color(0xFF5E5A57), text: new Color(0xFF604040));
+  TimelineColorScheme items_TCS; // Requires a filler color
+  // = new TimelineColorScheme(primary: new Color(0xFFFFD385), secondary: new Color(0xFFDDAC5D), text: new Color(0xFF604040), filler: new Color(0xFFB19592));
+  TimelineColorScheme title_TCS;
+  // = new TimelineColorScheme(primary: new Color(0xFFFAEDC8), secondary: new Color(0xFFDED3B4), text: new Color(0xFF604040));
 
   TextStyle headerScriptTS = TextStyle( fontSize: 10, color: new Color(0xFF604040), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
   TextStyle descScriptTS = TextStyle( fontSize: 8, color: new Color(0xFF604040), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
