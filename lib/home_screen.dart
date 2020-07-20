@@ -196,7 +196,7 @@ class _BrowseTableView extends State<BrowseTableView> {
 
 class BottomView extends StatelessWidget {
 
-  static const TextStyle buttonScript = TextStyle( fontSize: 9, color: Color(0xFFc4c2fc), decoration: TextDecoration.none, fontFamily: 'Quicksand');
+  static const TextStyle buttonScript = TextStyle( fontSize: 9, color: Color(0xFFc4c2fc), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
   static const Color buttonColor = Color(0xFF3b3a59);
 
   static bool isPortrait = true;
