@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:timewarpsoc/timeline_screen.dart';
+import 'package:timewarpsoc/create_settings_screen.dart';
 import 'package:timewarpsoc/timeline_seg_view.dart';
-import 'package:timewarpsoc/ui_beauty.dart';
 
 /* Top View holds the logo and a current time view */
 
@@ -42,10 +42,14 @@ class _TopView extends State<TopView>{
       margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
       height: (TimelineSegView.isPortrait)? 50 : 45,
       child: Row(
-        // crossAxisAlignment: CrossAxisAlignment.baseline,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Expanded(flex: 1, child:
-              Text("\nTime\n Warp\n Society\n", style: TopView.logoScript, textAlign: TextAlign.center,)),
+            Container( // Adds a little up top
+              padding: EdgeInsets.only(top: 6.0),
+              child:
+              Text("Time\n Warp\n Society\n", style: TopView.logoScript, textAlign: TextAlign.center)
+            )),
           Expanded(flex: 3, child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -161,6 +165,7 @@ class _BrowseTableView extends State<BrowseTableView> {
                           borderRadius: BorderRadius.only(topLeft: Radius.circular(3.0), bottomLeft: Radius.circular(3.0))
                       ),
                       onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CreateSettingsScreen()));
                       },
                       child: Text("Create", style: BrowseTableView.lowBtnScript),
                     )

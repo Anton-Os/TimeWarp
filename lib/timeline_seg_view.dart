@@ -5,6 +5,33 @@ import 'package:flutter/widgets.dart';
 import 'package:timewarpsoc/timeline_types.dart';
 import 'package:timewarpsoc/ui_beauty.dart';
 
+TimelineColorScheme getColorsFromMapEntry(MapEntry mapEntry){
+  Color p; Color s; Color f; Color t;
+
+  Map<String, int> colorMap = new Map<String, int>.from(mapEntry.value);
+  colorMap.forEach((key, value) {
+    switch(key){
+      case("Primary"):
+        p = new Color(value);
+        break;
+      case("Secondary"):
+        s = new Color(value);
+        break;
+      case("Filler"):
+        f = new Color(value);
+        break;
+      case("Text"):
+        t = new Color(value);
+        break;
+      default:
+        print("Unrecognized color field detected!");
+        break;
+    }
+  });
+
+  return TimelineColorScheme(primary: p, secondary: s, filler: f, text: t);
+}
+
 double getHeightFromText(bool isPortrait, int charCount){ // Think I got it!!!
   assert(charCount < 400);
 
@@ -20,11 +47,23 @@ class TimelineSegView {
     // Creation mode constuctor!
   }
 
-  static const double fillerHeight = 130.0;
-  static bool isPortrait = true;
-
   TimelineSegView.fromDB({Key key, this.index, this.data}){ // TODO: Include a boolean to indicate portrait or landscape and resize text values
     // TODO: Code for determining theme/colors should go here
+
+    /* if(!colorsInit) { // One time color initialization
+      MapEntry colorsEntry;
+
+      colorsEntry = data.themeColors.firstWhere((element) => element.key == "Title Colors");
+      title_TCS = getColorsFromMapEntry(colorsEntry);
+
+      colorsEntry = data.themeColors.firstWhere((element) => element.key == "Center Colors");
+      center_TCS = getColorsFromMapEntry(colorsEntry);
+
+      colorsEntry = data.themeColors.firstWhere((element) => element.key == "Item Colors");
+      items_TCS = getColorsFromMapEntry(colorsEntry);
+
+      colorsInit = true;
+    } */
 
     switch(index){
       case(0): // TODO: Extract info based on the _Name field
@@ -44,7 +83,6 @@ class TimelineSegView {
             ));
         targetWidgetS2 = new Expanded(flex: 1, child: Container(color: title_TCS.secondary, height: 300.0));
         break;
-
       default:
         if(index % 2 == 0){
           if(this.data.segments.length != 0) {
@@ -104,6 +142,9 @@ class TimelineSegView {
   TimelineData data; // Data could be null if in creation mode
 
   static int itemIndex = 0; // Knows where to access the item data for timeline
+  bool colorsInit = false;
+  static const double fillerHeight = 130.0;
+  static bool isPortrait = true;
 
   Widget targetWidgetS1; // left
   Widget targetWidgetM; // middle
