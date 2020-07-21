@@ -93,12 +93,12 @@ class _BrowseTableView extends State<BrowseTableView> {
         Container(
           color: BrowseTableView.bkColor,
           margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-          height: 280,
+          height: 305,
           // TODO: Make child a FutureBuilder wrapper
           child: ListView.builder(
             // scrollDirection: Axis.horizontal,
             padding: EdgeInsets.zero,
-            itemCount: 11,
+            itemCount: 12,
             itemBuilder: (context, index) {
               return Container(
                 margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
@@ -194,41 +194,6 @@ class _BrowseTableView extends State<BrowseTableView> {
   }
 }
 
-class BottomView extends StatelessWidget {
-
-  static const TextStyle buttonScript = TextStyle( fontSize: 9, color: Color(0xFFc4c2fc), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
-  static const Color buttonColor = Color(0xFF3b3a59);
-
-  static bool isPortrait = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container (
-        margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-        height: 30,
-        /* decoration: new BoxDecoration(
-            borderRadius: new BorderRadius.all(Radius.circular(1.0))
-        ), */
-        child:
-            SizedBox.expand(
-              child:
-              FlatButton(
-                color: BottomView.buttonColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(3.0)
-                ),
-                onPressed: (){
-                  // Do a navigator view push here
-                },
-                // TODO: Modify color scheme, looks horrible
-                child: Text("! Time Capsules !", textAlign: TextAlign.center, style: BottomView.buttonScript,),
-              )
-            )
-    );
-  }
-}
-
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
 
@@ -236,6 +201,8 @@ class HomeScreen extends StatefulWidget {
   static const Color topBk = Color(0xFF16ab9c);
   static const Color midBk = Color(0xFF80c4bd);
   static const Color botBk = Color(0xFF1f78a1);
+
+  static MediaQueryData mq;
 
   @override
   _HomeScreen createState() => _HomeScreen();
@@ -245,6 +212,8 @@ class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    HomeScreen.mq = MediaQuery.of(context);
+
     // TODO: if else statement for screen orientation, app needs to change
     return MaterialApp(
       home:
@@ -252,7 +221,6 @@ class _HomeScreen extends State<HomeScreen> {
         builder: (context, orientation){
           TopView.isPortrait = (orientation == Orientation.portrait) ? true : false;
           BrowseTableView.isPortrait = (orientation == Orientation.portrait) ? true : false;
-          BottomView.isPortrait = (orientation == Orientation.portrait) ? true : false;
 
           return (orientation == Orientation.portrait) ?
             // Portrait mode display style
@@ -263,9 +231,7 @@ class _HomeScreen extends State<HomeScreen> {
                     Padding(padding: EdgeInsets.only(top: 10)),
                     TopView(),
                     Padding(padding: EdgeInsets.only(top: 10)),
-                    BrowseTableView(),
-                    Padding(padding: EdgeInsets.only(top: 10)),
-                    BottomView()
+                    BrowseTableView()
                   ],
               )
             )
