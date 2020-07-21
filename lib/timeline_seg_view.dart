@@ -146,7 +146,7 @@ class TimelineSegView {
   Widget targetWidgetS1; // left
   Widget targetWidgetM; // middle
   Widget targetWidgetS2; // right
-  
+
   TimelineColorScheme center_TCS = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8));
   TimelineColorScheme items_TCS = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8), filler: Color(0xFFe8e8e8));
   TimelineColorScheme title_TCS = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8));

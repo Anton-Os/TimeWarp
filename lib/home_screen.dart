@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:timewarpsoc/db_logic.dart';
 
 import 'package:timewarpsoc/timeline_screen.dart';
 import 'package:timewarpsoc/create_settings_screen.dart';
@@ -72,7 +73,7 @@ class _TopView extends State<TopView>{
 class BrowseTableView extends StatefulWidget { //
   const BrowseTableView({Key key}) : super(key: key);
 
-  static const TextStyle buttonScript = TextStyle( fontSize: 9, color: Color(0xFFb2c8eb), decoration: TextDecoration.none, fontFamily: 'EBGaramond');
+  static const TextStyle buttonScript = TextStyle( fontSize: 9, color: Color(0xFFb2c8eb), decoration: TextDecoration.none, fontFamily: 'Amita');
   static const TextStyle lowBtnScript = TextStyle( fontSize: 9, color: Color(0xFF193947), decoration: TextDecoration.none, fontFamily: 'EBGaramond');
   static const Color bkColor = Color(0xFF193947);
   static const Color createBtnColor = Color(0xFF14ff9c);
@@ -88,41 +89,36 @@ class BrowseTableView extends StatefulWidget { //
 class _BrowseTableView extends State<BrowseTableView> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          color: BrowseTableView.bkColor,
-          margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-          height: 305,
-          // TODO: Make child a FutureBuilder wrapper
-          child: ListView.builder(
-            // scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.zero,
-            itemCount: 12,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-                // color: BrowseTableView.timelineBtnColor,
-                height: 20,
-                child: Row( // TODO: Load elements from another view class!
-                children: <Widget>[
+
+    SearchRecords_FirebaseDB db = new SearchRecords_FirebaseDB();
+
+    Widget listDataDisplay = ListView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: 12,
+        itemBuilder: (context, index) {
+          return Container(
+              margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+              // color: BrowseTableView.timelineBtnColor,
+              height: 20,
+              child: Row( // TODO: Load elements from another view class!
+                  children: <Widget>[
                     Expanded(
                       flex: 12,
                       child:
-                        SizedBox.expand(
-                            child:
-                            FlatButton(
-                              color: BrowseTableView.timelineBtnColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(3.0), bottomLeft: Radius.circular(3.0))
-                              ),
-                              onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => TimelineScreen()));
-                              },
-                              // TODO: Text has to be dynamically set!
-                              child: Text("Geological Time Scale", style: BrowseTableView.buttonScript,),
-                            )
-                        ),
+                      SizedBox.expand(
+                          child:
+                          FlatButton(
+                            color: BrowseTableView.timelineBtnColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(3.0), bottomLeft: Radius.circular(3.0))
+                            ),
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => TimelineScreen()));
+                            },
+                            // TODO: Text has to be dynamically set!
+                            child: Text("Geological Time Scale", style: BrowseTableView.buttonScript,),
+                          )
+                      ),
                     ),
                     Expanded(
                       flex: 2,
@@ -143,9 +139,67 @@ class _BrowseTableView extends State<BrowseTableView> {
                       ),
                     )
                   ]
-                )
-              );
-          }),
+              )
+          );
+        });
+    Widget gridDataDisplay = GridView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: 12,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 8.0),
+        itemBuilder: (context, index) {
+          return Container(
+              margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+              child: Row( // TODO: Load elements from another view class!
+                  children: <Widget>[
+                    Expanded(
+                      flex: 12,
+                      child:
+                      SizedBox.expand(
+                          child:
+                          FlatButton(
+                            color: BrowseTableView.timelineBtnColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(3.0), bottomLeft: Radius.circular(3.0))
+                            ),
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => TimelineScreen()));
+                            },
+                            // TODO: Text has to be dynamically set!
+                            child: Text("Geological Time Scale", style: BrowseTableView.buttonScript,),
+                          )
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child:
+                      SizedBox.expand(
+                          child:
+                          RaisedButton(
+                            color: BrowseTableView.timelineBtnColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(3.0), bottomRight: Radius.circular(3.0))
+                            ),
+                            onPressed: (){
+                              // Make sure it gets starred
+                            },
+                            // TODO: Change to a delete icon
+                            child: Text("X", textAlign: TextAlign.right, style: BrowseTableView.buttonScript,),
+                          )
+                      ),
+                    )
+                  ]
+              )
+          );
+        });
+
+    // TODO: Make child a FutureBuilder wrapper
+    return Column(
+      children: <Widget>[
+        Container(
+          color: BrowseTableView.bkColor,
+          margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+          height: (BrowseTableView.isPortrait) ? 305.0 : 160.0,
+          child: (BrowseTableView.isPortrait) ? listDataDisplay : gridDataDisplay
         ),
         Padding(padding: EdgeInsets.only(top: 3)),
         Container(
@@ -212,37 +266,25 @@ class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    HomeScreen.mq = MediaQuery.of(context);
-
     // TODO: if else statement for screen orientation, app needs to change
     return MaterialApp(
       home:
       OrientationBuilder(
         builder: (context, orientation){
+          HomeScreen.mq = MediaQuery.of(context);
+
           TopView.isPortrait = (orientation == Orientation.portrait) ? true : false;
           BrowseTableView.isPortrait = (orientation == Orientation.portrait) ? true : false;
 
-          return (orientation == Orientation.portrait) ?
-            // Portrait mode display style
-            Container(
-              color: HomeScreen.fullBk,
-              child: Column(
-                  children: <Widget>[
-                    Padding(padding: EdgeInsets.only(top: 10)),
-                    TopView(),
-                    Padding(padding: EdgeInsets.only(top: 10)),
-                    BrowseTableView()
-                  ],
-              )
-            )
-          : // Landscape mode display Style
-          Container(
+          return
+          Container( // Not orientation dependent anymore!
               color: HomeScreen.fullBk,
               child: Column(
                 children: <Widget>[
                   Padding(padding: EdgeInsets.only(top: 10)),
                   TopView(),
                   Padding(padding: EdgeInsets.only(top: 10)),
+                  BrowseTableView()
                 ],
               )
           );

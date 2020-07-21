@@ -5,7 +5,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:timewarpsoc/timeline_types.dart';
 
 class SearchRecords_FirebaseDB {
-  // TODO: Add a map I can use for the ListView.builder in BrowseTableView
+  Future<void> init() async {
+  Firestore.instance.collection('Search Record').document().get()
+      .then((DocumentSnapshot snapshot){
+
+        Iterable<MapEntry<String, String>> searchRecMap = snapshot.data.entries;
+        searchRecMap.forEach((element) {
+          String keyStr = element.key;
+          String valStr = element.value;
+          print("$keyStr maps to $valStr in Search Records!"); // TEST CASE
+        });
+    });
+  }
 }
 
 class Timeline_FirebaseDB{
