@@ -12,8 +12,6 @@ import 'package:timewarpsoc/timeline_seg_view.dart';
 class TimelineScreen extends StatefulWidget {
   const TimelineScreen({ Key key }) : super(key: key);
 
-  // Json handling and constructor need to be implemented
-
   @override
   _TimelineScreen createState() => _TimelineScreen();
 }

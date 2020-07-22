@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:timewarpsoc/db_logic.dart';
 
 import 'package:timewarpsoc/timeline_screen.dart';
-import 'package:timewarpsoc/create_settings_screen.dart';
+import 'package:timewarpsoc/create_screen.dart';
 import 'package:timewarpsoc/timeline_seg_view.dart';
 
 /* Top View holds the logo and a current time view */
@@ -219,7 +219,8 @@ class _BrowseTableView extends State<BrowseTableView> {
                           borderRadius: BorderRadius.only(topLeft: Radius.circular(3.0), bottomLeft: Radius.circular(3.0))
                       ),
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => CreateSettingsScreen()));
+                        // TODO: Create a new firebase entry with auto generated ID
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CreateScreen(docStr: 'E7GSISGNZkqJrgO93Djr',)));
                       },
                       child: Text("Create", style: BrowseTableView.lowBtnScript),
                     )

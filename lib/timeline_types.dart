@@ -22,6 +22,9 @@ TIME_Extension getExtFromStr(String str){
       case("ACE"):
         extension = TIME_Extension.ACE;
         break;
+      default:
+        extension = TIME_Extension.ACE; // For the 'Present' case, FIX THIS!
+        break;
     }
     if(extension != TIME_Extension.NA) break;
   }
@@ -33,11 +36,11 @@ TIME_Extension getExtFromStr(String str){
 int getYearFromStr(String str){
   String yearStr = '';
 
-  assert(int.tryParse(str[0]) != null); // Checks for validity of the string
+  assert(int.tryParse(str[0]) != null || str[0] == 'P'); // Checks for validity of the string
 
   if(str[0] == 'P'){ // PRESENT CASE, Return current year
-    String pStr = yearStr.substring(0, 7);
-    if(pStr == "Present") return 2020; // TODO: Make this get the current year
+    yearStr = str.substring(0, 7);
+    if(yearStr == "Present") return 2020; // TODO: Make this get the current year
   }
   for(var i = 0; i < str.length; i++) {
     while (int.tryParse(str[i]) != null) {
