@@ -23,7 +23,7 @@ class Timeline_FirebaseDB{
   Timeline_FirebaseDB({ this.firebaseDocStr }) {}
 
   final String firebaseDocStr;
-  static TimelineData data = new TimelineData();
+  TimelineData data = new TimelineData();
 
   Future<void> init() async {
     // TODO: Support apple version as well eventually

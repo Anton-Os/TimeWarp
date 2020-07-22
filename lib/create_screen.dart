@@ -26,10 +26,10 @@ class _CreateScreen extends State<CreateScreen> {
   @override
   Widget build(BuildContext context) {
     TimelineSegView segment;
-    Timeline_FirebaseDB db = new Timeline_FirebaseDB(firebaseDocStr: widget.docStr);
+    Timeline_FirebaseDB DB = new Timeline_FirebaseDB(firebaseDocStr: widget.docStr);
 
     return FutureBuilder(
-        future: db.init(),
+        future: DB.init(),
         builder: (context, snapshot){
           //if(snapshot.connectionState)
           return
@@ -41,11 +41,11 @@ class _CreateScreen extends State<CreateScreen> {
 
                       return ListView.builder(
                           padding: EdgeInsets.zero,
-                          itemCount: (Timeline_FirebaseDB.data.segments.length * 2) + 2, // + 2 to add extra filler
+                          itemCount: (DB.data.segments.length * 2) + 2, // + 2 to add extra filler
                           itemBuilder: (context, index) {
 
                             if(index == 0) TimelineSegView.itemIndex = 0; // Needs to reset when the builder starts over with first element
-                            segment = TimelineSegView.fromDB(index: index, data: Timeline_FirebaseDB.data);
+                            segment = TimelineSegView.fromDB(index: index, data: DB.data);
 
                             Row targetRow = (TimelineSegView.itemIndex % 2 == 0) ?
                             Row( // We can flip depending on the item index
