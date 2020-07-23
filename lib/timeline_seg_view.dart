@@ -54,22 +54,31 @@ class TimelineSegView {
       MapEntry colorsEntry;
 
       colorsEntry = data.themeColors.firstWhere((element) => element.key == "Title Colors");
-      title_TCS = getColorsFromMapEntry(colorsEntry);
+
+      title_Colors = getColorsFromMapEntry(colorsEntry);
+      this.titleNameScript = TextStyle( fontSize: 20, color: title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Amita');
+      this.titleDateScript = TextStyle( fontSize: 9, color: title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Dokdo');
+      this.titleSubscriptScript = TextStyle( fontSize: 7, color: title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'EBGaramond');
 
       colorsEntry = data.themeColors.firstWhere((element) => element.key == "Center Colors");
-      center_TCS = getColorsFromMapEntry(colorsEntry);
+
+      center_Colors = getColorsFromMapEntry(colorsEntry);
+      this.centerDateScript = TextStyle( fontSize: 6.5, color: center_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Broadway');
 
       colorsEntry = data.themeColors.firstWhere((element) => element.key == "Item Colors");
-      items_TCS = getColorsFromMapEntry(colorsEntry);
+
+      items_Colors = getColorsFromMapEntry(colorsEntry);
+      this.itemHeaderScript = TextStyle( fontSize: 10, color: items_Colors.getText, decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
+      this.itemDescScript = TextStyle( fontSize: 8, color: items_Colors.getText, decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
 
       colorsInit = true;
     }
 
     switch(index){
       case(0): // TODO: Extract info based on the _Name field
-        targetWidgetS1 = new Expanded(flex: 1, child: Container(color: title_TCS.secondary, height: 300.0));
+        targetWidgetS1 = new Expanded(flex: 1, child: Container(color: title_Colors.secondary, height: 300.0));
         targetWidgetM = new Expanded(flex: 10,
-            child: Container(color: title_TCS.primary, height: 300.0,
+            child: Container(color: title_Colors.primary, height: 300.0,
                 child:  Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -79,7 +88,7 @@ class TimelineSegView {
                     Text("\n\n" + this.data.titleDescStr, textAlign: TextAlign.center, style: titleSubscriptScript)
                   ],)
             ));
-        targetWidgetS2 = new Expanded(flex: 1, child: Container(color: title_TCS.secondary, height: 300.0));
+        targetWidgetS2 = new Expanded(flex: 1, child: Container(color: title_Colors.secondary, height: 300.0));
         break;
       default:
         if(index % 2 == 0){
@@ -91,10 +100,10 @@ class TimelineSegView {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Container(color: items_TCS.secondary, height: 12.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
-                        child: Text(this.data.segments.elementAt(itemIndex).header, textAlign: TextAlign.center, style: headerScriptScript)),
-                    Container(color: items_TCS.primary, height: targetHeight, padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0), // Minimum values
-                        child: Text(this.data.segments.elementAt(itemIndex).desc, textAlign: TextAlign.center, style: descScriptScript)),
+                    Container(color: items_Colors.secondary, height: 12.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
+                        child: Text(this.data.segments.elementAt(itemIndex).header, textAlign: TextAlign.center, style: itemHeaderScript)),
+                    Container(color: items_Colors.primary, height: targetHeight, padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0), // Minimum values
+                        child: Text(this.data.segments.elementAt(itemIndex).desc, textAlign: TextAlign.center, style: itemDescScript)),
                   ],
                 )
             );
@@ -104,32 +113,32 @@ class TimelineSegView {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Container(color: center_TCS.primary, alignment: Alignment.bottomCenter, height: targetHeight / 3.0 + 12.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
+                    Container(color: center_Colors.primary, alignment: Alignment.bottomCenter, height: targetHeight / 3.0 + 12.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
                         child: Text(
                             this.data.segments.elementAt(itemIndex).tp1.year.abs().toString() + " " + getStrFromExt(this.data.segments.elementAt(itemIndex).tp1.extension),
                             textAlign: TextAlign.center, style: centerDateScript)),
-                    Container(color: center_TCS.primary, alignment: Alignment.center, height: targetHeight / 3.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
+                    Container(color: center_Colors.primary, alignment: Alignment.center, height: targetHeight / 3.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
                         child: Text(" To ", textAlign: TextAlign.center, style: centerDateScript)),
-                    Container(color: center_TCS.primary, alignment: Alignment.topCenter, height: targetHeight / 3.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
+                    Container(color: center_Colors.primary, alignment: Alignment.topCenter, height: targetHeight / 3.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
                         child: Text(
                             this.data.segments.elementAt(itemIndex).tp2.year.abs().toString() + " " + getStrFromExt(this.data.segments.elementAt(itemIndex).tp2.extension),
                             textAlign: TextAlign.center, style: centerDateScript)),
                   ],
                 )
             );
-            targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_TCS.filler, height: targetHeight + 12.0));
+            targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_Colors.filler, height: targetHeight + 12.0));
 
             itemIndex++;
           } else { // This is the default pre-build, when Firebase is not up and running
-            targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_TCS.primary, height: 70.0));
-            targetWidgetM = new Expanded(flex: 2, child: Container(color: center_TCS.primary, height: 70.0)); // The height is dynamic
-            targetWidgetS1 = new Expanded(flex: 5, child: Container(color: items_TCS.filler, height: 70.0));
+            targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_Colors.primary, height: 70.0));
+            targetWidgetM = new Expanded(flex: 2, child: Container(color: center_Colors.primary, height: 70.0)); // The height is dynamic
+            targetWidgetS1 = new Expanded(flex: 5, child: Container(color: items_Colors.filler, height: 70.0));
           }
         } else {
           print("Scalable filler space");
-          targetWidgetS1 = new Expanded(flex: 5, child: Container(color: items_TCS.filler, height: TimelineSegView.fillerHeight)); // The height is dynamic
-          targetWidgetM = new Expanded(flex: 2, child: Container(color: center_TCS.primary, height: TimelineSegView.fillerHeight)); // The height is dynamic
-          targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_TCS.filler, height: TimelineSegView.fillerHeight)); // The height is dynamic
+          targetWidgetS1 = new Expanded(flex: 5, child: Container(color: items_Colors.filler, height: TimelineSegView.fillerHeight)); // The height is dynamic
+          targetWidgetM = new Expanded(flex: 2, child: Container(color: center_Colors.primary, height: TimelineSegView.fillerHeight)); // The height is dynamic
+          targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_Colors.filler, height: TimelineSegView.fillerHeight)); // The height is dynamic
         }
         break;
     }
@@ -147,15 +156,14 @@ class TimelineSegView {
   Widget targetWidgetM; // middle
   Widget targetWidgetS2; // right
 
-  TimelineColorScheme center_TCS = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8));
-  TimelineColorScheme items_TCS = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8), filler: Color(0xFFe8e8e8));
-  TimelineColorScheme title_TCS = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8));
-
-  TextStyle headerScriptScript = TextStyle( fontSize: 10, color: new Color(0xFF604040), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
-  TextStyle descScriptScript = TextStyle( fontSize: 8, color: new Color(0xFF604040), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
-  TextStyle centerDateScript = TextStyle( fontSize: 6.5, color: new Color(0xFFE8D1D9), decoration: TextDecoration.none, fontFamily: 'Broadway');
+  TimelineColorScheme center_Colors = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8));
+  TimelineColorScheme items_Colors = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8), filler: Color(0xFFe8e8e8));
+  TimelineColorScheme title_Colors = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8));
 
   TextStyle titleNameScript = TextStyle( fontSize: 20, color: new Color(0xFF420D20), decoration: TextDecoration.none, fontFamily: 'Amita');
   TextStyle titleDateScript = TextStyle( fontSize: 9, color: new Color(0xFF420D20), decoration: TextDecoration.none, fontFamily: 'Dokdo');
   TextStyle titleSubscriptScript = TextStyle( fontSize: 7, color: new Color(0xFF420D20), decoration: TextDecoration.none, fontFamily: 'EBGaramond');
+  TextStyle centerDateScript = TextStyle( fontSize: 6.5, color: new Color(0xFFE8D1D9), decoration: TextDecoration.none, fontFamily: 'Broadway');
+  TextStyle itemHeaderScript = TextStyle( fontSize: 10, color: new Color(0xFF604040), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
+  TextStyle itemDescScript = TextStyle( fontSize: 8, color: new Color(0xFF604040), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
 }

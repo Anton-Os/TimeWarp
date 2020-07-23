@@ -6,10 +6,11 @@ import 'package:timewarpsoc/timeline_types.dart';
 
 class SearchRecords_FirebaseDB {
   Future<void> init() async {
-  Firestore.instance.collection('Search Record').document().get()
+  Firestore.instance.collection('timelines').document('SearchRecord').get()
       .then((DocumentSnapshot snapshot){
 
-        Iterable<MapEntry<String, String>> searchRecMap = snapshot.data.entries;
+        Iterable<MapEntry<String, dynamic>> searchRecMap = snapshot.data.entries;
+        //Map<String, String> searchRecMap = snapshot.data.entries;
         searchRecMap.forEach((element) {
           String keyStr = element.key;
           String valStr = element.value;
