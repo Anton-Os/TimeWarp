@@ -81,6 +81,7 @@ class BrowseTableView extends StatefulWidget { //
   static const Color timelineBtnColor = Color(0xFF4368a3);
 
   static bool isPortrait = true;
+  static SearchRecords_FirebaseDB DB = new SearchRecords_FirebaseDB();
 
   @override
   _BrowseTableView createState() => _BrowseTableView();
@@ -89,192 +90,200 @@ class BrowseTableView extends StatefulWidget { //
 class _BrowseTableView extends State<BrowseTableView> {
   @override
   Widget build(BuildContext context) {
-    SearchRecords_FirebaseDB DB = new SearchRecords_FirebaseDB();
 
-    Widget listDataDisplay = ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: 12,
-        itemBuilder: (context, index) {
-          return Container(
-              margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-              // color: BrowseTableView.timelineBtnColor,
-              height: 20,
-              child: Row( // TODO: Load elements from another view class!
-                  children: <Widget>[
-                    Expanded(
-                      flex: 12,
-                      child:
-                      SizedBox.expand(
-                          child:
-                          FlatButton(
-                            color: BrowseTableView.timelineBtnColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(3.0),
-                                    bottomLeft: Radius.circular(3.0))
+    // TODO: Text needs to shrink in size depending on the number of characters
+
+    Widget listDataDisplay =
+        FutureBuilder(
+        future: BrowseTableView.DB.init(),
+        builder: (context, snapshot){
+        return
+            ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: BrowseTableView.DB.searchRecMap.length,
+            itemBuilder: (context, index) {
+                  return Container(
+                      margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                      // color: BrowseTableView.timelineBtnColor,
+                      height: 20,
+                      child: Row( // TODO: Load elements from another view class!
+                          children: <Widget>[
+                            Expanded(
+                              flex: 12,
+                              child:
+                              SizedBox.expand(
+                                  child:
+                                  FlatButton(
+                                    color: BrowseTableView.timelineBtnColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(3.0),
+                                            bottomLeft: Radius.circular(3.0))
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context, MaterialPageRoute(builder: (
+                                          context) => TimelineScreen()));
+                                    },
+                                    child: Text(BrowseTableView.DB.searchRecMap.elementAt(index).value.toString(),
+                                      style: BrowseTableView.buttonScript,),
+                                  )
+                              ),
                             ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context, MaterialPageRoute(builder: (
-                                  context) => TimelineScreen()));
-                            },
-                            // TODO: Text has to be dynamically set!
-                            child: Text("Geological Time Scale",
-                              style: BrowseTableView.buttonScript,),
-                          )
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child:
-                      SizedBox.expand(
-                          child:
-                          RaisedButton(
-                            color: BrowseTableView.timelineBtnColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(3.0),
-                                    bottomRight: Radius.circular(3.0))
-                            ),
-                            onPressed: () {
-                              // Make sure it gets starred
-                            },
-                            // TODO: Change to a delete icon
-                            child: Text("X", textAlign: TextAlign.right,
-                              style: BrowseTableView.buttonScript,),
-                          )
-                      ),
-                    )
-                  ]
-              )
-          );
-        });
-    Widget gridDataDisplay = GridView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: 12,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: 8.0),
-        itemBuilder: (context, index) {
-          return Container(
-              margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-              child: Row( // TODO: Load elements from another view class!
-                  children: <Widget>[
-                    Expanded(
-                      flex: 12,
-                      child:
-                      SizedBox.expand(
-                          child:
-                          FlatButton(
-                            color: BrowseTableView.timelineBtnColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(3.0),
-                                    bottomLeft: Radius.circular(3.0))
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context, MaterialPageRoute(builder: (
-                                  context) => TimelineScreen()));
-                            },
-                            // TODO: Text has to be dynamically set!
-                            child: Text("Geological Time Scale",
-                              style: BrowseTableView.buttonScript,),
-                          )
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child:
-                      SizedBox.expand(
-                          child:
-                          RaisedButton(
-                            color: BrowseTableView.timelineBtnColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(3.0),
-                                    bottomRight: Radius.circular(3.0))
-                            ),
-                            onPressed: () {
-                              // Make sure it gets starred
-                            },
-                            // TODO: Change to a delete icon
-                            child: Text("X", textAlign: TextAlign.right,
-                              style: BrowseTableView.buttonScript,),
-                          )
-                      ),
-                    )
-                  ]
-              )
-          );
+                            Expanded(
+                              flex: 2,
+                              child:
+                              SizedBox.expand(
+                                  child:
+                                  RaisedButton(
+                                    color: BrowseTableView.timelineBtnColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(3.0),
+                                            bottomRight: Radius.circular(3.0))
+                                    ),
+                                    onPressed: () {
+                                      // Make sure it gets starred
+                                    },
+                                    child: Text("X", textAlign: TextAlign.right,
+                                      style: BrowseTableView.buttonScript,),
+                                  )
+                              ),
+                            )
+                          ]
+                      )
+                  );
+              });
         });
 
-    return FutureBuilder(
-        future: DB.init(),
-        builder: (context, snapshot) {
-          return Column(
-              children: <Widget>[
-                Container(
-                    color: BrowseTableView.bkColor,
-                    margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                    height: (BrowseTableView.isPortrait) ? 305.0 : 160.0,
-                    child: (BrowseTableView.isPortrait)
-                        ? listDataDisplay
-                        : gridDataDisplay
-                ),
-                Padding(padding: EdgeInsets.only(top: 3)),
-                Container(
-                  margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                  height: 20,
-                  child:
-                  Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child:
-                          SizedBox.expand(
+    Widget gridDataDisplay =
+    FutureBuilder(
+        future: BrowseTableView.DB.init(),
+        builder: (context, snapshot){
+          return
+            GridView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: BrowseTableView.DB.searchRecMap.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, childAspectRatio: 8.0),
+                itemBuilder: (context, index) {
+                  return Container(
+                      margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                      // color: BrowseTableView.timelineBtnColor,
+                      height: 20,
+                      child: Row( // TODO: Load elements from another view class!
+                          children: <Widget>[
+                            Expanded(
+                              flex: 12,
                               child:
-                              FlatButton(
-                                color: BrowseTableView.createBtnColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(3.0),
-                                        bottomLeft: Radius.circular(3.0))
-                                ),
-                                onPressed: () {
-                                  // TODO: Create a new firebase entry with auto generated ID
-                                  Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) =>
-                                          CreateScreen(
-                                            docStr: 'E7GSISGNZkqJrgO93Djr',)));
-                                },
-                                child: Text("Create",
-                                    style: BrowseTableView.lowBtnScript),
-                              )
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child:
-                          SizedBox.expand(
+                              SizedBox.expand(
+                                  child:
+                                  FlatButton(
+                                    color: BrowseTableView.timelineBtnColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(3.0),
+                                            bottomLeft: Radius.circular(3.0))
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context, MaterialPageRoute(builder: (
+                                          context) => TimelineScreen()));
+                                    },
+                                    child: Text(BrowseTableView.DB.searchRecMap.elementAt(index).value.toString(),
+                                      style: BrowseTableView.buttonScript,),
+                                  )
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
                               child:
-                              FlatButton(
-                                color: BrowseTableView.showBtnColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(3.0),
-                                        bottomRight: Radius.circular(3.0))
-                                ),
-                                onPressed: () {},
-                                child: Text("Show All",
-                                    style: BrowseTableView.lowBtnScript),
-                              )
+                              SizedBox.expand(
+                                  child:
+                                  RaisedButton(
+                                    color: BrowseTableView.timelineBtnColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(3.0),
+                                            bottomRight: Radius.circular(3.0))
+                                    ),
+                                    onPressed: () {
+                                      // Make sure it gets starred
+                                    },
+                                    child: Text("X", textAlign: TextAlign.right,
+                                      style: BrowseTableView.buttonScript,),
+                                  )
+                              ),
+                            )
+                          ]
+                      )
+                  );
+                });
+        });
+
+    // This is the entire browse table view!!!
+    return Column(
+        children: <Widget>[
+          Container(
+              color: BrowseTableView.bkColor,
+              margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+              height: (BrowseTableView.isPortrait) ? 305.0 : 160.0,
+              child: (BrowseTableView.isPortrait)
+                  ? listDataDisplay
+                  : gridDataDisplay
+          ),
+          Padding(padding: EdgeInsets.only(top: 3)),
+          Container(
+            margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+            height: 20,
+            child:
+            Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child:
+                    SizedBox.expand(
+                        child:
+                        FlatButton(
+                          color: BrowseTableView.createBtnColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(3.0),
+                                  bottomLeft: Radius.circular(3.0))
                           ),
+                          onPressed: () {
+                            // TODO: Create a new firebase entry with auto generated ID
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) =>
+                                    CreateScreen(
+                                      docStr: 'E7GSISGNZkqJrgO93Djr',)));
+                          },
+                          child: Text("Create New",
+                              style: BrowseTableView.lowBtnScript),
                         )
-                      ]),
-                )
-              ]
-          );
-        }
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child:
+                    SizedBox.expand(
+                        child:
+                        FlatButton(
+                          color: BrowseTableView.showBtnColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(3.0),
+                                  bottomRight: Radius.circular(3.0))
+                          ),
+                          onPressed: () {},
+                          child: Text("Duplicate",
+                              style: BrowseTableView.lowBtnScript),
+                        )
+                    ),
+                  )
+                ]),
+          )
+        ]
     );
   }
 }

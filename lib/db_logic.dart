@@ -5,12 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:timewarpsoc/timeline_types.dart';
 
 class SearchRecords_FirebaseDB {
-  Future<void> init() async {
-  Firestore.instance.collection('timelines').document('SearchRecord').get()
-      .then((DocumentSnapshot snapshot){
+  SearchRecords_FirebaseDB(){}
 
-        Iterable<MapEntry<String, dynamic>> searchRecMap = snapshot.data.entries;
+  Future<void> init() async {
+    // TODO: Refine database entries, storing name is not enough!
+    Firestore.instance.collection('timelines').document('SearchRecord').get()
+    .then((DocumentSnapshot snapshot){
+
         //Map<String, String> searchRecMap = snapshot.data.entries;
+        searchRecMap = snapshot.data.entries;
         searchRecMap.forEach((element) {
           String keyStr = element.key;
           String valStr = element.value;
@@ -18,6 +21,8 @@ class SearchRecords_FirebaseDB {
         });
     });
   }
+
+  Iterable<MapEntry<String, dynamic>> searchRecMap = [];
 }
 
 class Timeline_FirebaseDB{
