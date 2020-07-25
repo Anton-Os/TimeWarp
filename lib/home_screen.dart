@@ -276,7 +276,7 @@ class _BrowseTableView extends State<BrowseTableView> {
                                   bottomRight: Radius.circular(3.0))
                           ),
                           onPressed: () {},
-                          child: Text("Duplicate",
+                          child: Text("Create Duplicate",
                               style: BrowseTableView.lowBtnScript),
                         )
                     ),

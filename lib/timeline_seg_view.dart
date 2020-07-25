@@ -119,6 +119,80 @@ class TimelineSegView {
     }
   }
 
+  // TODO: Edit mode needs to listen changes in the TimelineData theme colors
+  // TODO: TextField needs to replace
+  TimelineSegView.editMode({Key key, this.index, this.data}){ // TODO: Include a boolean to indicate portrait or landscape and resize text values
+
+    switch(index){
+      case(0): // TODO: Extract info based on the _Name field
+        targetWidgetS1 = new Expanded(flex: 1, child: Container(color: title_Colors.secondary, height: 300.0));
+        targetWidgetM = new Expanded(flex: 10,
+            child: Container(color: title_Colors.primary, height: 300.0,
+                child:  Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("Geological Time Scale", textAlign: TextAlign.center, style: titleNameScript), // TODO: This needs to be dynamic as well
+                    Text(this.data.titleDatesStr, textAlign: TextAlign.center, style: titleDateScript),
+                    Text("\n\n" + this.data.titleDescStr, textAlign: TextAlign.center, style: titleSubscriptScript)
+                  ],)
+            ));
+        targetWidgetS2 = new Expanded(flex: 1, child: Container(color: title_Colors.secondary, height: 300.0));
+        break;
+      default:
+        if(index % 2 == 0){
+          if(this.data.segments.length != 0) {
+            double targetHeight = getHeightFromText(TimelineSegView.isPortrait, this.data.segments.elementAt(itemIndex).desc.length); // We will do some crude scaling
+
+            targetWidgetS1 = new Expanded(flex: 5,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(color: items_Colors.secondary, height: 12.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
+                        child: Text(this.data.segments.elementAt(itemIndex).header, textAlign: TextAlign.center, style: itemHeaderScript)),
+                    Container(color: items_Colors.primary, height: targetHeight, padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0), // Minimum values
+                        child: Text(this.data.segments.elementAt(itemIndex).desc, textAlign: TextAlign.center, style: itemDescScript)),
+                  ],
+                )
+            );
+
+            targetWidgetM = new Expanded(flex: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(color: center_Colors.primary, alignment: Alignment.bottomCenter, height: targetHeight / 3.0 + 12.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
+                        child: Text(
+                            this.data.segments.elementAt(itemIndex).tp1.year.abs().toString() + " " + getStrFromExt(this.data.segments.elementAt(itemIndex).tp1.extension),
+                            textAlign: TextAlign.center, style: centerDateScript)),
+                    Container(color: center_Colors.primary, alignment: Alignment.center, height: targetHeight / 3.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
+                        child: Text(" To ", textAlign: TextAlign.center, style: centerDateScript)),
+                    Container(color: center_Colors.primary, alignment: Alignment.topCenter, height: targetHeight / 3.0, padding: EdgeInsets.only(top: 2.0), // Minimum values
+                        child: Text(
+                            this.data.segments.elementAt(itemIndex).tp2.year.abs().toString() + " " + getStrFromExt(this.data.segments.elementAt(itemIndex).tp2.extension),
+                            textAlign: TextAlign.center, style: centerDateScript)),
+                  ],
+                )
+            );
+            targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_Colors.filler, height: targetHeight + 12.0));
+
+            itemIndex++;
+          } else { // This is the default pre-build, when Firebase is not up and running
+            targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_Colors.primary, height: 70.0));
+            targetWidgetM = new Expanded(flex: 2, child: Container(color: center_Colors.primary, height: 70.0)); // The height is dynamic
+            targetWidgetS1 = new Expanded(flex: 5, child: Container(color: items_Colors.filler, height: 70.0));
+          }
+        } else {
+          print("Scalable filler space");
+          targetWidgetS1 = new Expanded(flex: 5, child: Container(color: items_Colors.filler, height: TimelineSegView.fillerHeight)); // The height is dynamic
+          targetWidgetM = new Expanded(flex: 2, child: Container(color: center_Colors.primary, height: TimelineSegView.fillerHeight)); // The height is dynamic
+          targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_Colors.filler, height: TimelineSegView.fillerHeight)); // The height is dynamic
+        }
+        break;
+    }
+  }
+
   final int index;
   TimelineData data; // Data could be null if in creation mode
 
