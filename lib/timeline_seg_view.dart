@@ -48,31 +48,6 @@ class TimelineSegView {
   }
 
   TimelineSegView.fromDB({Key key, this.index, this.data}){ // TODO: Include a boolean to indicate portrait or landscape and resize text values
-    // TODO: Code for determining theme/colors should go here
-
-    if(!colorsInit && data.themeColors.isNotEmpty) { // One time color initialization
-      MapEntry colorsEntry;
-
-      colorsEntry = data.themeColors.firstWhere((element) => element.key == "Title Colors");
-
-      title_Colors = getColorsFromMapEntry(colorsEntry);
-      this.titleNameScript = TextStyle( fontSize: 20, color: title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Amita');
-      this.titleDateScript = TextStyle( fontSize: 9, color: title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Dokdo');
-      this.titleSubscriptScript = TextStyle( fontSize: 7, color: title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'EBGaramond');
-
-      colorsEntry = data.themeColors.firstWhere((element) => element.key == "Center Colors");
-
-      center_Colors = getColorsFromMapEntry(colorsEntry);
-      this.centerDateScript = TextStyle( fontSize: 6.5, color: center_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Broadway');
-
-      colorsEntry = data.themeColors.firstWhere((element) => element.key == "Item Colors");
-
-      items_Colors = getColorsFromMapEntry(colorsEntry);
-      this.itemHeaderScript = TextStyle( fontSize: 10, color: items_Colors.getText, decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
-      this.itemDescScript = TextStyle( fontSize: 8, color: items_Colors.getText, decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
-
-      colorsInit = true;
-    }
 
     switch(index){
       case(0): // TODO: Extract info based on the _Name field
@@ -156,14 +131,14 @@ class TimelineSegView {
   Widget targetWidgetM; // middle
   Widget targetWidgetS2; // right
 
-  TimelineColorScheme center_Colors = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8));
-  TimelineColorScheme items_Colors = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8), filler: Color(0xFFe8e8e8));
-  TimelineColorScheme title_Colors = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8));
+  static TimelineColorScheme center_Colors = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8));
+  static TimelineColorScheme items_Colors = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8), filler: Color(0xFFe8e8e8));
+  static TimelineColorScheme title_Colors = new TimelineColorScheme(primary: new Color(0xFFe8e8e8), secondary: new Color(0xFFe8e8e8), text: new Color(0xFFe8e8e8));
 
-  TextStyle titleNameScript = TextStyle( fontSize: 20, color: new Color(0xFF420D20), decoration: TextDecoration.none, fontFamily: 'Amita');
-  TextStyle titleDateScript = TextStyle( fontSize: 9, color: new Color(0xFF420D20), decoration: TextDecoration.none, fontFamily: 'Dokdo');
-  TextStyle titleSubscriptScript = TextStyle( fontSize: 7, color: new Color(0xFF420D20), decoration: TextDecoration.none, fontFamily: 'EBGaramond');
-  TextStyle centerDateScript = TextStyle( fontSize: 6.5, color: new Color(0xFFE8D1D9), decoration: TextDecoration.none, fontFamily: 'Broadway');
-  TextStyle itemHeaderScript = TextStyle( fontSize: 10, color: new Color(0xFF604040), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
-  TextStyle itemDescScript = TextStyle( fontSize: 8, color: new Color(0xFF604040), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
+  static TextStyle titleNameScript = TextStyle( fontSize: 20, color: new Color(0xFF420D20), decoration: TextDecoration.none, fontFamily: 'Amita');
+  static TextStyle titleDateScript = TextStyle( fontSize: 9, color: new Color(0xFF420D20), decoration: TextDecoration.none, fontFamily: 'Dokdo');
+  static TextStyle titleSubscriptScript = TextStyle( fontSize: 7, color: new Color(0xFF420D20), decoration: TextDecoration.none, fontFamily: 'EBGaramond');
+  static TextStyle centerDateScript = TextStyle( fontSize: 6.5, color: new Color(0xFFE8D1D9), decoration: TextDecoration.none, fontFamily: 'Broadway');
+  static TextStyle itemHeaderScript = TextStyle( fontSize: 10, color: new Color(0xFF604040), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
+  static TextStyle itemDescScript = TextStyle( fontSize: 8, color: new Color(0xFF604040), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
 }

@@ -28,47 +28,83 @@ class _CreateScreen extends State<CreateScreen> {
     TimelineSegView segment;
     Timeline_FirebaseDB DB = new Timeline_FirebaseDB(firebaseDocStr: widget.docStr);
 
-    return FutureBuilder(
-        future: DB.init(),
-        builder: (context, snapshot){
-          //if(snapshot.connectionState)
           return
             MaterialApp(
                 home:
-                OrientationBuilder(
-                    builder: (context, orientation){
-                      TimelineSegView.isPortrait = (orientation == Orientation.portrait) ? true : false;
+                Scaffold(
+                    bottomNavigationBar: BottomAppBar(
+                      color: Colors.white30,
+                      child: new Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text('Colors here', textAlign: TextAlign.center,)
+                        ],
+                      ),
+                    ),
+                    floatingActionButton: FloatingActionButton(onPressed: (){}),
+                    body:
+                    OrientationBuilder(
+                        builder: (context, orientation){
+                          TimelineSegView.isPortrait = (orientation == Orientation.portrait) ? true : false;
 
-                      return ListView.builder(
-                          padding: EdgeInsets.zero,
-                          itemCount: (DB.data.segments.length * 2) + 2, // + 2 to add extra filler
-                          itemBuilder: (context, index) {
+                          return
+                          FutureBuilder(
+                          future: DB.init(),
+                          builder: (context, snapshot){
+                            // Setting color themes prior to list builder invocation, smart
+                            // TODO: Allow dynamic changes with the BottomAppBar
+                            MapEntry colorsEntry;
+                            colorsEntry = DB.data.themeColors.firstWhere((element) => element.key == "Title Colors");
 
-                            if(index == 0) TimelineSegView.itemIndex = 0; // Needs to reset when the builder starts over with first element
-                            segment = TimelineSegView.fromDB(index: index, data: DB.data);
+                            TimelineSegView.title_Colors = getColorsFromMapEntry(colorsEntry);
+                            TimelineSegView.titleNameScript = TextStyle( fontSize: 20, color: TimelineSegView.title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Amita');
+                            TimelineSegView.titleDateScript = TextStyle( fontSize: 9, color: TimelineSegView.title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Dokdo');
+                            TimelineSegView.titleSubscriptScript = TextStyle( fontSize: 7, color: TimelineSegView.title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'EBGaramond');
 
-                            Row targetRow = (TimelineSegView.itemIndex % 2 == 0) ?
-                            Row( // We can flip depending on the item index
-                                children: <Widget>[
-                                  segment.targetWidgetS2, // targetWidgetS2,
-                                  segment.targetWidgetM,
-                                  segment.targetWidgetS1
-                                ]
-                            ) : Row(
-                                children: <Widget>[
-                                  segment.targetWidgetS1, // targetWidgetS1,
-                                  segment.targetWidgetM,
-                                  segment.targetWidgetS2
-                                ]
-                            );
+                            colorsEntry = DB.data.themeColors.firstWhere((element) => element.key == "Center Colors");
 
-                            return Container( child: targetRow);
-                          }
-                      );
-                    }
-                )
-            );
-        }
-    );
+                            TimelineSegView.center_Colors = getColorsFromMapEntry(colorsEntry);
+                            TimelineSegView.centerDateScript = TextStyle( fontSize: 6.5, color: TimelineSegView.center_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Broadway');
+
+                            colorsEntry = DB.data.themeColors.firstWhere((element) => element.key == "Item Colors");
+
+                            TimelineSegView.items_Colors = getColorsFromMapEntry(colorsEntry);
+                            TimelineSegView.itemHeaderScript = TextStyle( fontSize: 10, color: TimelineSegView.items_Colors.getText, decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
+                            TimelineSegView.itemDescScript = TextStyle( fontSize: 8, color: TimelineSegView.items_Colors.getText, decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
+
+                            return
+                              ListView.builder(
+                              padding: EdgeInsets.zero,
+                              itemCount: (DB.data.segments.length * 2) + 2, // + 2 to add extra filler
+                              itemBuilder: (context, index) {
+
+                                if(index == 0) TimelineSegView.itemIndex = 0; // Needs to reset when the builder starts over with first element
+                                segment = new TimelineSegView.fromDB(index: index, data: DB.data);
+
+                                Row targetRow = (TimelineSegView.itemIndex % 2 == 0) ?
+                                Row( // We can flip depending on the item index
+                                    children: <Widget>[
+                                      segment.targetWidgetS2, // targetWidgetS2,
+                                      segment.targetWidgetM,
+                                      segment.targetWidgetS1
+                                    ]
+                                ) : Row(
+                                    children: <Widget>[
+                                      segment.targetWidgetS1, // targetWidgetS1,
+                                      segment.targetWidgetM,
+                                      segment.targetWidgetS2
+                                    ]
+                                );
+
+                                return Container( child: targetRow);
+                              }
+                          );
+                        }
+                    );
+
+                })
+            )
+     );
   }
 }
