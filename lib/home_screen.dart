@@ -1,5 +1,6 @@
 import 'dart:async';
 
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -83,14 +84,19 @@ class BrowseTableView extends StatefulWidget { //
   static bool isPortrait = true;
   static SearchRecords_FirebaseDB DB = new SearchRecords_FirebaseDB();
 
+  // LOCALLY STORED DATA SECTION, TODO: Implement SQLite in db_logic.dart
+  static List<int> creationIndices = [];
+  static List<int> exclusionIndices = [];
+
   @override
   _BrowseTableView createState() => _BrowseTableView();
 }
 
 class _BrowseTableView extends State<BrowseTableView> {
+
+
   @override
   Widget build(BuildContext context) {
-
     // TODO: Text needs to shrink in size depending on the number of characters
 
     Widget listDataDisplay =

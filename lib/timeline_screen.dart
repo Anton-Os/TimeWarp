@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'package:timewarpsoc/timeline_types.dart';
 import 'package:timewarpsoc/db_logic.dart';
@@ -21,22 +22,31 @@ class _TimelineScreen extends State<TimelineScreen> {
   Widget targetWidgetM; // middle
   Widget targetWidgetS2; // right
 
+  Database localConfigs;
+  TimelineSegView segment;
+  Timeline_FirebaseDB DB;
+  Future _asyncTaskInit;
+
+  @override
+  void initState(){
+    DB = new Timeline_FirebaseDB(firebaseDocStr: 'iLakpSBa6Ps9hok5wMCJ'); // DB Creation happens once
+    // localConfigs = await UserDB.data;
+    _asyncTaskInit = DB.init(); // TODO: Initialize localConfigs as well
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    TimelineSegView segment;
-    Timeline_FirebaseDB DB = new Timeline_FirebaseDB(firebaseDocStr: 'iLakpSBa6Ps9hok5wMCJ');
-
-        return
-        MaterialApp(
-          home:
-              OrientationBuilder(
-                builder: (context, orientation){
-                  TimelineSegView.isPortrait = (orientation == Orientation.portrait) ? true : false;
-
-                  return
-                    FutureBuilder(
-                        future: DB.init(),
-                        builder: (context, snapshot){
+    return
+      FutureBuilder(
+          future: _asyncTaskInit,
+          builder: (context, snapshot){
+            return
+            MaterialApp(
+              home:
+                  OrientationBuilder(
+                    builder: (context, orientation){
+                      TimelineSegView.isPortrait = (orientation == Orientation.portrait) ? true : false;
                           // Setting color themes prior to list builder invocation, smart
                           // TODO: Allow dynamic changes with the BottomAppBar
                           MapEntry colorsEntry;
@@ -85,10 +95,10 @@ class _TimelineScreen extends State<TimelineScreen> {
                                   return Container( child: targetRow);
                                 }
                             );
-                        }
-                    );
-                }
-              )
-        );
-  }
+                      }
+                  )
+            );
+          }
+      );
+   }
 }

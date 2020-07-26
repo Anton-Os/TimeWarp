@@ -28,9 +28,9 @@ class _CreateScreen extends State<CreateScreen> {
   Widget targetWidgetM; // middle
   Widget targetWidgetS2; // right
 
-  Future _asyncTaskInit;
   TimelineSegView segment;
   Timeline_FirebaseDB DB;
+  Future _asyncTaskInit;
 
   @override
   void initState(){
