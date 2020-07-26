@@ -10,7 +10,7 @@ import 'package:timewarpsoc/ui_beauty.dart';
 import 'package:timewarpsoc/timeline_seg_view.dart';
 
 import 'package:timewarpsoc/create/add_item_screen.dart';
-import 'package:timewarpsoc/create/color_picker_screen.dart';
+import 'package:timewarpsoc/create/color_picker_view.dart';
 
 class CreateScreen extends StatefulWidget {
   const CreateScreen({ Key key, this.docStr }) : super(key: key);
@@ -186,7 +186,10 @@ class _CreateScreen extends State<CreateScreen> {
                   floatingActionButton: FloatingActionButton(
                       backgroundColor: CreateScreen.navElemColor,
                       mini: true,
-                      onPressed: (){}
+                      onPressed: (){
+                        // TODO: Create a separate instance of AddItemScreen
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddItemScreen()));
+                      }
                   ),
                   body:
                   OrientationBuilder(

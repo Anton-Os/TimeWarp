@@ -15,10 +15,10 @@ import 'package:timewarpsoc/timeline_seg_view.dart';
 class TopView extends StatefulWidget { // Stateful keeps track of an updated clock count
   const TopView({Key key}) : super(key: key);
 
+  static const Color bkColor = Color(0xFF16ab9c);
   static const TextStyle logoScript = TextStyle( fontSize: 9, color: Color(0xFF1a495e), decoration: TextDecoration.none, fontFamily: 'IMFellDoublePicaSC');
   static const TextStyle bigTimeScript = TextStyle( fontSize: 13, color: Color(0xFF14ff9c), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
   static const TextStyle smallTimeScript = TextStyle( fontSize: 7, color: Color(0xFF14ff9c), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
-  static const Color bkColor = Color(0xFF16ab9c);
 
   static bool isPortrait = true;
 
@@ -72,7 +72,12 @@ class _TopView extends State<TopView>{
 }
 
 class BrowseTableView extends StatefulWidget { //
-  const BrowseTableView({Key key}) : super(key: key);
+  static bool isPortrait = true;
+  static SearchRecords_FirebaseDB DB = new SearchRecords_FirebaseDB();
+
+  // LOCALLY STORED DATA SECTION, TODO: Implement SQLite in db_logic.dart
+  static List<int> creationIndices = [];
+  static List<int> exclusionIndices = [];
 
   static const TextStyle buttonScript = TextStyle( fontSize: 9, color: Color(0xFFb2c8eb), decoration: TextDecoration.none, fontFamily: 'Amita');
   static const TextStyle lowBtnScript = TextStyle( fontSize: 9, color: Color(0xFF193947), decoration: TextDecoration.none, fontFamily: 'EBGaramond');
@@ -81,19 +86,11 @@ class BrowseTableView extends StatefulWidget { //
   static const Color showBtnColor = Color(0xFF14cc9c);
   static const Color timelineBtnColor = Color(0xFF4368a3);
 
-  static bool isPortrait = true;
-  static SearchRecords_FirebaseDB DB = new SearchRecords_FirebaseDB();
-
-  // LOCALLY STORED DATA SECTION, TODO: Implement SQLite in db_logic.dart
-  static List<int> creationIndices = [];
-  static List<int> exclusionIndices = [];
-
   @override
   _BrowseTableView createState() => _BrowseTableView();
 }
 
 class _BrowseTableView extends State<BrowseTableView> {
-
 
   @override
   Widget build(BuildContext context) {
@@ -108,123 +105,122 @@ class _BrowseTableView extends State<BrowseTableView> {
             padding: EdgeInsets.zero,
             itemCount: BrowseTableView.DB.searchRecMap.length,
             itemBuilder: (context, index) {
-                  return Container(
-                      margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-                      // color: BrowseTableView.timelineBtnColor,
-                      height: 20,
-                      child: Row( // TODO: Load elements from another view class!
-                          children: <Widget>[
-                            Expanded(
-                              flex: 12,
-                              child:
-                              SizedBox.expand(
-                                  child:
-                                  FlatButton(
-                                    color: BrowseTableView.timelineBtnColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(3.0),
-                                            bottomLeft: Radius.circular(3.0))
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context, MaterialPageRoute(builder: (
-                                          context) => TimelineScreen()));
-                                    },
-                                    child: Text(BrowseTableView.DB.searchRecMap.elementAt(index).value.toString(),
-                                      style: BrowseTableView.buttonScript,),
-                                  )
-                              ),
+                return Container(
+                    margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                    // color: BrowseTableView.timelineBtnColor,
+                    height: 20,
+                    child: Row( // TODO: Load elements from another view class!
+                        children: <Widget>[
+                          Expanded(
+                            flex: 12,
+                            child:
+                            SizedBox.expand(
+                                child:
+                                FlatButton(
+                                  color: BrowseTableView.timelineBtnColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(3.0),
+                                          bottomLeft: Radius.circular(3.0))
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context, MaterialPageRoute(builder: (context) => TimelineScreen()));
+                                  },
+                                  child: Text(BrowseTableView.DB.searchRecMap.elementAt(index).value.toString(),
+                                    style: BrowseTableView.buttonScript,),
+                                )
                             ),
-                            Expanded(
-                              flex: 2,
-                              child:
-                              SizedBox.expand(
-                                  child:
-                                  RaisedButton(
-                                    color: BrowseTableView.timelineBtnColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(3.0),
-                                            bottomRight: Radius.circular(3.0))
-                                    ),
-                                    onPressed: () {
-                                      // Make sure it gets starred
-                                    },
-                                    child: Text("X", textAlign: TextAlign.right,
-                                      style: BrowseTableView.buttonScript,),
-                                  )
-                              ),
-                            )
-                          ]
-                      )
-                  );
-              });
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child:
+                            SizedBox.expand(
+                                child:
+                                RaisedButton(
+                                  color: BrowseTableView.timelineBtnColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(3.0),
+                                          bottomRight: Radius.circular(3.0))
+                                  ),
+                                  onPressed: () {
+                                    // Make sure it gets starred
+                                  },
+                                  child: Text("X", textAlign: TextAlign.right,
+                                    style: BrowseTableView.buttonScript,),
+                                )
+                            ),
+                          )
+                        ]
+                    )
+                );
+            });
         });
 
     Widget gridDataDisplay =
     FutureBuilder(
-        future: BrowseTableView.DB.init(),
-        builder: (context, snapshot){
-          return
-            GridView.builder(
-                padding: EdgeInsets.zero,
-                itemCount: BrowseTableView.DB.searchRecMap.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 8.0),
-                itemBuilder: (context, index) {
-                  return Container(
-                      margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-                      // color: BrowseTableView.timelineBtnColor,
-                      height: 20,
-                      child: Row( // TODO: Load elements from another view class!
-                          children: <Widget>[
-                            Expanded(
-                              flex: 12,
-                              child:
-                              SizedBox.expand(
-                                  child:
-                                  FlatButton(
-                                    color: BrowseTableView.timelineBtnColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(3.0),
-                                            bottomLeft: Radius.circular(3.0))
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context, MaterialPageRoute(builder: (
-                                          context) => TimelineScreen()));
-                                    },
-                                    child: Text(BrowseTableView.DB.searchRecMap.elementAt(index).value.toString(),
-                                      style: BrowseTableView.buttonScript,),
-                                  )
-                              ),
+      future: BrowseTableView.DB.init(),
+      builder: (context, snapshot){
+        return
+          GridView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: BrowseTableView.DB.searchRecMap.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, childAspectRatio: 8.0),
+              itemBuilder: (context, index) {
+                return Container(
+                    margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                    // color: BrowseTableView.timelineBtnColor,
+                    height: 20,
+                    child: Row( // TODO: Load elements from another view class!
+                        children: <Widget>[
+                          Expanded(
+                            flex: 12,
+                            child:
+                            SizedBox.expand(
+                                child:
+                                FlatButton(
+                                  color: BrowseTableView.timelineBtnColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(3.0),
+                                          bottomLeft: Radius.circular(3.0))
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context, MaterialPageRoute(builder: (
+                                        context) => TimelineScreen()));
+                                  },
+                                  child: Text(BrowseTableView.DB.searchRecMap.elementAt(index).value.toString(),
+                                    style: BrowseTableView.buttonScript,),
+                                )
                             ),
-                            Expanded(
-                              flex: 2,
-                              child:
-                              SizedBox.expand(
-                                  child:
-                                  RaisedButton(
-                                    color: BrowseTableView.timelineBtnColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(3.0),
-                                            bottomRight: Radius.circular(3.0))
-                                    ),
-                                    onPressed: () {
-                                      // Make sure it gets starred
-                                    },
-                                    child: Text("X", textAlign: TextAlign.right,
-                                      style: BrowseTableView.buttonScript,),
-                                  )
-                              ),
-                            )
-                          ]
-                      )
-                  );
-                });
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child:
+                            SizedBox.expand(
+                                child:
+                                RaisedButton(
+                                  color: BrowseTableView.timelineBtnColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(3.0),
+                                          bottomRight: Radius.circular(3.0))
+                                  ),
+                                  onPressed: () {
+                                    // Make sure it gets starred
+                                  },
+                                  child: Text("X", textAlign: TextAlign.right,
+                                    style: BrowseTableView.buttonScript,),
+                                )
+                            ),
+                          )
+                        ]
+                    )
+                );
+              });
         });
 
     // This is the entire browse table view!!!
