@@ -9,6 +9,9 @@ import 'package:timewarpsoc/db_logic.dart';
 import 'package:timewarpsoc/ui_beauty.dart';
 import 'package:timewarpsoc/timeline_seg_view.dart';
 
+import 'package:timewarpsoc/create/add_item_screen.dart';
+import 'package:timewarpsoc/create/color_picker_screen.dart';
+
 class CreateScreen extends StatefulWidget {
   const CreateScreen({ Key key, this.docStr }) : super(key: key);
 
