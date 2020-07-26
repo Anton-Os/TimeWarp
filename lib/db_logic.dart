@@ -1,26 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 
 import 'package:timewarpsoc/timeline_types.dart';
 
 // Local Fetching
 
-class UserDB {
-  LocalUserDB(){}
+class SavedPrefsData {
+  SavedPrefsData(){}
 
-  static final Future<Database> data = getDatabasesPath().then( (String path) {
-    return openDatabase(
-    join(path, 'TimeWarpSoc.db'),
-    onCreate: (db, version) {
-      // TODO: SQL fetching statements go here
-      // TODO: Populate the two List<int> structures
-    });
-  });
+  Future<void> init() async {
+    sharedPrefs = await SharedPreferences.getInstance();
+
+    if(sharedPrefs.getStringList('exclusionIndices') == null)
+      print("Exclusion indices not found! No deletions yet!"); // TODO: Create new empty exclusionIndices list
+    else
+      print("Exlusion indices found!"); // TODO: Load existing exclusionIndices list
+
+    if(sharedPrefs.getStringList('creationIndices') == null)
+      print("Creation indices not found! No creations yet!"); // TODO: Create new empty creationIndices list
+    else
+      print("Creation indices found!"); // TODO: Load existing creationIndices list
+  }
+
+  static SharedPreferences sharedPrefs;
+  static List<int> creationIndices = [];
+  static List<int> exclusionIndices = [];
 }
 
 // Network Fetching
@@ -58,6 +65,8 @@ class Timeline_FirebaseDB{
 
     Firestore.instance.collection('timelines').document(firebaseDocStr).get()
     .then((DocumentSnapshot snapshot) {
+
+      // TODO: Check for null data
 
       Iterable<MapEntry<String, dynamic>> timelineMap = snapshot.data.entries;
       // MapEntry<String, dynamic> currentMap = timelineMap.first; // Data from first element

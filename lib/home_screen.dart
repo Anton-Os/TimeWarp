@@ -73,7 +73,8 @@ class _TopView extends State<TopView>{
 
 class BrowseTableView extends StatefulWidget { //
   static bool isPortrait = true;
-  static SearchRecords_FirebaseDB DB = new SearchRecords_FirebaseDB();
+  static SearchRecords_FirebaseDB remoteDB = new SearchRecords_FirebaseDB();
+  static SavedPrefsData localDB = new SavedPrefsData();
 
   // LOCALLY STORED DATA SECTION, TODO: Implement SQLite in db_logic.dart
   static List<int> creationIndices = [];
@@ -98,12 +99,12 @@ class _BrowseTableView extends State<BrowseTableView> {
 
     Widget listDataDisplay =
         FutureBuilder(
-        future: BrowseTableView.DB.init(),
+        future: Future.wait([BrowseTableView.remoteDB.init(), BrowseTableView.localDB.init() ]),
         builder: (context, snapshot){
         return
             ListView.builder(
             padding: EdgeInsets.zero,
-            itemCount: BrowseTableView.DB.searchRecMap.length,
+            itemCount: BrowseTableView.remoteDB.searchRecMap.length,
             itemBuilder: (context, index) {
                 return Container(
                     margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
@@ -125,9 +126,11 @@ class _BrowseTableView extends State<BrowseTableView> {
                                   ),
                                   onPressed: () {
                                     Navigator.push(
-                                        context, MaterialPageRoute(builder: (context) => TimelineScreen()));
+                                        context, MaterialPageRoute(builder: (context) =>
+                                          TimelineScreen(documentId: BrowseTableView.remoteDB.searchRecMap.elementAt(index).key.toString()))
+                                        );
                                   },
-                                  child: Text(BrowseTableView.DB.searchRecMap.elementAt(index).value.toString(),
+                                  child: Text(BrowseTableView.remoteDB.searchRecMap.elementAt(index).value.toString(),
                                     style: BrowseTableView.buttonScript,),
                                 )
                             ),
@@ -160,12 +163,12 @@ class _BrowseTableView extends State<BrowseTableView> {
 
     Widget gridDataDisplay =
     FutureBuilder(
-      future: BrowseTableView.DB.init(),
+      future: BrowseTableView.remoteDB.init(),
       builder: (context, snapshot){
         return
           GridView.builder(
               padding: EdgeInsets.zero,
-              itemCount: BrowseTableView.DB.searchRecMap.length,
+              itemCount: BrowseTableView.remoteDB.searchRecMap.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, childAspectRatio: 8.0),
               itemBuilder: (context, index) {
@@ -192,7 +195,7 @@ class _BrowseTableView extends State<BrowseTableView> {
                                         context, MaterialPageRoute(builder: (
                                         context) => TimelineScreen()));
                                   },
-                                  child: Text(BrowseTableView.DB.searchRecMap.elementAt(index).value.toString(),
+                                  child: Text(BrowseTableView.remoteDB.searchRecMap.elementAt(index).value.toString(),
                                     style: BrowseTableView.buttonScript,),
                                 )
                             ),

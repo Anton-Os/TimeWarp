@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:sqflite/sqflite.dart';
 
 import 'package:timewarpsoc/timeline_types.dart';
 import 'package:timewarpsoc/db_logic.dart';
@@ -11,7 +10,9 @@ import 'package:timewarpsoc/ui_beauty.dart';
 import 'package:timewarpsoc/timeline_seg_view.dart';
 
 class TimelineScreen extends StatefulWidget {
-  const TimelineScreen({ Key key }) : super(key: key);
+  const TimelineScreen({ Key key, this.documentId }) : super(key: key);
+
+  final String documentId;
 
   @override
   _TimelineScreen createState() => _TimelineScreen();
@@ -22,16 +23,14 @@ class _TimelineScreen extends State<TimelineScreen> {
   Widget targetWidgetM; // middle
   Widget targetWidgetS2; // right
 
-  Database localConfigs;
   TimelineSegView segment;
   Timeline_FirebaseDB DB;
   Future _asyncTaskInit;
 
   @override
   void initState(){
-    DB = new Timeline_FirebaseDB(firebaseDocStr: 'iLakpSBa6Ps9hok5wMCJ'); // DB Creation happens once
-    // localConfigs = await UserDB.data;
-    _asyncTaskInit = DB.init(); // TODO: Initialize localConfigs as well
+    DB = new Timeline_FirebaseDB(firebaseDocStr: widget.documentId); // DB Creation happens once
+    _asyncTaskInit = DB.init();
     super.initState();
   }
 

@@ -44,6 +44,7 @@ class _CreateScreen extends State<CreateScreen> {
       return
       FutureBuilder(
       future: _asyncTaskInit,
+      // future: DB.init(),
       builder: (context, snapshot){ // TODO: Add checks to snapshot
         return
           MaterialApp(
