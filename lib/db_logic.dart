@@ -15,19 +15,29 @@ class SavedPrefsData {
     sharedPrefs = await SharedPreferences.getInstance();
 
     if(sharedPrefs.getStringList('exclusionIndices') == null)
-      print("Exclusion indices not found! No deletions yet!"); // TODO: Create new empty exclusionIndices list
+      sharedPrefs.setStringList('exclusionIndices', exclusionIndices.map((i) => i.toString()).toList());
     else
-      print("Exlusion indices found!"); // TODO: Load existing exclusionIndices list
+      exclusionIndices = sharedPrefs.getStringList('exclusionIndices').map((s) => int.parse(s)).toList();
 
     if(sharedPrefs.getStringList('creationIndices') == null)
-      print("Creation indices not found! No creations yet!"); // TODO: Create new empty creationIndices list
+      sharedPrefs.setStringList('creationIndices', exclusionIndices.map((i) => i.toString()).toList());
     else
-      print("Creation indices found!"); // TODO: Load existing creationIndices list
+      creationIndices = sharedPrefs.getStringList('creationIndices').map((s) => int.parse(s)).toList();
   }
 
-  static SharedPreferences sharedPrefs;
-  static List<int> creationIndices = [];
-  static List<int> exclusionIndices = [];
+  void addExclusionIndex(int index){
+    exclusionIndices.add(index); // Add target element
+    sharedPrefs.setStringList('exclusionIndices', exclusionIndices.map((i) => i.toString()).toList()); // Update shared prefs
+  }
+
+  void addCreationIndex(int index){
+    creationIndices.add(index); // Add target element
+    sharedPrefs.setStringList('creationIndices', exclusionIndices.map((i) => i.toString()).toList()); // Update shared prefs
+  }
+
+  SharedPreferences sharedPrefs;
+  List<int> creationIndices = [];
+  List<int> exclusionIndices = [];
 }
 
 // Network Fetching

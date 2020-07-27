@@ -74,18 +74,15 @@ class _TopView extends State<TopView>{
 class BrowseTableView extends StatefulWidget { //
   static bool isPortrait = true;
   static SearchRecords_FirebaseDB remoteDB = new SearchRecords_FirebaseDB();
-  static SavedPrefsData localDB = new SavedPrefsData();
+  static SavedPrefsData savedPrefsData = new SavedPrefsData();
 
-  // LOCALLY STORED DATA SECTION, TODO: Implement SQLite in db_logic.dart
-  static List<int> creationIndices = [];
-  static List<int> exclusionIndices = [];
-
-  static const TextStyle buttonScript = TextStyle( fontSize: 9, color: Color(0xFFb2c8eb), decoration: TextDecoration.none, fontFamily: 'Amita');
-  static const TextStyle lowBtnScript = TextStyle( fontSize: 9, color: Color(0xFF193947), decoration: TextDecoration.none, fontFamily: 'EBGaramond');
   static const Color bkColor = Color(0xFF193947);
   static const Color createBtnColor = Color(0xFF14ff9c);
   static const Color showBtnColor = Color(0xFF14cc9c);
   static const Color timelineBtnColor = Color(0xFF4368a3);
+  static const TextStyle timelineBtnScriptL = TextStyle( fontSize: 9, color: Color(0xFFb2c8eb), decoration: TextDecoration.none, fontFamily: 'Amita');
+  static const TextStyle timelineBtnScriptS = TextStyle( fontSize: 5.5, color: Color(0xFFb2c8eb), decoration: TextDecoration.none, fontFamily: 'Amita');
+  static const TextStyle lowBtnScript = TextStyle( fontSize: 9, color: Color(0xFF193947), decoration: TextDecoration.none, fontFamily: 'EBGaramond');
 
   @override
   _BrowseTableView createState() => _BrowseTableView();
@@ -95,11 +92,9 @@ class _BrowseTableView extends State<BrowseTableView> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Text needs to shrink in size depending on the number of characters
-
     Widget listDataDisplay =
         FutureBuilder(
-        future: Future.wait([BrowseTableView.remoteDB.init(), BrowseTableView.localDB.init() ]),
+        future: Future.wait([BrowseTableView.remoteDB.init(), BrowseTableView.savedPrefsData.init() ]),
         builder: (context, snapshot){
         return
             ListView.builder(
@@ -131,7 +126,9 @@ class _BrowseTableView extends State<BrowseTableView> {
                                         );
                                   },
                                   child: Text(BrowseTableView.remoteDB.searchRecMap.elementAt(index).value.toString(),
-                                    style: BrowseTableView.buttonScript,),
+                                    style: (BrowseTableView.remoteDB.searchRecMap.elementAt(index).value.toString().length < 28)
+                                            ? BrowseTableView.timelineBtnScriptL : BrowseTableView.timelineBtnScriptS
+                                  )
                                 )
                             ),
                           ),
@@ -148,10 +145,12 @@ class _BrowseTableView extends State<BrowseTableView> {
                                           bottomRight: Radius.circular(3.0))
                                   ),
                                   onPressed: () {
-                                    // Make sure it gets starred
+                                    BrowseTableView.savedPrefsData.addExclusionIndex(index);
+                                    // TODO: Rebuild the list here with the target index not displaying
                                   },
                                   child: Text("X", textAlign: TextAlign.right,
-                                    style: BrowseTableView.buttonScript,),
+                                    style: BrowseTableView.timelineBtnScriptL
+                                  )
                                 )
                             ),
                           )
@@ -196,7 +195,8 @@ class _BrowseTableView extends State<BrowseTableView> {
                                         context) => TimelineScreen()));
                                   },
                                   child: Text(BrowseTableView.remoteDB.searchRecMap.elementAt(index).value.toString(),
-                                    style: BrowseTableView.buttonScript,),
+                                    style: BrowseTableView.timelineBtnScriptL
+                                  )
                                 )
                             ),
                           ),
@@ -216,7 +216,8 @@ class _BrowseTableView extends State<BrowseTableView> {
                                     // Make sure it gets starred
                                   },
                                   child: Text("X", textAlign: TextAlign.right,
-                                    style: BrowseTableView.buttonScript,),
+                                    style: BrowseTableView.timelineBtnScriptL
+                                  )
                                 )
                             ),
                           )
@@ -252,40 +253,23 @@ class _BrowseTableView extends State<BrowseTableView> {
                         FlatButton(
                           color: BrowseTableView.createBtnColor,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(3.0),
-                                  bottomLeft: Radius.circular(3.0))
+                              borderRadius: BorderRadius.all(Radius.circular(3.0))
                           ),
                           onPressed: () {
-                            // TODO: Create a new firebase entry with auto generated ID
+                            BrowseTableView.savedPrefsData.addCreationIndex(BrowseTableView.remoteDB.searchRecMap.length);
+
+                            // TODO: Interact with flutter to generate new documents and entries
+
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (context) =>
                                     CreateScreen(
                                       docStr: 'E7GSISGNZkqJrgO93Djr',)));
                           },
-                          child: Text("Create New",
+                          child: Text("New Timeline",
                               style: BrowseTableView.lowBtnScript),
                         )
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child:
-                    SizedBox.expand(
-                        child:
-                        FlatButton(
-                          color: BrowseTableView.showBtnColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(3.0),
-                                  bottomRight: Radius.circular(3.0))
-                          ),
-                          onPressed: () {},
-                          child: Text("Create Duplicate",
-                              style: BrowseTableView.lowBtnScript),
-                        )
-                    ),
-                  )
                 ]),
           )
         ]
