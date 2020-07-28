@@ -102,9 +102,19 @@ class TimelineSegData {
 }
 
 // Sorts timeline segments chronologically
-void sortTimelineSegs(List<TimelineSegData> segments){
+/* void sortTimelineSegs(List<TimelineSegData> segments){
+  TimePoint srcTP = segments.first.tp1;
+  int srcIndex = 0;
+  TimePoint destTP;
 
-}
+  for(int s = 0; s < segments.length; s++){
+    // TODO: Implement timepoint comparison operator!
+    destTP = segments.elementAt(s).tp1;
+    while(destTP.year < srcTP.year){
+      segments.
+    }
+  }
+} */
 
 class TimelineData {
   TIME_Scale scale = TIME_Scale.Years;

@@ -13,14 +13,14 @@ import 'package:timewarpsoc/timeline_seg_view.dart';
 /* Top View holds the logo and a current time view */
 
 class TopView extends StatefulWidget { // Stateful keeps track of an updated clock count
-  const TopView({Key key}) : super(key: key);
+  const TopView({Key key, this.MQ}) : super(key: key);
+
+  final MediaQueryData MQ;
 
   static const Color bkColor = Color(0xFF16ab9c);
   static const TextStyle logoScript = TextStyle( fontSize: 9, color: Color(0xFF1a495e), decoration: TextDecoration.none, fontFamily: 'IMFellDoublePicaSC');
   static const TextStyle bigTimeScript = TextStyle( fontSize: 13, color: Color(0xFF14ff9c), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
   static const TextStyle smallTimeScript = TextStyle( fontSize: 7, color: Color(0xFF14ff9c), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
-
-  static bool isPortrait = true;
 
   @override
   _TopView createState() => _TopView();
@@ -42,7 +42,7 @@ class _TopView extends State<TopView>{
     return Container (
       color: TopView.bkColor,
       margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-      height: (TimelineSegView.isPortrait)? 50 : 45,
+      height: (widget.MQ.orientation == Orientation.portrait)? 50 : 45,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -72,7 +72,9 @@ class _TopView extends State<TopView>{
 }
 
 class BrowseTableView extends StatefulWidget { //
-  static bool isPortrait = true;
+  const BrowseTableView({Key key, this.MQ}) : super(key: key);
+
+  final MediaQueryData MQ;
   static SearchRecords_FirebaseDB remoteDB = new SearchRecords_FirebaseDB();
   static SavedPrefsData savedPrefsData = new SavedPrefsData();
   static Iterable<MapEntry<String, dynamic>> searchRecords;
@@ -240,8 +242,8 @@ class _BrowseTableView extends State<BrowseTableView> {
           Container(
               color: BrowseTableView.bkColor,
               margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-              height: (BrowseTableView.isPortrait) ? 305.0 : 160.0,
-              child: (BrowseTableView.isPortrait)
+              height: (widget.MQ.orientation == Orientation.portrait) ? 305.0 : 160.0,
+              child: (widget.MQ.orientation == Orientation.portrait)
                   ? listDataDisplay
                   : gridDataDisplay
           ),
@@ -284,15 +286,41 @@ class _BrowseTableView extends State<BrowseTableView> {
   }
 }
 
+class HomeScreenView extends StatefulWidget {
+  @override
+  _HomeScreenView createState() => _HomeScreenView();
+}
+
+class _HomeScreenView extends State<HomeScreenView>{
+  MediaQueryData MQ;
+
+  @override
+  Widget build(BuildContext context) {
+    MQ = MediaQuery.of(context);
+
+    return Container(
+        color: HomeScreen.fullBk,
+        child: Column(
+          children: <Widget>[
+            Padding(padding: EdgeInsets.only(top: 10)),
+            TopView(MQ: MQ),
+            Padding(padding: EdgeInsets.only(top: 10)),
+            BrowseTableView(MQ: MQ)
+          ],
+        )
+    );
+  }
+}
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
+
+  // static MediaQueryData MQ; // Parent MQ, everything inherits from here
 
   static const Color fullBk = Color(0xFF1a495e);
   static const Color topBk = Color(0xFF16ab9c);
   static const Color midBk = Color(0xFF80c4bd);
   static const Color botBk = Color(0xFF1f78a1);
-
-  static MediaQueryData mq;
 
   @override
   _HomeScreen createState() => _HomeScreen();
@@ -302,30 +330,11 @@ class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: if else statement for screen orientation, app needs to change
+    // HomeScreen.MQ = MediaQuery.of(context);
+
     return MaterialApp(
       home:
-      OrientationBuilder(
-        builder: (context, orientation){
-          HomeScreen.mq = MediaQuery.of(context);
-
-          TopView.isPortrait = (orientation == Orientation.portrait) ? true : false;
-          BrowseTableView.isPortrait = (orientation == Orientation.portrait) ? true : false;
-
-          return
-          Container( // Not orientation dependent anymore!
-              color: HomeScreen.fullBk,
-              child: Column(
-                children: <Widget>[
-                  Padding(padding: EdgeInsets.only(top: 10)),
-                  TopView(),
-                  Padding(padding: EdgeInsets.only(top: 10)),
-                  BrowseTableView()
-                ],
-              )
-          );
-        }
-      )
+        HomeScreenView()
     );
   }
 }

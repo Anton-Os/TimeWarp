@@ -176,6 +176,10 @@ class Timeline_FirebaseDB{
         }
       }
 
+      // TODO: Implement a better comparison function
+      data.segments.sort((TimelineSegData a, TimelineSegData b) => a.tp1.year.compareTo(b.tp1.year));
+
+
     });
   }
 
