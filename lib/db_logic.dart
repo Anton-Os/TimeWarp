@@ -16,13 +16,13 @@ class SavedPrefsData {
 
     if(sharedPrefs.getStringList('exclusionIndices') == null)
       sharedPrefs.setStringList('exclusionIndices', exclusionIndices.map((i) => i.toString()).toList());
-    else
-      exclusionIndices = sharedPrefs.getStringList('exclusionIndices').map((s) => int.parse(s)).toList();
+    /* else
+      exclusionIndices = sharedPrefs.getStringList('exclusionIndices').map((s) => int.parse(s)).toList(); */
 
     if(sharedPrefs.getStringList('creationIndices') == null)
       sharedPrefs.setStringList('creationIndices', exclusionIndices.map((i) => i.toString()).toList());
-    else
-      creationIndices = sharedPrefs.getStringList('creationIndices').map((s) => int.parse(s)).toList();
+    /* else
+      creationIndices = sharedPrefs.getStringList('creationIndices').map((s) => int.parse(s)).toList(); */
   }
 
   void addExclusionIndex(int index){
@@ -60,6 +60,28 @@ class SearchRecords_FirebaseDB {
     });
   }
 
+  Iterable<MapEntry<String, dynamic>> getRecords(List<int> exclusionIndices, List<int> creationIndices){
+    if(searchRecMap.isEmpty){
+      print("Cannot call get records while empty");
+      return null;
+    }
+
+    List<MapEntry<String, dynamic>> finRecords = [];
+
+    // TODO: Make sure creation Indices are the first ones added to finRecords
+    // TODO: Loop below should check for
+    for(int r = 0; r < searchRecMap.length; r++){
+      bool skipCase = false;
+      exclusionIndices.forEach((element) {
+        if(element == r)
+          skipCase = true;
+      });
+
+      if(! skipCase) finRecords.add(searchRecMap.elementAt(r));
+    }
+
+    return finRecords;
+  }
   Iterable<MapEntry<String, dynamic>> searchRecMap = [];
 }
 

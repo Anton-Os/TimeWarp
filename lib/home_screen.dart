@@ -75,6 +75,7 @@ class BrowseTableView extends StatefulWidget { //
   static bool isPortrait = true;
   static SearchRecords_FirebaseDB remoteDB = new SearchRecords_FirebaseDB();
   static SavedPrefsData savedPrefsData = new SavedPrefsData();
+  static Iterable<MapEntry<String, dynamic>> searchRecords;
 
   static const Color bkColor = Color(0xFF193947);
   static const Color createBtnColor = Color(0xFF14ff9c);
@@ -94,16 +95,21 @@ class _BrowseTableView extends State<BrowseTableView> {
   Widget build(BuildContext context) {
     Widget listDataDisplay =
         FutureBuilder(
-        future: Future.wait([BrowseTableView.remoteDB.init(), BrowseTableView.savedPrefsData.init() ]),
+        future: Future.wait([BrowseTableView.savedPrefsData.init(), BrowseTableView.remoteDB.init()]),
         builder: (context, snapshot){
+
+        BrowseTableView.searchRecords = BrowseTableView.remoteDB.getRecords(
+          BrowseTableView.savedPrefsData.exclusionIndices,
+          BrowseTableView.savedPrefsData.creationIndices
+        );
+
         return
             ListView.builder(
             padding: EdgeInsets.zero,
-            itemCount: BrowseTableView.remoteDB.searchRecMap.length,
+            itemCount: BrowseTableView.searchRecords.length,
             itemBuilder: (context, index) {
                 return Container(
                     margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-                    // color: BrowseTableView.timelineBtnColor,
                     height: 20,
                     child: Row( // TODO: Load elements from another view class!
                         children: <Widget>[
@@ -122,11 +128,11 @@ class _BrowseTableView extends State<BrowseTableView> {
                                   onPressed: () {
                                     Navigator.push(
                                         context, MaterialPageRoute(builder: (context) =>
-                                          TimelineScreen(documentId: BrowseTableView.remoteDB.searchRecMap.elementAt(index).key.toString()))
+                                          TimelineScreen(documentId: BrowseTableView.searchRecords.elementAt(index).key.toString()))
                                         );
                                   },
-                                  child: Text(BrowseTableView.remoteDB.searchRecMap.elementAt(index).value.toString(),
-                                    style: (BrowseTableView.remoteDB.searchRecMap.elementAt(index).value.toString().length < 28)
+                                  child: Text(BrowseTableView.searchRecords.elementAt(index).value.toString(),
+                                    style: (BrowseTableView.searchRecords.elementAt(index).value.toString().length < 28)
                                             ? BrowseTableView.timelineBtnScriptL : BrowseTableView.timelineBtnScriptS
                                   )
                                 )
@@ -145,8 +151,9 @@ class _BrowseTableView extends State<BrowseTableView> {
                                           bottomRight: Radius.circular(3.0))
                                   ),
                                   onPressed: () {
-                                    BrowseTableView.savedPrefsData.addExclusionIndex(index);
-                                    // TODO: Rebuild the list here with the target index not displaying
+                                    setState(() {
+                                      BrowseTableView.savedPrefsData.addExclusionIndex(index);
+                                    });
                                   },
                                   child: Text("X", textAlign: TextAlign.right,
                                     style: BrowseTableView.timelineBtnScriptL
