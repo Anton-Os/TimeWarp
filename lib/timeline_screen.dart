@@ -10,9 +10,10 @@ import 'package:timewarpsoc/ui_beauty.dart';
 import 'package:timewarpsoc/timeline_seg_view.dart';
 
 class TimelineScreen extends StatefulWidget {
-  const TimelineScreen({ Key key, this.documentId }) : super(key: key);
+  const TimelineScreen({ Key key, this.documentId, this.documentName }) : super(key: key);
 
   final String documentId;
+  final String documentName;
 
   @override
   _TimelineScreen createState() => _TimelineScreen();
@@ -45,9 +46,9 @@ class _TimelineScreen extends State<TimelineScreen> {
               home:
                   OrientationBuilder(
                     builder: (context, orientation){
-                      TimelineSegView.isPortrait = (orientation == Orientation.portrait) ? true : false;
-                          // Setting color themes prior to list builder invocation, smart
-                          // TODO: Allow dynamic changes with the BottomAppBar
+                          TimelineSegView.isPortrait = (orientation == Orientation.portrait) ? true : false;
+                          TimelineSegView.titleStr = widget.documentName;
+
                           MapEntry colorsEntry;
                           colorsEntry = DB.data.themeColors.firstWhere((element) => element.key == "Title Colors");
 

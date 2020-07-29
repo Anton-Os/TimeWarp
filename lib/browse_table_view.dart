@@ -64,7 +64,10 @@ class _BrowseTableView extends State<BrowseTableView> {
                                       onPressed: () {
                                         Navigator.push(
                                             context, MaterialPageRoute(builder: (context) =>
-                                            TimelineScreen(documentId: BrowseTableView.searchRecords.elementAt(index).key.toString()))
+                                            TimelineScreen(
+                                                documentId: BrowseTableView.searchRecords.elementAt(index).key.toString(),
+                                                documentName: BrowseTableView.searchRecords.elementAt(index).value.toString(),
+                                            ))
                                         );
                                       },
                                       child: Text(BrowseTableView.searchRecords.elementAt(index).value.toString(),

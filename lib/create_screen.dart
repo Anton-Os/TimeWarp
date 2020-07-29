@@ -27,6 +27,7 @@ class _CreateScreen extends State<CreateScreen> {
   Widget targetWidgetS1; // left
   Widget targetWidgetM; // middle
   Widget targetWidgetS2; // right
+  Widget colorPickerTarget;
 
   TimelineSegView segment;
   Timeline_FirebaseDB DB;
@@ -59,13 +60,24 @@ class _CreateScreen extends State<CreateScreen> {
                       children: <Widget>[
                         // THESE ARE TITLE COLORS AND PADDING
                         // --------------------------------------------------------------
-                        SizedBox( // TODO: Replace this with a button class
+                        SizedBox(
                             height: 20,
                             width: 20,
                             child:
                             RaisedButton(
                               color: TimelineSegView.title_Colors.getPrimary,
-                              onPressed:() {},
+                              onPressed:() {
+                                showDialog<void>(
+                                  context: context,
+                                  builder: (BuildContext dialogContext) {
+                                    colorPickerTarget = ColorPickerView(pickerColor: TimelineSegView.title_Colors.getPrimary);
+                                    return colorPickerTarget;
+                                  },
+                                );
+
+                                // TODO: Make TimelineSegView.title_Colors.primary sync with the picker color
+                                // TODO: See if ^^^ can be done with .then() function
+                              },
                             )
                         ),
 

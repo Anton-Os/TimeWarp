@@ -58,7 +58,7 @@ class TimelineSegView {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("Geological Time Scale", textAlign: TextAlign.center, style: titleNameScript), // TODO: This needs to be dynamic as well
+                    Text(TimelineSegView.titleStr, textAlign: TextAlign.center, style: titleNameScript), // TODO: This needs to be dynamic as well
                     Text(this.data.titleDatesStr, textAlign: TextAlign.center, style: titleDateScript),
                     Text("\n\n" + this.data.titleDescStr, textAlign: TextAlign.center, style: titleSubscriptScript)
                   ],)
@@ -196,8 +196,8 @@ class TimelineSegView {
   final int index;
   TimelineData data; // Data could be null if in creation mode
 
+  static String titleStr;
   static int itemIndex = 0; // Knows where to access the item data for timeline
-  bool colorsInit = false;
   static const double fillerHeight = 130.0;
   static bool isPortrait = true;
 
