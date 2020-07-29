@@ -10,7 +10,6 @@ class ColorPickerView extends StatefulWidget {
   Color targetColor;
   COLORSCHEME_Target colorTarget;
   TimelineColorScheme colorScheme;
-  // String titleText; // TODO: Use switch case and replace the title text in AlertDialog!
 
   Color get getTargetColor { return targetColor; }
 
@@ -27,13 +26,29 @@ class _ColorPickerView extends State<ColorPickerView>{
   @override
   Widget build(BuildContext context) {
 
+    String titleText;
+    switch(widget.colorTarget){
+      case COLORSCHEME_Target.Primary:
+        titleText = "Choose A Primary Color";
+        break;
+      case COLORSCHEME_Target.Secondary:
+        titleText = "Choose A Secondary Color";
+        break;
+      case COLORSCHEME_Target.Filler:
+        titleText = "Choose A Filler Color";
+        break;
+      case COLORSCHEME_Target.Text:
+        titleText = "Choose A Text Color";
+        break;
+    }
+
     return AlertDialog(
-      title: Text("Choose a Color"),
+      title: Text(titleText),
       content: SingleChildScrollView(
         child:
           MaterialPicker(
-          pickerColor: widget.pickerColor,
-          onColorChanged: changeColor
+            pickerColor: widget.pickerColor,
+            onColorChanged: changeColor
           ) // TODO: Make this disabled in landscape mode
       ),
       actions: <Widget>[

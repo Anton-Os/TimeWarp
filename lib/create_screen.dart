@@ -60,138 +60,29 @@ class _CreateScreen extends State<CreateScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       // crossAxisAlignment: CrossAxisAlignment.baseline,
                       children: <Widget>[
-                        // THESE ARE TITLE COLORS AND PADDING
-                        // --------------------------------------------------------------
-                        /* SizedBox(
-                            height: 20,
-                            width: 20,
-                            child:
-                            RaisedButton(
-                              color: TimelineSegView.title_Colors.getPrimary,
-                              onPressed:() {
-                                showDialog<void>(
-                                  context: context,
-                                  builder: (BuildContext dialogContext) {
-                                    colorPickerTarget = ColorPickerView(pickerColor: TimelineSegView.title_Colors.getPrimary);
-                                    return colorPickerTarget;
-                                  },
-                               );
-                              },
-                            )
-                        ), */
-                        ColorPickerButton(colorTarget: COLORSCHEME_Target.Primary, colorScheme: TimelineSegView.title_Colors),
-
+                        ColorPickerButton(isEnlarged: true, colorTarget: COLORSCHEME_Target.Primary, colorScheme: TimelineSegView.title_Colors),
                         Padding(padding: EdgeInsets.fromLTRB(3, 16, 3, 16),),
-
-                        SizedBox( // TODO: Replace this with a button class
-                            height: 20,
-                            width: 20,
-                            child:
-                            RaisedButton(
-                              color: TimelineSegView.title_Colors.getSecondary,
-                              onPressed:() {},
-                            )
-                        ),
-
+                        ColorPickerButton(isEnlarged: true, colorTarget: COLORSCHEME_Target.Secondary, colorScheme: TimelineSegView.title_Colors),
                         Padding(padding: EdgeInsets.fromLTRB(3, 16, 3, 16),),
-
-                        SizedBox( // TODO: Replace this with a button class
-                            height: 20,
-                            width: 20,
-                            child:
-                            RaisedButton(
-                              color: TimelineSegView.title_Colors.getText,
-                              onPressed:() {},
-                            )
-                        ),
+                        ColorPickerButton(isEnlarged: true, colorTarget: COLORSCHEME_Target.Text, colorScheme: TimelineSegView.title_Colors),
 
                         Padding(padding: EdgeInsets.fromLTRB(6, 16, 6, 16),), // Extra Padding to divide sections
 
-                        // THESE ARE ITEM COLORS AND PADDING
-                        // --------------------------------------------------------------
-                        SizedBox( // TODO: Replace this with a button class
-                            height: 16,
-                            width: 16,
-                            child:
-                            RaisedButton(
-                              color: TimelineSegView.items_Colors.getPrimary,
-                              onPressed:() {},
-                            )
-                        ),
-
+                        ColorPickerButton(isEnlarged: false, colorTarget: COLORSCHEME_Target.Primary, colorScheme: TimelineSegView.items_Colors),
                         Padding(padding: EdgeInsets.fromLTRB(3, 16, 3, 16),),
-
-                        SizedBox( // TODO: Replace this with a button class
-                            height: 16,
-                            width: 16,
-                            child:
-                            RaisedButton(
-                              color: TimelineSegView.items_Colors.getSecondary,
-                              onPressed:() {},
-                            )
-                        ),
-
+                        ColorPickerButton(isEnlarged: false, colorTarget: COLORSCHEME_Target.Secondary, colorScheme: TimelineSegView.items_Colors),
                         Padding(padding: EdgeInsets.fromLTRB(3, 16, 3, 16),),
-
-                        SizedBox( // TODO: Replace this with a button class
-                            height: 16,
-                            width: 16,
-                            child:
-                            RaisedButton(
-                              color: TimelineSegView.items_Colors.getText,
-                              onPressed:() {},
-                            )
-                        ),
-
+                        ColorPickerButton(isEnlarged: false, colorTarget: COLORSCHEME_Target.Text, colorScheme: TimelineSegView.items_Colors),
                         Padding(padding: EdgeInsets.fromLTRB(3, 16, 3, 16),),
-
-                        SizedBox( // TODO: Replace this with a button class
-                            height: 16,
-                            width: 16,
-                            child:
-                            RaisedButton(
-                              color: TimelineSegView.title_Colors.getFiller,
-                              onPressed:() {},
-                            )
-                        ),
+                        ColorPickerButton(isEnlarged: false, colorTarget: COLORSCHEME_Target.Filler, colorScheme: TimelineSegView.items_Colors),
 
                         Padding(padding: EdgeInsets.fromLTRB(6, 16, 6, 16),), // Extra Padding to divide sections
 
-                        // THESE ARE CENTER COLORS AND PADDING
-                        // --------------------------------------------------------------
-                        SizedBox( // TODO: Replace this with a button class
-                            height: 20,
-                            width: 20,
-                            child:
-                            RaisedButton(
-                              color: TimelineSegView.center_Colors.getPrimary,
-                              onPressed:() {},
-                            )
-                        ),
-
+                        ColorPickerButton(isEnlarged: true, colorTarget: COLORSCHEME_Target.Primary, colorScheme: TimelineSegView.center_Colors),
                         Padding(padding: EdgeInsets.fromLTRB(3, 16, 3, 16),),
-
-                        SizedBox( // TODO: Replace this with a button class
-                            height: 20,
-                            width: 20,
-                            child:
-                            RaisedButton(
-                              color: TimelineSegView.center_Colors.getSecondary,
-                              onPressed:() {},
-                            )
-                        ),
-
+                        ColorPickerButton(isEnlarged: true, colorTarget: COLORSCHEME_Target.Secondary, colorScheme: TimelineSegView.center_Colors),
                         Padding(padding: EdgeInsets.fromLTRB(3, 16, 3, 16),),
-
-                        SizedBox( // TODO: Replace this with a button class
-                            height: 20,
-                            width: 20,
-                            child:
-                            RaisedButton(
-                              color: TimelineSegView.center_Colors.getText,
-                              onPressed:() {},
-                            )
-                        )
+                        ColorPickerButton(isEnlarged: true, colorTarget: COLORSCHEME_Target.Text, colorScheme: TimelineSegView.center_Colors),
 
                       ],
                     ),

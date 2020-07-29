@@ -4,9 +4,10 @@ import 'package:timewarpsoc/ui_beauty.dart';
 import 'package:timewarpsoc/create/color_picker_view.dart';
 
 class ColorPickerButton extends StatefulWidget {
-  ColorPickerButton({Key key, this.colorTarget, this.colorScheme}) : super(key: key);
+  ColorPickerButton({Key key, this.isEnlarged, this.colorTarget, this.colorScheme}) : super(key: key);
 
-  Color bkColor;
+  Color bkColor; // Possibly move to the State Class
+  bool isEnlarged;
   COLORSCHEME_Target colorTarget;
   TimelineColorScheme colorScheme;
 
@@ -37,8 +38,8 @@ class _ColorPickerButton extends State<ColorPickerButton> {
     // ColorPickerView colorPickerView = ColorPickerView(pickerColor: widget.bkColor);
 
     return SizedBox(
-        height: 20,
-        width: 20,
+        height: (widget.isEnlarged)? 20 : 16,
+        width: (widget.isEnlarged)? 20 : 16,
         child:
         RaisedButton(
           color: widget.bkColor,

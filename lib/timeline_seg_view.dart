@@ -186,7 +186,7 @@ class TimelineSegView {
         } else {
           print("Scalable filler space");
           targetWidgetS1 = new Expanded(flex: 5, child: Container(color: items_Colors.filler, height: TimelineSegView.fillerHeight)); // The height is dynamic
-          targetWidgetM = new Expanded(flex: 2, child: Container(color: center_Colors.primary, height: TimelineSegView.fillerHeight)); // The height is dynamic
+          targetWidgetM = new Expanded(flex: 2, child: Container(color: center_Colors.secondary, height: TimelineSegView.fillerHeight)); // The height is dynamic
           targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_Colors.filler, height: TimelineSegView.fillerHeight)); // The height is dynamic
         }
         break;
