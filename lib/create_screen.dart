@@ -13,9 +13,10 @@ import 'package:timewarpsoc/create/add_item_screen.dart';
 import 'package:timewarpsoc/create/color_picker_view.dart';
 
 class CreateScreen extends StatefulWidget {
-  const CreateScreen({ Key key, this.docStr }) : super(key: key);
+  const CreateScreen({ Key key, this.docStr, this.docName }) : super(key: key);
 
   final String docStr;
+  final String docName;
 
   static const Color navElemColor = Color(0xFFe6a673);
 
@@ -73,10 +74,9 @@ class _CreateScreen extends State<CreateScreen> {
                                     colorPickerTarget = ColorPickerView(pickerColor: TimelineSegView.title_Colors.getPrimary);
                                     return colorPickerTarget;
                                   },
-                                );
+                               );
 
-                                // TODO: Make TimelineSegView.title_Colors.primary sync with the picker color
-                                // TODO: See if ^^^ can be done with .then() function
+                                // TimelineSegView.title_Colors.setPrimary =
                               },
                             )
                         ),
@@ -207,8 +207,10 @@ class _CreateScreen extends State<CreateScreen> {
                   body:
                   OrientationBuilder(
                       builder: (context, orientation){
-                        TimelineSegView.isPortrait = (orientation == Orientation.portrait) ? true : false;
-                          // Setting color themes prior to list builder invocation, smart
+                        // TODO: Replace with Media Query Calls
+                          TimelineSegView.isPortrait = (orientation == Orientation.portrait) ? true : false;
+                          TimelineSegView.titleStr = widget.docName;
+
                           // TODO: Allow dynamic changes with the BottomAppBar
                           MapEntry colorsEntry;
                           colorsEntry = DB.data.themeColors.firstWhere((element) => element.key == "Title Colors");

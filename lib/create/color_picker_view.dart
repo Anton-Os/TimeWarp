@@ -21,17 +21,17 @@ class _ColorPickerView extends State<ColorPickerView>{
     setState(() => widget.pickerColor = color);
   }
 
+  // TODO: Fix color picker, make entry look nicer
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("Choose a Color"), // TODO: Add what the color is targeting
       content: SingleChildScrollView(
-        child: ColorPicker(
+        child:
+          MaterialPicker(
           pickerColor: widget.pickerColor,
-          onColorChanged: changeColor,
-          showLabel: true,
-          pickerAreaHeightPercent: 0.8,
-        ),
+          onColorChanged: changeColor
+          ) // TODO: Make this disabled in landscape mode
       ),
       actions: <Widget>[
         FlatButton(

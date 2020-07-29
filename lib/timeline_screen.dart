@@ -46,6 +46,7 @@ class _TimelineScreen extends State<TimelineScreen> {
               home:
                   OrientationBuilder(
                     builder: (context, orientation){
+                          // TODO: Replace with Media Query Calls
                           TimelineSegView.isPortrait = (orientation == Orientation.portrait) ? true : false;
                           TimelineSegView.titleStr = widget.documentName;
 

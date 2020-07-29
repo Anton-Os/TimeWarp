@@ -7,6 +7,11 @@ class TimelineColorScheme {
   Color filler = new Color(0xFFdddddd);
   Color text = new Color(0xFFdddddd);
 
+  set setPrimary (Color targetColor){ primary = targetColor; }
+  set setSecondary (Color targetColor){ secondary = targetColor; }
+  set setFiller (Color targetColor){ filler = targetColor; }
+  set setText (Color targetColor){ text = targetColor; }
+
   Color get getPrimary { return primary; }
   Color get getSecondary { return secondary; }
   Color get getFiller { return filler; }

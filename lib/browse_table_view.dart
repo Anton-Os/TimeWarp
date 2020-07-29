@@ -209,7 +209,9 @@ class _BrowseTableView extends State<BrowseTableView> {
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (context) =>
                                     CreateScreen(
-                                      docStr: 'E7GSISGNZkqJrgO93Djr',)));
+                                      docStr: 'E7GSISGNZkqJrgO93Djr',
+                                      docName: 'Creation!',
+                                    )));
                           },
                           child: Text("New Timeline",
                               style: BrowseTableView.lowBtnScript),
