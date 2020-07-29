@@ -10,7 +10,8 @@ import 'package:timewarpsoc/ui_beauty.dart';
 import 'package:timewarpsoc/timeline_seg_view.dart';
 
 import 'package:timewarpsoc/create/add_item_screen.dart';
-import 'package:timewarpsoc/create/color_picker_view.dart';
+// import 'package:timewarpsoc/create/color_picker_view.dart';
+import 'package:timewarpsoc/create/color_picker_button.dart';
 
 class CreateScreen extends StatefulWidget {
   const CreateScreen({ Key key, this.docStr, this.docName }) : super(key: key);
@@ -28,7 +29,7 @@ class _CreateScreen extends State<CreateScreen> {
   Widget targetWidgetS1; // left
   Widget targetWidgetM; // middle
   Widget targetWidgetS2; // right
-  Widget colorPickerTarget;
+  // ColorPickerView colorPickerTarget;
 
   TimelineSegView segment;
   Timeline_FirebaseDB DB;
@@ -61,7 +62,7 @@ class _CreateScreen extends State<CreateScreen> {
                       children: <Widget>[
                         // THESE ARE TITLE COLORS AND PADDING
                         // --------------------------------------------------------------
-                        SizedBox(
+                        /* SizedBox(
                             height: 20,
                             width: 20,
                             child:
@@ -75,11 +76,10 @@ class _CreateScreen extends State<CreateScreen> {
                                     return colorPickerTarget;
                                   },
                                );
-
-                                // TimelineSegView.title_Colors.setPrimary =
                               },
                             )
-                        ),
+                        ), */
+                        ColorPickerButton(colorTarget: COLORSCHEME_Target.Primary, colorScheme: TimelineSegView.title_Colors),
 
                         Padding(padding: EdgeInsets.fromLTRB(3, 16, 3, 16),),
 

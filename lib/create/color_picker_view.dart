@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'package:timewarpsoc/ui_beauty.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-
-
 class ColorPickerView extends StatefulWidget {
-  ColorPickerView({Key key, this.pickerColor}) : super(key: key);
+  ColorPickerView({Key key, this.pickerColor, this.colorTarget, this.colorScheme}) : super(key: key);
 
   Color pickerColor;
   Color targetColor;
+  COLORSCHEME_Target colorTarget;
+  TimelineColorScheme colorScheme;
+  // String titleText; // TODO: Use switch case and replace the title text in AlertDialog!
 
   Color get getTargetColor { return targetColor; }
 
@@ -24,8 +26,9 @@ class _ColorPickerView extends State<ColorPickerView>{
   // TODO: Fix color picker, make entry look nicer
   @override
   Widget build(BuildContext context) {
+
     return AlertDialog(
-      title: Text("Choose a Color"), // TODO: Add what the color is targeting
+      title: Text("Choose a Color"),
       content: SingleChildScrollView(
         child:
           MaterialPicker(
@@ -35,7 +38,7 @@ class _ColorPickerView extends State<ColorPickerView>{
       ),
       actions: <Widget>[
         FlatButton(
-          child: const Text('Got it'),
+          child: const Text('Select'),
           onPressed: () {
             setState(() => widget.targetColor = widget.pickerColor);
             Navigator.of(context).pop();
