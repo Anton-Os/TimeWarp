@@ -1,41 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-enum TIMEPICKER_Target {
-  Start,
-  End
-}
-
-class TimePicker extends StatefulWidget {
-  const TimePicker({Key key, this.type}) : super(key: key);
-
-  final TIMEPICKER_Target type;
-
-  // TODO: Make the colors based on the existing color themes
-  static const Color bkColor = Color(0xFFe6ba97);
-  static const TextStyle textInputScript = TextStyle( fontSize: 10, color: Color(0xFF5e1b38), decoration: TextDecoration.none, fontFamily: 'Quicksand');
-
-  @override
-  _TimePicker createState() => _TimePicker();
-}
-
-class _TimePicker extends State<TimePicker> {
-  @override
-  Widget build(BuildContext context) {
-    return
-      Container(
-        color: TimePicker.bkColor,
-        margin: EdgeInsets.all(4.0),
-        child:
-        SizedBox.expand(
-          child: // TODO: Make this a column with selectable dates and times
-            Text('Start Time', style: TimePicker.textInputScript)
-        )
-      );
-    /*return
-      Text('Start Time', style: TimePicker.textInputScript); */
-  }
-}
+import 'package:timewarpsoc/create/time_picker_view.dart';
+import 'package:timewarpsoc/timeline_types.dart';
 
 class AddItemScreen extends StatefulWidget {
 
@@ -99,14 +66,14 @@ class _AddItemScreen extends State<AddItemScreen> {
                 ),
                 Padding(padding: EdgeInsets.only(top: 10)),
                 Container(
-                  height: 240.0,
+                  height: 200.0,
                   margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
                   color: AddItemScreen.fieldColor,
                   child:
-                  Row(
+                  Row( // TODO: Add a button to change the scale type
                     children: <Widget>[
-                      Expanded( child: TimePicker(type: TIMEPICKER_Target.Start)),
-                      Expanded( child: TimePicker(type: TIMEPICKER_Target.End))
+                      Expanded( child: TimePickerView(scale: TIME_Scale.Years)),
+                      Expanded( child: TimePickerView(scale: TIME_Scale.Years))
                     ],
                   ),
                 ),
