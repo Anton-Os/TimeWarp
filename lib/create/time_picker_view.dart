@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,9 @@ class TimePickerField extends StatefulWidget {
   }
 
   int currentVal = 0;
+  int longPressRepeat = 0;
+  List<int> smartLongPressInc = { 5, 10, 20, 50, 100 };
+
   final TIME_Scale scale;
   final String placeholder;
   final int lowerLimit;
@@ -27,10 +31,8 @@ class _TimePickerField extends State<TimePickerField> {
   Widget build(BuildContext context) {
     return Container(
       height: 24.0,
-      // padding: EdgeInsets.only(left: 5),
       margin: EdgeInsets.fromLTRB(2, 2, 2, 0),
-      color: TimePickerField.fieldColor,
-      // child: Text(widget.placeholder, style: TimePickerField.textInputScript)
+      color: TimePickerField.fieldColor,]
       child: Row(
         children: <Widget>[
           Expanded(
@@ -42,10 +44,15 @@ class _TimePickerField extends State<TimePickerField> {
             child: SizedBox.expand(
               child: RaisedButton(
                 onPressed: (){
-
+                  widget.currentVal--;
+                  longPressRepeat = 0;
+                  setState((){ }); // TODO: Make sure this does not reset
                 },
                 onLongPress: (){
-
+                  int smartIncIndex = (longPressRepeat > 4)? 4 : longPressRepeat; // Clamping the index value
+                  longPressRepeat -= widget.smartLongPressInc[smartIncIndex];
+                  longPressRepeat++;
+                  setState((){ });  // TODO: Make sure this does not reset
                 },
               )
             )
@@ -59,10 +66,15 @@ class _TimePickerField extends State<TimePickerField> {
               child: SizedBox.expand(
                   child: RaisedButton(
                     onPressed: (){
-
+                      widget.currentVal++;
+                      longPressRepeat = 0;
+                      setState((){ }); // TODO: Make sure this does not reset
                     },
                     onLongPress: (){
-
+                      int smartIncIndex = (longPressRepeat > 4)? 4 : longPressRepeat; // Clamping the index value
+                      longPressRepeat += widget.smartLongPressInc[smartIncIndex];
+                      longPressRepeat++;
+                      setState((){ });  // TODO: Make sure this does not reset
                     },
                   )
               )

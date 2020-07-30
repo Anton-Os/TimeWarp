@@ -35,8 +35,6 @@ class _ColorPickerButton extends State<ColorPickerButton> {
         break;
     }
 
-    // ColorPickerView colorPickerView = ColorPickerView(pickerColor: widget.bkColor);
-
     return SizedBox(
         height: (widget.isEnlarged)? 20 : 16,
         width: (widget.isEnlarged)? 20 : 16,
@@ -54,6 +52,9 @@ class _ColorPickerButton extends State<ColorPickerButton> {
                 );
               },
             );
+            print("Dialog Exited!") // See when this output occurs
+            widget.bkColor = ColorPickerView.targetColor;
+            setState(() {}); // Reloading button color
           },
         )
     );

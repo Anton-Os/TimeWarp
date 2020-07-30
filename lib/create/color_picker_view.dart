@@ -6,12 +6,10 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 class ColorPickerView extends StatefulWidget {
   ColorPickerView({Key key, this.pickerColor, this.colorTarget, this.colorScheme}) : super(key: key);
 
+  static Color targetColor; // This should be accessible once the view terminates
   Color pickerColor;
-  Color targetColor;
   COLORSCHEME_Target colorTarget;
   TimelineColorScheme colorScheme;
-
-  Color get getTargetColor { return targetColor; }
 
   @override
   _ColorPickerView createState() => _ColorPickerView();
@@ -55,7 +53,7 @@ class _ColorPickerView extends State<ColorPickerView>{
         FlatButton(
           child: const Text('Select'),
           onPressed: () {
-            setState(() => widget.targetColor = widget.pickerColor);
+            setState(() => ColorPickerView.targetColor = widget.pickerColor);
             Navigator.of(context).pop();
           },
         ),
