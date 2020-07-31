@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:timewarpsoc/create/time_picker_view.dart';
+import 'package:timewarpsoc/create_screen.dart';
 import 'package:timewarpsoc/helper/db_logic.dart';
 import 'package:timewarpsoc/helper/timeline_types.dart';
 
 class AddItemScreen extends StatefulWidget {
-  AddItemScreen({Key key, this.DB}) : super(key: key);
+  AddItemScreen({Key key, this.DB }) : super(key: key);
 
   final Timeline_FirebaseDB DB;
   TimelineSegData segment;
@@ -126,7 +127,7 @@ class _AddItemScreen extends State<AddItemScreen> {
                               print("Years are $testYear1 and $testYear2");
                               // END OF TESTING
 
-                              widget.DB.addDataSeg();
+                              widget.DB.addDataSeg(widget.segment);
 
                               Navigator.pop(context); // Pop performed
                             } else {

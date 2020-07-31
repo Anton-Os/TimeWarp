@@ -114,7 +114,7 @@ class _CreateScreen extends State<CreateScreen> {
                       backgroundColor: CreateScreen.navElemColor,
                       mini: true,
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddItemScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddItemScreen(DB: DB)));
                       }
                   ),
                   body:

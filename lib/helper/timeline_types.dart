@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 
 enum TIME_Months { NA, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec }
-enum TIME_Scale { NA, Years, Epochs, Hourly}
+enum TIME_Scale { NA, Years, Epochs, Precision}
 enum TIME_Extension { NA, ACE, BCE, MYA }
 
 // Retrieve the extension, ACE, BCE, or MYA from a string
@@ -63,7 +63,7 @@ TIME_Extension getExtFromScale(TIME_Scale scale){
     case TIME_Scale.Years:
       return TIME_Extension.ACE;
       break;
-    case TIME_Scale.Hourly:
+    case TIME_Scale.Precision:
       return TIME_Extension.ACE;
       break;
     case TIME_Scale.Epochs:

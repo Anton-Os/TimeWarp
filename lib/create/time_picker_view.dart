@@ -1,11 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:timewarpsoc/helper/timeline_types.dart';
 
 class TimePickerField extends StatefulWidget {
-  TimePickerField({Key key, this.scale, this.placeholder, this.lowerLimit, this.upperLimit}) : super(key: key) {
+  TimePickerField({Key key, this.scale, this.currentVal, this.placeholder, this.lowerLimit, this.upperLimit}) : super(key: key) {
     assert(upperLimit > lowerLimit);
   }
 
@@ -33,6 +34,27 @@ class _TimePickerField extends State<TimePickerField> {
   @override
   Widget build(BuildContext context) {
     int newVal = widget.currentVal;
+
+    switch(widget.scale){
+      case TIME_Scale.Epochs:
+        switch(widget.placeholder){
+          case("Month"): case("Day"): case("Hour"): case("Minute"):
+            widget.isActive = false;
+            break;
+        }
+        break;
+      case TIME_Scale.Years:
+        switch(widget.placeholder){
+          case("Hour"): case("Minute"):
+          widget.isActive = false;
+          break;
+        }
+        break;
+      default: // With precision scale all of the time parameters have some value
+        break;
+    }
+
+    String valSting = widget.currentVal.toString();
 
     /* if(widget.placeholder == "Year") // SPECIAL CASE!
        else if(widget.placeholder == "Month") // SPECIAL CASE
@@ -70,7 +92,9 @@ class _TimePickerField extends State<TimePickerField> {
           ),
           Expanded(
               flex: 3,
-              child: Text(widget.currentVal.toString(), style: TimePickerField.numScript, textAlign: TextAlign.center)
+              child: (widget.isActive)
+                  ? Text(valSting, style: TimePickerField.numScript, textAlign: TextAlign.center)
+                  : Text("Not Available", style: TimePickerField.numScript, textAlign: TextAlign.center)
           ),
           Expanded( // Decrement Button, TODO: Add Image as child
               flex: 1,
@@ -139,11 +163,11 @@ class TimePickerView extends StatefulWidget {
 class _TimePickerView extends State<TimePickerView> {
   @override
   Widget build(BuildContext context) {
-    widget.yearField = TimePickerField(placeholder: "Year", lowerLimit: 0, upperLimit: 4000);
-    widget.monthField = TimePickerField(placeholder: "Month", lowerLimit: 1, upperLimit: 12);
-    widget.dayField = TimePickerField(placeholder: "Day", lowerLimit: 1, upperLimit: 31);
-    widget.hourField = TimePickerField(placeholder: "Hour", lowerLimit: 1, upperLimit: 24);
-    widget.minuteField = TimePickerField(placeholder: "Minute", lowerLimit: 1, upperLimit: 60);
+    widget.yearField = TimePickerField(currentVal: (widget.scale != TIME_Scale.Epochs)? 2000 : 100, placeholder: "Year", lowerLimit: 0, upperLimit: 4000);
+    widget.monthField = TimePickerField(currentVal: 0, placeholder: "Month", lowerLimit: 1, upperLimit: 12);
+    widget.dayField = TimePickerField(currentVal: 0, placeholder: "Day", lowerLimit: 1, upperLimit: 31);
+    widget.hourField = TimePickerField(currentVal: (widget.scale != TIME_Scale.Precision)? 0 : 12, placeholder: "Hour", lowerLimit: 1, upperLimit: 24);
+    widget.minuteField = TimePickerField(currentVal: 0, placeholder: "Minute", lowerLimit: 1, upperLimit: 60);
 
     return
       Container(

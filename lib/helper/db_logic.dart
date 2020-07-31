@@ -187,10 +187,13 @@ class Timeline_FirebaseDB extends ChangeNotifier {
             if(seg1.tp1.day.compareTo(seg2.tp1.day) != 0) return seg1.tp1.day.compareTo(seg2.tp1.day); // Days Match for else statement
             else return seg1.tp1.hour.compareTo(seg2.tp1.hour);
       });
+
+      notifyListeners();
     });
   }
 
-  void addDataSeg(){
+  void addDataSeg(TimelineSegData newSegData){
+    data.segments.add(newSegData);
 
     // Comparison function accurate down to hour comparison
     data.segments.sort((TimelineSegData seg1, TimelineSegData seg2) {
