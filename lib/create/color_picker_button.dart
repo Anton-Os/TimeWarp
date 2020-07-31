@@ -52,7 +52,9 @@ class _ColorPickerButton extends State<ColorPickerButton> {
                 );
               },
             );
-            print("Dialog Exited!") // See when this output occurs
+
+            // This needs to fit into the ColorPickerView call
+            print("Dialog Exited!"); // See when this output occurs
             widget.bkColor = ColorPickerView.targetColor;
             setState(() {}); // Reloading button color
           },

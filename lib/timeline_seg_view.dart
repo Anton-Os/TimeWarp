@@ -132,9 +132,28 @@ class TimelineSegView {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("Geological Time Scale", textAlign: TextAlign.center, style: titleNameScript), // TODO: This needs to be dynamic as well
-                    Text(this.data.titleDatesStr, textAlign: TextAlign.center, style: titleDateScript),
-                    Text("\n\n" + this.data.titleDescStr, textAlign: TextAlign.center, style: titleSubscriptScript)
+                    Text(TimelineSegView.titleStr, textAlign: TextAlign.center, style: titleNameScript),
+
+                    TextField(
+                      style: titleDateScript,
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration(
+                          hintText: "Put the timescale here",
+                          hintStyle: titleDateScript,
+                          border: InputBorder.none
+                      ),
+                    ),
+
+                    TextField(
+                      style: titleSubscriptScript,
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration(
+                          hintText: "Describe your timeline here",
+                          hintStyle: titleSubscriptScript,
+                          border: InputBorder.none
+                      ),
+                    ),
+
                   ],)
             ));
         targetWidgetS2 = new Expanded(flex: 1, child: Container(color: title_Colors.secondary, height: 300.0));
@@ -186,7 +205,7 @@ class TimelineSegView {
         } else {
           print("Scalable filler space");
           targetWidgetS1 = new Expanded(flex: 5, child: Container(color: items_Colors.filler, height: TimelineSegView.fillerHeight)); // The height is dynamic
-          targetWidgetM = new Expanded(flex: 2, child: Container(color: center_Colors.secondary, height: TimelineSegView.fillerHeight)); // The height is dynamic
+          targetWidgetM = new Expanded(flex: 2, child: Container(color: center_Colors.primary, height: TimelineSegView.fillerHeight)); // The height is dynamic
           targetWidgetS2 = new Expanded(flex: 5, child: Container(color: items_Colors.filler, height: TimelineSegView.fillerHeight)); // The height is dynamic
         }
         break;

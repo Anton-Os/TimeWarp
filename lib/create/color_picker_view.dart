@@ -28,15 +28,19 @@ class _ColorPickerView extends State<ColorPickerView>{
     switch(widget.colorTarget){
       case COLORSCHEME_Target.Primary:
         titleText = "Choose A Primary Color";
+        widget.pickerColor = widget.colorScheme.primary;
         break;
       case COLORSCHEME_Target.Secondary:
         titleText = "Choose A Secondary Color";
+        widget.pickerColor = widget.colorScheme.secondary;
         break;
       case COLORSCHEME_Target.Filler:
         titleText = "Choose A Filler Color";
+        widget.pickerColor = widget.colorScheme.filler;
         break;
       case COLORSCHEME_Target.Text:
         titleText = "Choose A Text Color";
+        widget.pickerColor = widget.colorScheme.text;
         break;
     }
 
@@ -54,6 +58,22 @@ class _ColorPickerView extends State<ColorPickerView>{
           child: const Text('Select'),
           onPressed: () {
             setState(() => ColorPickerView.targetColor = widget.pickerColor);
+
+            /* switch(widget.colorTarget){
+              case COLORSCHEME_Target.Primary:
+                widget.colorScheme.setPrimary = ColorPickerView.targetColor;
+                break;
+              case COLORSCHEME_Target.Secondary:
+                widget.colorScheme.setSecondary = ColorPickerView.targetColor;
+                break;
+              case COLORSCHEME_Target.Filler:
+                widget.colorScheme.setFiller = ColorPickerView.targetColor;
+                break;
+              case COLORSCHEME_Target.Text:
+                widget.colorScheme.setText = ColorPickerView.targetColor;
+                break;
+            } */
+
             Navigator.of(context).pop();
           },
         ),

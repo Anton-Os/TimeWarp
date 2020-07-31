@@ -11,7 +11,7 @@ class TimePickerField extends StatefulWidget {
 
   int currentVal = 0;
   int longPressRepeat = 0;
-  List<int> smartLongPressInc = { 5, 10, 20, 50, 100 };
+  List<int> smartLongPressInc = [ 5, 5, 10, 10, 20, 20, 50, 100 ];
 
   final TIME_Scale scale;
   final String placeholder;
@@ -29,10 +29,12 @@ class TimePickerField extends StatefulWidget {
 class _TimePickerField extends State<TimePickerField> {
   @override
   Widget build(BuildContext context) {
+    int newVal = widget.currentVal;
+
     return Container(
       height: 24.0,
       margin: EdgeInsets.fromLTRB(2, 2, 2, 0),
-      color: TimePickerField.fieldColor,]
+      color: TimePickerField.fieldColor,
       child: Row(
         children: <Widget>[
           Expanded(
@@ -45,14 +47,16 @@ class _TimePickerField extends State<TimePickerField> {
               child: RaisedButton(
                 onPressed: (){
                   widget.currentVal--;
-                  longPressRepeat = 0;
-                  setState((){ }); // TODO: Make sure this does not reset
+                  widget.longPressRepeat = 0;
+                  if(widget.currentVal < widget.lowerLimit) widget.currentVal++;
+                  setState((){ });
                 },
                 onLongPress: (){
-                  int smartIncIndex = (longPressRepeat > 4)? 4 : longPressRepeat; // Clamping the index value
-                  longPressRepeat -= widget.smartLongPressInc[smartIncIndex];
-                  longPressRepeat++;
-                  setState((){ });  // TODO: Make sure this does not reset
+                  int smartIncIndex = (widget.longPressRepeat > widget.smartLongPressInc.length - 1)? widget.smartLongPressInc.length - 1 : widget.longPressRepeat; // Clamping the index value
+                  widget.longPressRepeat -= widget.smartLongPressInc[smartIncIndex];
+                  widget.longPressRepeat++;
+                  if(widget.currentVal < widget.lowerLimit) widget.currentVal = widget.lowerLimit;
+                  setState((){ });
                 },
               )
             )
@@ -67,13 +71,15 @@ class _TimePickerField extends State<TimePickerField> {
                   child: RaisedButton(
                     onPressed: (){
                       widget.currentVal++;
-                      longPressRepeat = 0;
+                      widget.longPressRepeat = 0;
+                      if(widget.currentVal > widget.upperLimit) widget.currentVal--;
                       setState((){ }); // TODO: Make sure this does not reset
                     },
                     onLongPress: (){
-                      int smartIncIndex = (longPressRepeat > 4)? 4 : longPressRepeat; // Clamping the index value
-                      longPressRepeat += widget.smartLongPressInc[smartIncIndex];
-                      longPressRepeat++;
+                      int smartIncIndex = (widget.longPressRepeat > widget.smartLongPressInc.length - 1)? widget.smartLongPressInc.length - 1 : widget.longPressRepeat; // Clamping the index value
+                      widget.longPressRepeat += widget.smartLongPressInc[smartIncIndex];
+                      widget.longPressRepeat++;
+                      if(widget.currentVal > widget.upperLimit) widget.currentVal = widget.upperLimit;
                       setState((){ });  // TODO: Make sure this does not reset
                     },
                   )

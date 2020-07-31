@@ -129,7 +129,7 @@ class _CreateScreen extends State<CreateScreen> {
                             itemBuilder: (context, index) {
 
                               if(index == 0) TimelineSegView.itemIndex = 0; // Needs to reset when the builder starts over with first element
-                              segment = new TimelineSegView.fromDB(index: index, data: DB.data);
+                              segment = new TimelineSegView.editMode(index: index, data: DB.data);
 
                               Row targetRow = (TimelineSegView.itemIndex % 2 == 0) ?
                               Row( // We can flip depending on the item index
