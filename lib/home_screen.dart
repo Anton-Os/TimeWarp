@@ -36,8 +36,6 @@ class _HomeScreenView extends State<HomeScreenView>{
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
 
-  // static MediaQueryData MQ; // Parent MQ, everything inherits from here
-
   static const Color fullBk = Color(0xFF1a495e);
   static const Color topBk = Color(0xFF16ab9c);
   static const Color midBk = Color(0xFF80c4bd);

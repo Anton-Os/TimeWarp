@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:timewarpsoc/db_logic.dart';
+import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/db_logic.dart';
 
 import 'package:timewarpsoc/timeline_screen.dart';
 import 'package:timewarpsoc/create_screen.dart';
@@ -42,7 +42,7 @@ class _BrowseTableView extends State<BrowseTableView> {
           return
             ListView.builder(
                 padding: EdgeInsets.zero,
-                itemCount: BrowseTableView.searchRecords.length,
+                itemCount: (snapshot.hasData) ? BrowseTableView.searchRecords.length: 0, // SNAPSHOT GOD!
                 itemBuilder: (context, index) {
                   return Container(
                       margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
@@ -65,6 +65,7 @@ class _BrowseTableView extends State<BrowseTableView> {
                                         Navigator.push(
                                             context, MaterialPageRoute(builder: (context) =>
                                             TimelineScreen(
+                                                MQ: widget.MQ,
                                                 documentId: BrowseTableView.searchRecords.elementAt(index).key.toString(),
                                                 documentName: BrowseTableView.searchRecords.elementAt(index).value.toString(),
                                             ))
@@ -209,6 +210,7 @@ class _BrowseTableView extends State<BrowseTableView> {
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (context) =>
                                     CreateScreen(
+                                      MQ: widget.MQ,
                                       docStr: 'E7GSISGNZkqJrgO93Djr',
                                       docName: 'Creation!',
                                     )));

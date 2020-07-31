@@ -57,6 +57,24 @@ int getYearFromStr(String str){
   return int.parse(yearStr);
 }
 
+// The problem is that Years have no way to differentiate between ACE and BCE
+TIME_Extension getExtFromScale(TIME_Scale scale){
+  switch(scale){
+    case TIME_Scale.Years:
+      return TIME_Extension.ACE;
+      break;
+    case TIME_Scale.Hourly:
+      return TIME_Extension.ACE;
+      break;
+    case TIME_Scale.Epochs:
+      return TIME_Extension.MYA;
+      break;
+    default:
+      return TIME_Extension.NA;
+      break;
+  }
+}
+
 // Get the string version of the date extension enumeration
 String getStrFromExt(TIME_Extension extension){
   switch(extension){

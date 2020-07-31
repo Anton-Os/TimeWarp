@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:timewarpsoc/timeline_types.dart';
+import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/timeline_types.dart';
 
 class TimePickerField extends StatefulWidget {
   TimePickerField({Key key, this.scale, this.placeholder, this.lowerLimit, this.upperLimit}) : super(key: key) {
@@ -13,6 +13,7 @@ class TimePickerField extends StatefulWidget {
   int longPressRepeat = 0;
   List<int> smartLongPressInc = [ 5, 5, 10, 10, 20, 20, 50, 100 ];
 
+  bool isActive = true; // Becomes false if the scale is mismatched
   final TIME_Scale scale;
   final String placeholder;
   final int lowerLimit;
@@ -22,6 +23,8 @@ class TimePickerField extends StatefulWidget {
   static const TextStyle descScript = TextStyle( fontSize: 8, color: Color(0xFF5e1b38), decoration: TextDecoration.none, fontFamily: 'Quicksand');
   static const TextStyle numScript = TextStyle( fontSize: 7, color: Color(0xFF5e1b38), decoration: TextDecoration.none, fontFamily: 'Quicksand');
 
+  int get getVal { return currentVal; }
+
   @override
   _TimePickerField createState() => _TimePickerField();
 }
@@ -30,6 +33,10 @@ class _TimePickerField extends State<TimePickerField> {
   @override
   Widget build(BuildContext context) {
     int newVal = widget.currentVal;
+
+    /* if(widget.placeholder == "Year") // SPECIAL CASE!
+       else if(widget.placeholder == "Month") // SPECIAL CASE
+     */
 
     return Container(
       height: 24.0,
@@ -98,14 +105,32 @@ enum TIMEPICKER_Target {
 }
 
 class TimePickerView extends StatefulWidget {
-  const TimePickerView({Key key, this.scale}) : super(key: key);
+  TimePickerView({Key key, this.scale}) : super(key: key);
 
   final TIME_Scale scale;
+
+  TimePickerField yearField;
+  TimePickerField monthField;
+  TimePickerField dayField;
+  TimePickerField hourField;
+  TimePickerField minuteField;
 
   // TODO: Make the colors based on the existing color themes
   static const Color bkColor = Color(0xFFe6ba97);
   static const Color topColor = Color(0xFFffefe3);
   static const TextStyle topScript = TextStyle( fontSize: 8, color: Color(0xFF5e1b38), decoration: TextDecoration.none, fontFamily: 'Quicksand');
+
+  TimePoint getTp(){
+    print("Get timepoint hit!");
+
+    return new TimePoint(
+        year: yearField.getVal,
+        extension: TIME_Extension.ACE, // TODO: Retrive this data by performing switch(scale)
+        month: TIME_Months.Dec, // TODO: Retrive this data by performing switch(monthField.getVal)
+        day: dayField.getVal,
+        minute: minuteField.getVal
+    );
+  }
 
   @override
   _TimePickerView createState() => _TimePickerView();
@@ -114,6 +139,12 @@ class TimePickerView extends StatefulWidget {
 class _TimePickerView extends State<TimePickerView> {
   @override
   Widget build(BuildContext context) {
+    widget.yearField = TimePickerField(placeholder: "Year", lowerLimit: 0, upperLimit: 4000);
+    widget.monthField = TimePickerField(placeholder: "Month", lowerLimit: 1, upperLimit: 12);
+    widget.dayField = TimePickerField(placeholder: "Day", lowerLimit: 1, upperLimit: 31);
+    widget.hourField = TimePickerField(placeholder: "Hour", lowerLimit: 1, upperLimit: 24);
+    widget.minuteField = TimePickerField(placeholder: "Minute", lowerLimit: 1, upperLimit: 60);
+
     return
       Container(
           color: TimePickerView.bkColor,
@@ -134,11 +165,11 @@ class _TimePickerView extends State<TimePickerView> {
                           Text("Time Point", style: TimePickerView.topScript, textAlign: TextAlign.center)
                       )
                   ),
-                  TimePickerField(placeholder: "Year", lowerLimit: 0, upperLimit: 4000),
-                  TimePickerField(placeholder: "Month", lowerLimit: 1, upperLimit: 12),
-                  TimePickerField(placeholder: "Day", lowerLimit: 1, upperLimit: 31),
-                  TimePickerField(placeholder: "Hour", lowerLimit: 1, upperLimit: 24),
-                  TimePickerField(placeholder: "Minute", lowerLimit: 1, upperLimit: 60),
+                  widget.yearField,
+                  widget.monthField,
+                  widget.dayField,
+                  widget.hourField,
+                  widget.minuteField
                 ],
               )
               // Text('Start Time', style: TimePickerView.textInputScript)

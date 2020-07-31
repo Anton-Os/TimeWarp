@@ -4,14 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-import 'package:timewarpsoc/timeline_types.dart';
-import 'package:timewarpsoc/db_logic.dart';
-import 'package:timewarpsoc/ui_beauty.dart';
+import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/timeline_types.dart';
+import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/db_logic.dart';
+import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/ui_beauty.dart';
 import 'package:timewarpsoc/timeline_seg_view.dart';
 
 class TimelineScreen extends StatefulWidget {
-  const TimelineScreen({ Key key, this.documentId, this.documentName }) : super(key: key);
+  const TimelineScreen({ Key key, this.MQ, this.documentId, this.documentName }) : super(key: key);
 
+  final MediaQueryData MQ;
   final String documentId;
   final String documentName;
 
@@ -41,8 +42,9 @@ class _TimelineScreen extends State<TimelineScreen> {
       FutureBuilder(
           future: _asyncTaskInit,
           builder: (context, snapshot){
+            // if(snapshot.hasData)
             return
-            MaterialApp(
+            MaterialApp( // TODO: Change the following code to match create_screen.dart, REMOVE ORIENTATION BUILDER
               home:
                   OrientationBuilder(
                     builder: (context, orientation){

@@ -4,7 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
-import 'package:timewarpsoc/timeline_types.dart';
+import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/timeline_types.dart';
+
+// TODO: Database classes should be wrapped in ChangeValueNotifier classes
 
 // Local Fetching
 
@@ -171,16 +173,17 @@ class Timeline_FirebaseDB{
               header: entry.key, desc: desc, tp1: tp1, tp2: tp2
           );
 
-          // if(data.segments.indexWhere((element) => !(element.header.compareTo('222') == 0))
           data.segments.add(segment);
         }
       }
 
       // TODO: Implement a better comparison function
       data.segments.sort((TimelineSegData a, TimelineSegData b) => a.tp1.year.compareTo(b.tp1.year));
-
-
     });
+  }
+
+  void addDataSeg(){
+    // TODO: Flesh this out, its super important
   }
 
   Future<void> overwrite(TimelineData newData) async {

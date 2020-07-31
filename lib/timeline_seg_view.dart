@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:timewarpsoc/timeline_types.dart';
-import 'package:timewarpsoc/ui_beauty.dart';
+import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/timeline_types.dart';
+import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/ui_beauty.dart';
 
 TimelineColorScheme getColorsFromMapEntry(MapEntry mapEntry){
   Color p; Color s; Color f; Color t;
