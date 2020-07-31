@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/db_logic.dart';
+import 'package:timewarpsoc/helper/db_logic.dart';
 
 import 'package:timewarpsoc/timeline_screen.dart';
 import 'package:timewarpsoc/create_screen.dart';

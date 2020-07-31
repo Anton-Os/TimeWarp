@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/ui_beauty.dart';
+import 'package:timewarpsoc/helper/ui_beauty.dart';
 
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 

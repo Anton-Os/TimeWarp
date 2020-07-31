@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/timeline_types.dart';
+import 'package:timewarpsoc/helper/timeline_types.dart';
 
 class TimePickerField extends StatefulWidget {
   TimePickerField({Key key, this.scale, this.placeholder, this.lowerLimit, this.upperLimit}) : super(key: key) {

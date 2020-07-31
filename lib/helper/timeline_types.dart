@@ -89,6 +89,24 @@ String getStrFromExt(TIME_Extension extension){
   }
 }
 
+int getNumFromMonth(TIME_Months month){
+  switch(month){
+    case TIME_Months.Jan: return 1;
+    case TIME_Months.Feb: return 2;
+    case TIME_Months.Mar: return 3;
+    case TIME_Months.Apr: return 4;
+    case TIME_Months.May: return 5;
+    case TIME_Months.Jun: return 6;
+    case TIME_Months.Jul: return 7;
+    case TIME_Months.Aug: return 8;
+    case TIME_Months.Sep: return 9;
+    case TIME_Months.Oct: return 10;
+    case TIME_Months.Nov: return 11;
+    case TIME_Months.Dec: return 12;
+  }
+}
+
+
 // More complex types and classes
 
 class TimePoint {

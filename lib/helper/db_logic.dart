@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
-import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/timeline_types.dart';
+import 'package:timewarpsoc/helper/timeline_types.dart';
 
 // TODO: Database classes should be wrapped in ChangeValueNotifier classes
 
@@ -87,7 +88,7 @@ class SearchRecords_FirebaseDB {
   Iterable<MapEntry<String, dynamic>> searchRecMap = [];
 }
 
-class Timeline_FirebaseDB{
+class Timeline_FirebaseDB extends ChangeNotifier {
   Timeline_FirebaseDB({ this.firebaseDocStr }) {}
 
   final String firebaseDocStr;
@@ -177,13 +178,31 @@ class Timeline_FirebaseDB{
         }
       }
 
-      // TODO: Implement a better comparison function
-      data.segments.sort((TimelineSegData a, TimelineSegData b) => a.tp1.year.compareTo(b.tp1.year));
+      // Comparison function accurate down to hour comparison
+      data.segments.sort((TimelineSegData seg1, TimelineSegData seg2) {
+        if(seg1.tp1.year.compareTo(seg2.tp1.year) != 0) return seg1.tp1.year.compareTo(seg2.tp1.year); // Years Match for else statement
+        else
+          if(getNumFromMonth(seg1.tp1.month).compareTo(getNumFromMonth(seg2.tp1.month)) != 0) return getNumFromMonth(seg1.tp1.month).compareTo(getNumFromMonth(seg2.tp1.month)); // Months Match for else statement
+          else
+            if(seg1.tp1.day.compareTo(seg2.tp1.day) != 0) return seg1.tp1.day.compareTo(seg2.tp1.day); // Days Match for else statement
+            else return seg1.tp1.hour.compareTo(seg2.tp1.hour);
+      });
     });
   }
 
   void addDataSeg(){
-    // TODO: Flesh this out, its super important
+
+    // Comparison function accurate down to hour comparison
+    data.segments.sort((TimelineSegData seg1, TimelineSegData seg2) {
+      if(seg1.tp1.year.compareTo(seg2.tp1.year) != 0) return seg1.tp1.year.compareTo(seg2.tp1.year); // Years Match for else statement
+      else
+        if(getNumFromMonth(seg1.tp1.month).compareTo(getNumFromMonth(seg2.tp1.month)) != 0) return getNumFromMonth(seg1.tp1.month).compareTo(getNumFromMonth(seg2.tp1.month)); // Months Match for else statement
+        else
+          if(seg1.tp1.day.compareTo(seg2.tp1.day) != 0) return seg1.tp1.day.compareTo(seg2.tp1.day); // Days Match for else statement
+          else return seg1.tp1.hour.compareTo(seg2.tp1.hour);
+    });
+
+    notifyListeners();
   }
 
   Future<void> overwrite(TimelineData newData) async {

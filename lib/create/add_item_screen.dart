@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:timewarpsoc/create/time_picker_view.dart';
-import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/timeline_types.dart';
+import 'package:timewarpsoc/helper/db_logic.dart';
+import 'package:timewarpsoc/helper/timeline_types.dart';
 
 class AddItemScreen extends StatefulWidget {
+  AddItemScreen({Key key, this.DB}) : super(key: key);
 
-  static TimelineSegData segment;
-  // static TimePoint tp1;
-  // static TimePoint tp2;
-
+  final Timeline_FirebaseDB DB;
+  TimelineSegData segment;
   static TimePickerView timePickerView1;
   static TimePickerView timePickerView2;
 
@@ -113,7 +113,7 @@ class _AddItemScreen extends State<AddItemScreen> {
                             print("Return Timepoints!");
 
                             if(widget.nameFieldCtrl.text.isNotEmpty && widget.descFieldCtrl.text.isNotEmpty) {
-                              AddItemScreen.segment = new TimelineSegData(
+                              widget.segment = new TimelineSegData(
                                   header: widget.nameFieldCtrl.text,
                                   desc: widget.descFieldCtrl.text,
                                   tp1: AddItemScreen.timePickerView1.getTp(),
@@ -121,10 +121,12 @@ class _AddItemScreen extends State<AddItemScreen> {
                               );
 
                               // Testing stuff!! Mark for deletion
-                              int testYear1 = AddItemScreen.segment.tp1.year;
-                              int testYear2 = AddItemScreen.segment.tp2.year;
-
+                              int testYear1 = widget.segment.tp1.year;
+                              int testYear2 = widget.segment.tp2.year;
                               print("Years are $testYear1 and $testYear2");
+                              // END OF TESTING
+
+                              widget.DB.addDataSeg();
 
                               Navigator.pop(context); // Pop performed
                             } else {

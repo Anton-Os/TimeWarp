@@ -4,13 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:async';
 
-import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/timeline_types.dart';
-import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/db_logic.dart';
-import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/ui_beauty.dart';
+import 'package:timewarpsoc/helper/db_logic.dart';
+import 'package:timewarpsoc/helper/ui_beauty.dart';
 import 'package:timewarpsoc/timeline_seg_view.dart';
 
 import 'package:timewarpsoc/create/add_item_screen.dart';
-// import 'package:timewarpsoc/create/color_picker_view.dart';
 import 'package:timewarpsoc/create/color_picker_selector.dart';
 
 class CreateScreen extends StatefulWidget {

@@ -4,9 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/timeline_types.dart';
-import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/db_logic.dart';
-import 'file:///C:/AntonDocs/Codex/Ao-Project/TimeWarpSoc-V2/time_warp_soc/lib/helper/ui_beauty.dart';
+import 'package:timewarpsoc/helper/db_logic.dart';
 import 'package:timewarpsoc/timeline_seg_view.dart';
 
 class TimelineScreen extends StatefulWidget {
