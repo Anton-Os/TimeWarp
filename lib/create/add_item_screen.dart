@@ -6,6 +6,7 @@ import 'package:timewarpsoc/create/time_picker_view.dart';
 import 'package:timewarpsoc/create_screen.dart';
 import 'package:timewarpsoc/helper/db_logic.dart';
 import 'package:timewarpsoc/helper/timeline_types.dart';
+import 'package:timewarpsoc/timeline_seg_view.dart';
 
 class AddItemScreen extends StatefulWidget {
   AddItemScreen({Key key, this.DB }) : super(key: key);
@@ -21,11 +22,13 @@ class AddItemScreen extends StatefulWidget {
   TextEditingController descFieldCtrl = TextEditingController();
 
   // TODO: Make the colors based on the existing color themes
-  static const Color bkColor = Color(0xFFe6a673);
-  static const Color fieldColor = Color(0xFFfcc395);
-  static const Color timePickColor = Color(0xFFe0a84c);
-  static const Color bottomBtnColor = Color(0xFFffefe3);
-  static const TextStyle textInputScript = TextStyle( fontSize: 12, color: Color(0xFF5c5c5c), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
+  static Color bkColor = Color(0xFFaaaaaa); // Defaults
+  static Color fieldColor = Color(0xFFaaaaaa); // Defaults
+  static Color bottomBtnColor = Color(0xFFaaaaaa); // Defaults
+
+  static TextStyle headerInputScript = TextStyle( fontSize: 12, color: Color(0xFF5c5c5c), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
+  static TextStyle descInputScript = TextStyle( fontSize: 11.5, color: Color(0xFF5c5c5c), decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
+  static TextStyle bottomBtnScript = TextStyle( fontSize: 12, color: Color(0xFF5c5c5c), decoration: TextDecoration.none, fontFamily: 'Amita');
 
 
   @override
@@ -37,8 +40,22 @@ class _AddItemScreen extends State<AddItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AddItemScreen.timePickerView1 = TimePickerView(scale: TIME_Scale.Years);
-    AddItemScreen.timePickerView2 = TimePickerView(scale: TIME_Scale.Years);
+    // Overriding default colors specified above
+    if(widget.DB.data.themeColors.isNotEmpty) {
+      MapEntry colorsEntry;
+
+      colorsEntry = widget.DB.data.themeColors.firstWhere((element) => element.key == "Title Colors");
+      AddItemScreen.bkColor = getColorsFromMapEntry(colorsEntry).getPrimary;
+
+      colorsEntry = widget.DB.data.themeColors.firstWhere((element) => element.key == "Center Colors");
+      AddItemScreen.fieldColor = getColorsFromMapEntry(colorsEntry).getPrimary;
+
+      colorsEntry = widget.DB.data.themeColors.firstWhere((element) => element.key == "Item Colors");
+      AddItemScreen.bottomBtnColor = getColorsFromMapEntry(colorsEntry).getPrimary;
+    }
+
+    AddItemScreen.timePickerView1 = TimePickerView(isFirst: true, scale: TIME_Scale.Years);
+    AddItemScreen.timePickerView2 = TimePickerView(isFirst: false, scale: TIME_Scale.Years);
 
     return Scaffold(
       body:
@@ -57,10 +74,10 @@ class _AddItemScreen extends State<AddItemScreen> {
                   color: AddItemScreen.fieldColor,
                   child: TextField(
                     controller: widget.nameFieldCtrl,
-                    style: AddItemScreen.textInputScript,
+                    style: AddItemScreen.headerInputScript,
                     decoration: InputDecoration(
                       hintText: "Event Name",
-                      hintStyle: AddItemScreen.textInputScript,
+                      hintStyle: AddItemScreen.headerInputScript,
                       border: InputBorder.none
                     ),
                   ),
@@ -74,13 +91,13 @@ class _AddItemScreen extends State<AddItemScreen> {
                   child: TextField(
                     controller: widget.descFieldCtrl,
                     scrollPadding: EdgeInsets.zero,
-                    style: AddItemScreen.textInputScript,
+                    style: AddItemScreen.descInputScript,
                     keyboardType: TextInputType.multiline,
                     maxLines: 7,
                     decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(top: 5),
                         hintText: "Event Description",
-                        hintStyle: AddItemScreen.textInputScript,
+                        hintStyle: AddItemScreen.descInputScript,
                         border: InputBorder.none
                     ),
                   ),
@@ -101,7 +118,7 @@ class _AddItemScreen extends State<AddItemScreen> {
                 Container(
                     padding: EdgeInsets.only(top: 3),
                     margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-                    height: 20,
+                    height: 25,
                     child:
                     SizedBox.expand(
                         child:
@@ -131,14 +148,15 @@ class _AddItemScreen extends State<AddItemScreen> {
 
                               Navigator.pop(context); // Pop performed
                             } else {
-                              setState(() { // TODO: Fix this initialization
+                              // TODO: Return an alert dialog that indicates the error
+                              /* setState(() { // TODO: Fix this initialization
                                 widget.nameHint = "Event Name cannot be left empty!";
                                 widget.descHint = "Event Description cannot be left empty";
-                              });
+                              }); */
                             }
                           },
                           child: Text("Save Entry",
-                              style: AddItemScreen.textInputScript
+                              style: AddItemScreen.bottomBtnScript
                           ),
                         )
                     )

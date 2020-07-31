@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:timewarpsoc/helper/db_logic.dart';
 import 'package:timewarpsoc/helper/ui_beauty.dart';
 
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -84,12 +85,13 @@ class _ColorPickerView extends State<ColorPickerView>{
 }
 
 class ColorPickerButton extends StatefulWidget {
-  ColorPickerButton({Key key, this.isEnlarged, this.colorTarget, this.colorScheme}) : super(key: key);
+  ColorPickerButton({Key key, this.DB, this.isEnlarged, this.colorTarget, this.colorScheme}) : super(key: key);
 
+  final Timeline_FirebaseDB DB; // TODO: Upload color data to the Database theme!!!
   Color bkColor; // Possibly move to the State Class
-  bool isEnlarged;
-  COLORSCHEME_Target colorTarget;
-  TimelineColorScheme colorScheme;
+  final bool isEnlarged;
+  final COLORSCHEME_Target colorTarget;
+  final TimelineColorScheme colorScheme;
 
   @override
   _ColorPickerButton createState() => _ColorPickerButton();

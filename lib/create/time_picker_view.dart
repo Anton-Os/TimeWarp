@@ -20,7 +20,7 @@ class TimePickerField extends StatefulWidget {
   final int lowerLimit;
   final int upperLimit;
 
-  static const Color fieldColor = Color(0xFFfcc395);
+  static const Color fieldColor = Color(0xFFefefef);
   static const TextStyle descScript = TextStyle( fontSize: 8, color: Color(0xFF5e1b38), decoration: TextDecoration.none, fontFamily: 'Quicksand');
   static const TextStyle numScript = TextStyle( fontSize: 7, color: Color(0xFF5e1b38), decoration: TextDecoration.none, fontFamily: 'Quicksand');
 
@@ -129,9 +129,10 @@ enum TIMEPICKER_Target {
 }
 
 class TimePickerView extends StatefulWidget {
-  TimePickerView({Key key, this.scale}) : super(key: key);
+  TimePickerView({Key key, this.isFirst, this.scale}) : super(key: key);
 
   final TIME_Scale scale;
+  final bool isFirst; // Indicates if it is the first TimePoint
 
   TimePickerField yearField;
   TimePickerField monthField;
@@ -140,9 +141,9 @@ class TimePickerView extends StatefulWidget {
   TimePickerField minuteField;
 
   // TODO: Make the colors based on the existing color themes
-  static const Color bkColor = Color(0xFFe6ba97);
-  static const Color topColor = Color(0xFFffefe3);
-  static const TextStyle topScript = TextStyle( fontSize: 8, color: Color(0xFF5e1b38), decoration: TextDecoration.none, fontFamily: 'Quicksand');
+  static const Color bkColor = Color(0xFFaaaaaa);
+  static const Color topColor = Color(0xFF5c5c5c);
+  static const TextStyle topScript = TextStyle( fontSize: 8, color: Color(0xFFfcba03), decoration: TextDecoration.none, fontFamily: 'Quicksand');
 
   TimePoint getTp(){
     print("Get timepoint hit!");
@@ -169,6 +170,8 @@ class _TimePickerView extends State<TimePickerView> {
     widget.hourField = TimePickerField(currentVal: (widget.scale != TIME_Scale.Precision)? 0 : 12, placeholder: "Hour", lowerLimit: 1, upperLimit: 24);
     widget.minuteField = TimePickerField(currentVal: 0, placeholder: "Minute", lowerLimit: 1, upperLimit: 60);
 
+    String timePointAppend = (widget.isFirst)? 'A' : 'B';
+
     return
       Container(
           color: TimePickerView.bkColor,
@@ -186,7 +189,7 @@ class _TimePickerView extends State<TimePickerView> {
                       SizedBox(
                         width: double.infinity,
                         child:
-                          Text("Time Point", style: TimePickerView.topScript, textAlign: TextAlign.center)
+                          Text("Time Point " + timePointAppend, style: TimePickerView.topScript, textAlign: TextAlign.center)
                       )
                   ),
                   widget.yearField,

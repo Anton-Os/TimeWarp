@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
 import 'package:timewarpsoc/helper/timeline_types.dart';
+import 'package:timewarpsoc/helper/timeline_conversion.dart';
 
 // TODO: Database classes should be wrapped in ChangeValueNotifier classes
 
@@ -150,14 +150,14 @@ class Timeline_FirebaseDB extends ChangeNotifier {
             switch (item_entry.key) {
               case("start"):
                 tp1 = new TimePoint(
-                    year: getYearFromStr(item_entry.value.toString()),
-                    extension: getExtFromStr(item_entry.value.toString())
+                    year: getYearFromInput(item_entry.value.toString()),
+                    extension: getExtFromInput(item_entry.value.toString())
                 );
                 break;
               case("end"):
                 tp2 = new TimePoint(
-                    year: getYearFromStr(item_entry.value.toString()),
-                    extension: getExtFromStr(item_entry.value.toString())
+                    year: getYearFromInput(item_entry.value.toString()),
+                    extension: getExtFromInput(item_entry.value.toString())
                 );
                 break;
               case("desc"):

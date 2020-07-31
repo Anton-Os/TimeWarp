@@ -18,7 +18,7 @@ class CreateScreen extends StatefulWidget {
   final String docStr;
   final String docName;
 
-  static const Color navElemColor = Color(0xFFe6a673);
+  static const Color navElemColor = Color(0xFFaaaaaa);
 
   @override
   _CreateScreen createState() => _CreateScreen();

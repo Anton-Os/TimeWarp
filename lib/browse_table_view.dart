@@ -42,7 +42,7 @@ class _BrowseTableView extends State<BrowseTableView> {
           return
             ListView.builder(
                 padding: EdgeInsets.zero,
-                itemCount: (snapshot.hasData) ? BrowseTableView.searchRecords.length: 0, // SNAPSHOT GOD!
+                itemCount: (snapshot.hasData && BrowseTableView.searchRecords.length != null) ? BrowseTableView.searchRecords.length : 0, // SNAPSHOT GOD!
                 itemBuilder: (context, index) {
                   return Container(
                       margin: EdgeInsets.fromLTRB(10, 5, 10, 0),

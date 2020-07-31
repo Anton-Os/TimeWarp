@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:timewarpsoc/helper/timeline_types.dart';
+import 'package:timewarpsoc/helper/timeline_conversion.dart';
 import 'package:timewarpsoc/helper/ui_beauty.dart';
 
 TimelineColorScheme getColorsFromMapEntry(MapEntry mapEntry){
