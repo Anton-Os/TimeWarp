@@ -71,11 +71,17 @@ class SearchRecords_FirebaseDB {
 
     List<MapEntry<String, dynamic>> finRecords = [];
 
-    // TODO: Make sure creation Indices are the first ones added to finRecords
-    // TODO: Loop below should check for
+    for(int c = 0; c < creationIndices.length; c++) // Created timelines appear first
+      finRecords.add(searchRecMap.elementAt(c));
+
     for(int r = 0; r < searchRecMap.length; r++){
       bool skipCase = false;
       exclusionIndices.forEach((element) {
+        if(element == r)
+          skipCase = true;
+      });
+
+      creationIndices.forEach((element) { // We are avoiding the created timelines from reappearing twice
         if(element == r)
           skipCase = true;
       });

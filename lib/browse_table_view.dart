@@ -17,6 +17,7 @@ class BrowseTableView extends StatefulWidget { //
   static const Color createBtnColor = Color(0xFF14ff9c);
   static const Color showBtnColor = Color(0xFF14cc9c);
   static const Color timelineBtnColor = Color(0xFF4368a3);
+  static const Color createdBtnColor = Color(0xFF9963e0);
   static const TextStyle timelineBtnScriptL = TextStyle( fontSize: 9, color: Color(0xFFb2c8eb), decoration: TextDecoration.none, fontFamily: 'Amita');
   static const TextStyle timelineBtnScriptS = TextStyle( fontSize: 5.5, color: Color(0xFFb2c8eb), decoration: TextDecoration.none, fontFamily: 'Amita');
   static const TextStyle lowBtnScript = TextStyle( fontSize: 9, color: Color(0xFF193947), decoration: TextDecoration.none, fontFamily: 'EBGaramond');
@@ -42,7 +43,7 @@ class _BrowseTableView extends State<BrowseTableView> {
           return
             ListView.builder(
                 padding: EdgeInsets.zero,
-                itemCount: (snapshot.hasData && BrowseTableView.searchRecords.length != null) ? BrowseTableView.searchRecords.length : 0, // SNAPSHOT GOD!
+                itemCount: (snapshot.hasData) ? BrowseTableView.searchRecords.length : 0, // SNAPSHOT GOD!
                 itemBuilder: (context, index) {
                   return Container(
                       margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
@@ -55,7 +56,7 @@ class _BrowseTableView extends State<BrowseTableView> {
                               SizedBox.expand(
                                   child:
                                   FlatButton(
-                                      color: BrowseTableView.timelineBtnColor,
+                                      color: (index > BrowseTableView.savedPrefsData.creationIndices.length - 1)? BrowseTableView.timelineBtnColor : BrowseTableView.createdBtnColor,
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(3.0),

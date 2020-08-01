@@ -66,6 +66,23 @@ TIME_Months getMonthFromNum(int num){
   }
 }
 
+String getStrFromMonth(TIME_Months month){
+  switch(month){
+    case TIME_Months.Jan: return "Jan";
+    case TIME_Months.Feb: return "Feb";
+    case TIME_Months.Mar: return "Mar";
+    case TIME_Months.Apr: return "Apr";
+    case TIME_Months.May: return "May";
+    case TIME_Months.Jun: return "Jun";
+    case TIME_Months.Jul: return "Jul";
+    case TIME_Months.Aug: return "Aug";
+    case TIME_Months.Sep: return "Sep";
+    case TIME_Months.Oct: return "Oct";
+    case TIME_Months.Nov: return "Nov";
+    case TIME_Months.Dec: return "Dec";
+  }
+}
+
 // Retrieve the extension, ACE, BCE, or MYA from a string
 TIME_Extension getExtFromInput(String str){
   String extensionStr = '';

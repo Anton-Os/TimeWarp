@@ -32,8 +32,6 @@ dependencies:
   intl: ^0.16.1 # Keep if needed
   # PERSISTENCE STUFF
   shared_preferences: ^0.5.1+2
-  # UI STUFF
-  flutter_colorpicker: ^0.3.4
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -99,4 +97,12 @@ flutter:
     - family: EBGaramond
       fonts:
         - asset: res/EBGaramond-Regular.ttf
+        - style: normal
+    - family: PermanentMarker
+      fonts:
+        - asset: res/PermanentMarker-Regular.ttf
+        - style: normal
+    - family: GamjaFlower
+      fonts:
+        - asset: res/GamjaFlower-Regular.ttf
         - style: normal

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:timewarpsoc/helper/timeline_conversion.dart';
 
 import 'package:timewarpsoc/helper/timeline_types.dart';
 
@@ -54,17 +55,18 @@ class _TimePickerField extends State<TimePickerField> {
         break;
     }
 
-    String valSting = widget.currentVal.toString();
+    String valStr = widget.currentVal.toString();
 
-    /* if(widget.placeholder == "Year") // SPECIAL CASE!
-       else if(widget.placeholder == "Month") // SPECIAL CASE
-     */
+    if(widget.placeholder == "Year")
+      valStr += (widget.currentVal > 0) ? " ACE" : " BCE";
+    if(widget.placeholder == "Month")
+      valStr = getStrFromMonth(getMonthFromNum(widget.currentVal));
 
     return Container(
       height: 24.0,
       margin: EdgeInsets.fromLTRB(2, 2, 2, 0),
       color: TimePickerField.fieldColor,
-      child: Row(
+      child: (widget.isActive) ? Row(
         children: <Widget>[
           Expanded(
               flex: 3,
@@ -92,9 +94,7 @@ class _TimePickerField extends State<TimePickerField> {
           ),
           Expanded(
               flex: 3,
-              child: (widget.isActive)
-                  ? Text(valSting, style: TimePickerField.numScript, textAlign: TextAlign.center)
-                  : Text("Not Available", style: TimePickerField.numScript, textAlign: TextAlign.center)
+              child: Text(valStr, style: TimePickerField.numScript, textAlign: TextAlign.center)
           ),
           Expanded( // Decrement Button, TODO: Add Image as child
               flex: 1,
@@ -115,6 +115,13 @@ class _TimePickerField extends State<TimePickerField> {
                     },
                   )
               )
+          ),
+        ],
+      ) : Row(
+        children: <Widget>[
+          Expanded(
+              flex: 3,
+              child: Text(widget.placeholder, style: TimePickerField.descScript, textAlign: TextAlign.center)
           ),
         ],
       )
@@ -164,11 +171,17 @@ class TimePickerView extends StatefulWidget {
 class _TimePickerView extends State<TimePickerView> {
   @override
   Widget build(BuildContext context) {
-    widget.yearField = TimePickerField(currentVal: (widget.scale != TIME_Scale.Epochs)? 2000 : 100, placeholder: "Year", lowerLimit: 0, upperLimit: 4000);
-    widget.monthField = TimePickerField(currentVal: 0, placeholder: "Month", lowerLimit: 1, upperLimit: 12);
-    widget.dayField = TimePickerField(currentVal: 0, placeholder: "Day", lowerLimit: 1, upperLimit: 31);
-    widget.hourField = TimePickerField(currentVal: (widget.scale != TIME_Scale.Precision)? 0 : 12, placeholder: "Hour", lowerLimit: 1, upperLimit: 24);
-    widget.minuteField = TimePickerField(currentVal: 0, placeholder: "Minute", lowerLimit: 1, upperLimit: 60);
+    widget.yearField = TimePickerField(
+        scale: widget.scale,
+        currentVal: (widget.scale != TIME_Scale.Epochs)? 2000 : 100,
+        placeholder: "Year",
+        lowerLimit: (widget.scale == TIME_Scale.Years)? -4000 : 0, // Negative values are BCE
+        upperLimit: (widget.scale != TIME_Scale.Epochs)? 2020 : 1380
+    );
+    widget.monthField = TimePickerField(scale: widget.scale, currentVal: 1, placeholder: "Month", lowerLimit: 1, upperLimit: 12);
+    widget.dayField = TimePickerField(scale: widget.scale, currentVal: 0, placeholder: "Day", lowerLimit: 1, upperLimit: 31);
+    widget.hourField = TimePickerField(scale: widget.scale, currentVal: (widget.scale != TIME_Scale.Precision)? 0 : 12, placeholder: "Hour", lowerLimit: 1, upperLimit: 24);
+    widget.minuteField = TimePickerField(scale: widget.scale, currentVal: 0, placeholder: "Minute", lowerLimit: 1, upperLimit: 60);
 
     String timePointAppend = (widget.isFirst)? 'A' : 'B';
 
