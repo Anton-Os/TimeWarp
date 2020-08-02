@@ -28,6 +28,7 @@ dependencies:
   firebase_auth: ^0.16.0
   cloud_firestore: ^0.13.0+1
   # NET STUFF
+  crypto: ^2.1.5
   provider: ^2.0.0 # Keep if needed
   intl: ^0.16.1 # Keep if needed
   # PERSISTENCE STUFF

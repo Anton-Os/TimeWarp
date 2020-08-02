@@ -4,19 +4,43 @@ import 'package:flutter/material.dart';
 import 'package:timewarpsoc/helper/db_logic.dart';
 import 'package:timewarpsoc/helper/ui_beauty.dart';
 
-
-
 class ColorPickerView extends StatefulWidget {
-  ColorPickerView({Key key, this.pickerColor, this.colorTarget, this.colorScheme}) : super(key: key);
+  ColorPickerView({Key key, this.pickerColor, this.colorTarget, this.colorScheme}) : super(key: key){
+    assert(pickerColor != null);
+    redSlideVal = pickerColor.red.toDouble();
+    greenSlideVal = pickerColor.green.toDouble();
+    blueSlideVal = pickerColor.blue.toDouble();
 
+    switch(colorTarget){
+      case COLORSCHEME_Target.Primary:
+        titleText = "Choose A Primary Color";
+        pickerColor = colorScheme.primary;
+        break;
+      case COLORSCHEME_Target.Secondary:
+        titleText = "Choose A Secondary Color";
+        pickerColor = colorScheme.secondary;
+        break;
+      case COLORSCHEME_Target.Filler:
+        titleText = "Choose A Filler Color";
+        pickerColor = colorScheme.filler;
+        break;
+      case COLORSCHEME_Target.Text:
+        titleText = "Choose A Text Color";
+        pickerColor = colorScheme.text;
+        break;
+    }
+  }
+
+  String titleText;
+  bool isInit = false;
   Color pickerColor;
   static Color targetColor;
   COLORSCHEME_Target colorTarget;
   TimelineColorScheme colorScheme;
 
-  double redSlideVal = 50;
-  double greenSlideVal = 50;
-  double blueSlideVal = 50;
+  double redSlideVal;
+  double greenSlideVal;
+  double blueSlideVal;
 
   // static Color targetColor; // This should be accessible once the view terminates
   static TextStyle headerScript = TextStyle( fontSize: 9, color: Color(0xFF333333), decoration: TextDecoration.none, fontFamily: 'PermanentMarker');
@@ -34,32 +58,8 @@ class _ColorPickerView extends State<ColorPickerView>{
   @override
   Widget build(BuildContext context) {
 
-    String titleText;
-    switch(widget.colorTarget){
-      case COLORSCHEME_Target.Primary:
-        titleText = "Choose A Primary Color";
-        widget.pickerColor = widget.colorScheme.primary;
-        break;
-      case COLORSCHEME_Target.Secondary:
-        titleText = "Choose A Secondary Color";
-        widget.pickerColor = widget.colorScheme.secondary;
-        break;
-      case COLORSCHEME_Target.Filler:
-        titleText = "Choose A Filler Color";
-        widget.pickerColor = widget.colorScheme.filler;
-        break;
-      case COLORSCHEME_Target.Text:
-        titleText = "Choose A Text Color";
-        widget.pickerColor = widget.colorScheme.text;
-        break;
-    }
-
-    widget.redSlideVal = widget.pickerColor.red.toDouble();
-    widget.greenSlideVal = widget.pickerColor.green.toDouble();
-    widget.blueSlideVal = widget.pickerColor.blue.toDouble();
-
     return AlertDialog(
-      title: Text(titleText, textAlign: TextAlign.center, style: ColorPickerView.headerScript),
+      title: Text(widget.titleText, textAlign: TextAlign.center, style: ColorPickerView.headerScript),
       content: SingleChildScrollView(
           child:
           Container(
@@ -70,19 +70,22 @@ class _ColorPickerView extends State<ColorPickerView>{
       ),
       actions: <Widget>[
         Container(
-          height: 25,
+          height: 30,
           child:
           Slider(
             value: widget.redSlideVal,
             min: 0.0,
             max: 255.0,
             activeColor: Color(0xFFFF0000), // TODO: Fix the slider, copy/paste for others!
-            onChanged: (value) => (setState(() => widget.redSlideVal = value )),
-            onChangeEnd: (value) => (setState(() => widget.pickerColor = Color.fromRGBO(widget.redSlideVal.toInt(), widget.pickerColor.green, widget.pickerColor.blue, 1.0))),
+            // onChanged: (value) => (setState(() { widget.pickerColor = Color.fromRGBO(widget.redSlideVal.toInt(), widget.pickerColor.green, widget.pickerColor.blue, 1.0); })),
+            onChanged: (value) => (setState((){
+              widget.redSlideVal = value;
+              widget.pickerColor = Color.fromRGBO(widget.redSlideVal.toInt(), widget.pickerColor.green, widget.pickerColor.blue, 1.0);}
+            ))
           )
         ),
         Container(
-          height: 25,
+          height: 30,
           child:
           Slider(
               value: widget.greenSlideVal,
@@ -96,7 +99,7 @@ class _ColorPickerView extends State<ColorPickerView>{
           )
         ),
         Container(
-          height: 25,
+          height: 30,
           child:
           Slider(
               value: widget.blueSlideVal,
@@ -111,8 +114,23 @@ class _ColorPickerView extends State<ColorPickerView>{
         ),
         FlatButton(
           child: const Text('Select', textAlign: TextAlign.center,),
+
+          // TODO: Refine this code
           onPressed: () {
-            // Switch statement might be needed!
+            switch(widget.colorTarget){
+              case COLORSCHEME_Target.Primary:
+                widget.colorScheme.setPrimary = widget.pickerColor;
+                break;
+              case COLORSCHEME_Target.Secondary:
+                widget.colorScheme.setSecondary = widget.pickerColor;
+                break;
+              case COLORSCHEME_Target.Filler:
+                widget.colorScheme.setFiller = widget.pickerColor;
+                break;
+              case COLORSCHEME_Target.Text:
+                widget.colorScheme.setText = widget.pickerColor;
+                break;
+            }
 
             ColorPickerView.targetColor = widget.pickerColor;
             Navigator.of(context).pop();

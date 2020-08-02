@@ -33,7 +33,6 @@ class _CreateScreen extends State<CreateScreen> {
   Widget targetWidgetM; // middle
   Widget targetWidgetS2; // right
 
-  // ValueListenableBuilder<AddItemScreen> addItemScreenLB;
 
   @override
   void initState(){
@@ -81,8 +80,7 @@ class _CreateScreen extends State<CreateScreen> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        // TODO: parent class needs to react to changes in children!
-                        // TODO: ColorPickerButtons probably need an instance to work with
+                        // TODO: The new color theme has to be uploaded to the DATABASE!!!
                         ColorPickerButton(isEnlarged: true, colorTarget: COLORSCHEME_Target.Primary, colorScheme: TimelineSegView.title_Colors),
                         Padding(padding: EdgeInsets.fromLTRB(3, 16, 3, 16),),
                         ColorPickerButton(isEnlarged: true, colorTarget: COLORSCHEME_Target.Secondary, colorScheme: TimelineSegView.title_Colors),

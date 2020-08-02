@@ -85,7 +85,7 @@ class _BrowseTableView extends State<BrowseTableView> {
                               SizedBox.expand(
                                   child:
                                   RaisedButton(
-                                      color: BrowseTableView.timelineBtnColor,
+                                      color: (index > BrowseTableView.savedPrefsData.creationIndices.length - 1)? BrowseTableView.timelineBtnColor : BrowseTableView.createdBtnColor,
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.only(
                                               topRight: Radius.circular(3.0),

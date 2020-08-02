@@ -76,7 +76,7 @@ class _AddItemScreen extends State<AddItemScreen> {
                     controller: widget.nameFieldCtrl,
                     style: AddItemScreen.headerInputScript,
                     decoration: InputDecoration(
-                      hintText: "Event Name",
+                      hintText: widget.nameHint,
                       hintStyle: AddItemScreen.headerInputScript,
                       border: InputBorder.none
                     ),
@@ -96,7 +96,7 @@ class _AddItemScreen extends State<AddItemScreen> {
                     maxLines: 7,
                     decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(top: 5),
-                        hintText: "Event Description",
+                        hintText: widget.descHint,
                         hintStyle: AddItemScreen.descInputScript,
                         border: InputBorder.none
                     ),
@@ -149,10 +149,10 @@ class _AddItemScreen extends State<AddItemScreen> {
                               Navigator.pop(context); // Pop performed
                             } else {
                               // TODO: Return an alert dialog that indicates the error
-                              /* setState(() { // TODO: Fix this initialization
+                              setState(() {
                                 widget.nameHint = "Event Name cannot be left empty!";
-                                widget.descHint = "Event Description cannot be left empty";
-                              }); */
+                                widget.descHint = "Event Description cannot be left empty!";
+                              });
                             }
                           },
                           child: Text("Save Entry",
