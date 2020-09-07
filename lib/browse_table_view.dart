@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:timewarpsoc/helper/crypto.dart';
 import 'package:timewarpsoc/helper/db_logic.dart';
 
 import 'package:timewarpsoc/timeline_screen.dart';
@@ -206,13 +207,15 @@ class _BrowseTableView extends State<BrowseTableView> {
                           onPressed: () {
                             BrowseTableView.savedPrefsData.addCreationIndex(BrowseTableView.remoteDB.searchRecMap.length);
 
-                            // TODO: Interact with flutter to generate new documents and entries
+                            // TODO: Document name needs to be fixed here
+                            String creationId = genHash(); // A unique Id is generated for use in the global database
+                            BrowseTableView.remoteDB.addEntry(creationId, 'Creation!'); // Attempting to add a record to the DB
 
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (context) =>
                                     CreateScreen(
                                       MQ: widget.MQ,
-                                      docStr: 'E7GSISGNZkqJrgO93Djr',
+                                      docStr: creationId, // Usage of the Id
                                       docName: 'Creation!',
                                     )));
                           },

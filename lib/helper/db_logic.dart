@@ -91,6 +91,12 @@ class SearchRecords_FirebaseDB {
 
     return finRecords;
   }
+
+  Future<void> addEntry(String docId, String docName){
+    Firestore.instance.collection('timelines').document('SearchRecord').updateData( {docId : docName} );
+    // Adds a new element to the Search Records
+  }
+
   Iterable<MapEntry<String, dynamic>> searchRecMap = [];
 }
 
@@ -215,6 +221,7 @@ class Timeline_FirebaseDB extends ChangeNotifier {
   }
 
   Future<void> overwrite(TimelineData newData) async {
-    // Implement upload data
+    Firestore.instance.collection('timelines').document(firebaseDocStr).setData( Map.fromIterable(data.segments) );
+    // Overwites existing timeline data with the newest entries
   }
 }
