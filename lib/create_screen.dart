@@ -47,7 +47,6 @@ class _CreateScreen extends State<CreateScreen> {
       FutureBuilder(
       future: _asyncTaskInit,
       builder: (context, snapshot){ // TODO: Add checks to snapshot
-        TimelineSegView.isPortrait = (widget.MQ.orientation == Orientation.portrait) ? true : false;
         TimelineSegView.titleStr = widget.docName;
 
         // TODO: Allow dynamic changes with the BottomAppBar

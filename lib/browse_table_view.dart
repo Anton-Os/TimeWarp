@@ -33,7 +33,7 @@ class _BrowseTableView extends State<BrowseTableView> {
   Widget build(BuildContext context) {
     Widget listDataDisplay =
     FutureBuilder(
-        future: Future.wait([BrowseTableView.savedPrefsData.init(), BrowseTableView.remoteDB.init()]),
+        future: Future.wait([BrowseTableView.remoteDB.init(), BrowseTableView.savedPrefsData.init()]),
         builder: (context, snapshot){
 
           BrowseTableView.searchRecords = BrowseTableView.remoteDB.getRecords(
@@ -43,12 +43,13 @@ class _BrowseTableView extends State<BrowseTableView> {
 
           return
             ListView.builder(
-                padding: EdgeInsets.zero,
+                padding: EdgeInsets.zero, // TODO: Update the ? : statement
                 itemCount: (snapshot.hasData) ? BrowseTableView.searchRecords.length : 0, // SNAPSHOT GOD!
+                // itemCount: 1,
                 itemBuilder: (context, index) {
                   return Container(
                       margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-                      height: 20,
+                      height: 6 * widget.MQ.devicePixelRatio,
                       child: Row( // TODO: Load elements from another view class!
                           children: <Widget>[
                             Expanded(
@@ -123,7 +124,7 @@ class _BrowseTableView extends State<BrowseTableView> {
                   return Container(
                       margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
                       // color: BrowseTableView.timelineBtnColor,
-                      height: 20,
+                      height: 6 * widget.MQ.devicePixelRatio,
                       child: Row( // TODO: Load elements from another view class!
                           children: <Widget>[
                             Expanded(
@@ -182,7 +183,7 @@ class _BrowseTableView extends State<BrowseTableView> {
           Container(
               color: BrowseTableView.bkColor,
               margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-              height: (widget.MQ.orientation == Orientation.portrait) ? 305.0 : 160.0,
+              height: (widget.MQ.orientation == Orientation.portrait) ? 110 * widget.MQ.devicePixelRatio : 55 * widget.MQ.devicePixelRatio,
               child: (widget.MQ.orientation == Orientation.portrait)
                   ? listDataDisplay
                   : gridDataDisplay
@@ -190,7 +191,7 @@ class _BrowseTableView extends State<BrowseTableView> {
           Padding(padding: EdgeInsets.only(top: 3)),
           Container(
             margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-            height: 20,
+            height: 6 * widget.MQ.devicePixelRatio,
             child:
             Row(
                 children: <Widget>[

@@ -47,7 +47,6 @@ class _TimelineScreen extends State<TimelineScreen> {
                   OrientationBuilder(
                     builder: (context, orientation){
                           // TODO: Replace with Media Query Calls
-                          TimelineSegView.isPortrait = (orientation == Orientation.portrait) ? true : false;
                           TimelineSegView.titleStr = widget.documentName;
 
                           MapEntry colorsEntry;
@@ -76,7 +75,7 @@ class _TimelineScreen extends State<TimelineScreen> {
                                 itemBuilder: (context, index) {
 
                                   if(index == 0) TimelineSegView.itemIndex = 0; // Needs to reset when the builder starts over with first element
-                                  segment = new TimelineSegView.fromDB(index: index, data: DB.data);
+                                  segment = new TimelineSegView.fromDB(MQ: widget.MQ, index: index, data: DB.data);
 
                                   Row targetRow = (TimelineSegView.itemIndex % 2 == 0) ?
                                   Row( // We can flip depending on the item index

@@ -44,11 +44,11 @@ double getHeightFromText(bool isPortrait, int charCount){ // Think I got it!!!
 }
 
 class TimelineSegView {
-  TimelineSegView({key, this.index}){
+  TimelineSegView({key, this.MQ, this.index}){
     // Creation mode constuctor!
   }
 
-  TimelineSegView.fromDB({Key key, this.index, this.data}){ // TODO: Include a boolean to indicate portrait or landscape and resize text values
+  TimelineSegView.fromDB({Key key, this.MQ, this.index, this.data}){ // TODO: Include a boolean to indicate portrait or landscape and resize text values
 
     switch(index){
       case(0): // TODO: Extract info based on the _Name field
@@ -69,7 +69,11 @@ class TimelineSegView {
       default:
         if(index % 2 == 0){
           if(this.data.segments.length != 0) {
-            double targetHeight = getHeightFromText(TimelineSegView.isPortrait, this.data.segments.elementAt(itemIndex).desc.length); // We will do some crude scaling
+
+            double targetHeight = getHeightFromText(
+                (MQ.orientation == Orientation.portrait) ? true : false,
+                this.data.segments.elementAt(itemIndex).desc.length
+            ); // We will do some crude scaling
 
             targetWidgetS1 = new Expanded(flex: 5,
                 child: Column(
@@ -122,7 +126,7 @@ class TimelineSegView {
 
   // TODO: Edit mode needs to listen changes in the TimelineData theme colors
   // TODO: TextField needs to replace
-  TimelineSegView.editMode({Key key, this.index, this.data}){ // TODO: Include a boolean to indicate portrait or landscape and resize text values
+  TimelineSegView.editMode({Key key, this.MQ, this.index, this.data}){ // TODO: Include a boolean to indicate portrait or landscape and resize text values
 
     switch(index){
       case(0): // TODO: Extract info based on the _Name field
@@ -162,7 +166,10 @@ class TimelineSegView {
       default:
         if(index % 2 == 0){
           if(this.data.segments.length != 0) {
-            double targetHeight = getHeightFromText(TimelineSegView.isPortrait, this.data.segments.elementAt(itemIndex).desc.length); // We will do some crude scaling
+            double targetHeight = getHeightFromText(
+                (MQ.orientation == Orientation.portrait) ? true : false,
+                this.data.segments.elementAt(itemIndex).desc.length
+            );
 
             targetWidgetS1 = new Expanded(flex: 5,
                 child: Column(
@@ -214,12 +221,12 @@ class TimelineSegView {
   }
 
   final int index;
+  final MediaQueryData MQ;
   TimelineData data; // Data could be null if in creation mode
 
   static String titleStr;
   static int itemIndex = 0; // Knows where to access the item data for timeline
   static const double fillerHeight = 130.0;
-  static bool isPortrait = true;
 
   Widget targetWidgetS1; // left
   Widget targetWidgetM; // middle

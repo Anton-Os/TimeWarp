@@ -34,13 +34,13 @@ class _TopView extends State<TopView>{
     return Container (
       color: TopView.bkColor,
       margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-      height: (widget.MQ.orientation == Orientation.portrait)? 50 : 45,
+      height: (widget.MQ.orientation == Orientation.portrait)? 17.5 * widget.MQ.devicePixelRatio : 16 * widget.MQ.devicePixelRatio,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Expanded(flex: 1, child:
           Container( // Adds a little up top
-              padding: EdgeInsets.only(top: 6.0),
+              padding: EdgeInsets.only(top: 2.2 * widget.MQ.devicePixelRatio),
               child:
               Text("Time\n Warp\n Society\n", style: TopView.logoScript, textAlign: TextAlign.center)
           )),
