@@ -37,7 +37,7 @@ class _CreateScreen extends State<CreateScreen> {
   @override
   void initState(){
     DB = new Timeline_FirebaseDB(firebaseDocStr: widget.docStr); // DB Creation happens once
-    _asyncTaskInit = DB.init();
+    _asyncTaskInit = DB.initDefaults();
     super.initState();
   }
 
@@ -107,6 +107,7 @@ class _CreateScreen extends State<CreateScreen> {
                       ],
                     ),
                   ),
+                  // TODO: This is a good place to save changes to the timeline in general!
                   floatingActionButton: FloatingActionButton(
                       backgroundColor: CreateScreen.navElemColor,
                       mini: true,

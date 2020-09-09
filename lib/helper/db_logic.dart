@@ -204,6 +204,27 @@ class Timeline_FirebaseDB extends ChangeNotifier {
     });
   }
 
+  Future<void> initDefaults() async {
+    data.titleDatesStr = '(Insert start date here) to (Insert end date here)'; // Default dates string
+    data.titleDescStr = 'Insert a brief description of the timeline here';
+
+    // TODO: Add all default themes
+    // TODO: Format the code below correctly
+    Map<String, dynamic> title_colors = { 'Primary': 0xFF555555, 'Secondary': 0xFF575757, 'Text': 0xFFAEAEAE };
+    Map<String, dynamic> item_colors = { 'Primary': 0xFF555555, 'Secondary': 0xFF575757, 'Text': 0xFFAEAEAE, 'Filler': 0xFF525252 };
+    Map<String, dynamic> center_colors = { 'Primary': 0xFF555555, 'Secondary': 0xFF575757, 'Text': 0xFFAEAEAE };
+
+    Iterable<MapEntry<String, dynamic>> themeColor_entries = [
+      MapEntry('Title Colors', title_colors),
+      MapEntry('Item Colors', item_colors),
+      MapEntry('Center Colors', center_colors),
+    ];
+    data.themeColors = themeColor_entries; // TODO: See if this functions correctly
+
+    // Notify listeners here??
+  }
+
+  // Adds a segment of data and overrides database entries
   void addDataSeg(TimelineSegData newSegData){
     data.segments.add(newSegData);
 
@@ -217,11 +238,9 @@ class Timeline_FirebaseDB extends ChangeNotifier {
           else return seg1.tp1.hour.compareTo(seg2.tp1.hour);
     });
 
-    notifyListeners();
-  }
+    // TODO: See if the new data replaces the old
+    // Firestore.instance.collection('timelines').document(firebaseDocStr).setData( Map.fromIterable(data.segments) );
 
-  Future<void> overwrite(TimelineData newData) async {
-    Firestore.instance.collection('timelines').document(firebaseDocStr).setData( Map.fromIterable(data.segments) );
-    // Overwites existing timeline data with the newest entries
+    notifyListeners();
   }
 }

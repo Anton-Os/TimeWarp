@@ -6,6 +6,34 @@ import 'package:timewarpsoc/helper/db_logic.dart';
 import 'package:timewarpsoc/timeline_screen.dart';
 import 'package:timewarpsoc/create_screen.dart';
 
+/* class ExcludeButton {
+  ExcludeButton({this.index}){
+    button = Expanded(
+      flex: 2,
+      child:
+      SizedBox.expand(
+          child:
+          RaisedButton(
+              color: (index > BrowseTableView.savedPrefsData.creationIndices.length - 1)? BrowseTableView.timelineBtnColor : BrowseTableView.createdBtnColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(3.0),
+                      bottomRight: Radius.circular(3.0))
+              ),
+              // TODO: Set state is missing, callback function or change notifier may be required
+              onPressed: () { BrowseTableView.savedPrefsData.addExclusionIndex(index); },
+              child: Text("X", textAlign: TextAlign.right,
+                  style: BrowseTableView.timelineBtnScriptL
+              )
+          )
+      ),
+    );
+  }
+
+  final int index;
+  Widget button;
+} */ // Might need this class to index properly
+
 class BrowseTableView extends StatefulWidget { //
   const BrowseTableView({Key key, this.MQ}) : super(key: key);
 
@@ -42,72 +70,71 @@ class _BrowseTableView extends State<BrowseTableView> {
           );
 
           return
-            ListView.builder(
-                padding: EdgeInsets.zero, // TODO: Update the ? : statement
-                itemCount: (snapshot.hasData) ? BrowseTableView.searchRecords.length : 0, // SNAPSHOT GOD!
-                // itemCount: 1,
-                itemBuilder: (context, index) {
-                  return Container(
-                      margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
-                      height: 6 * widget.MQ.devicePixelRatio,
-                      child: Row( // TODO: Load elements from another view class!
-                          children: <Widget>[
-                            Expanded(
-                              flex: 12,
+          ListView.builder(
+            padding: EdgeInsets.zero, // TODO: Update the ? : statement
+            itemCount: (snapshot.hasData) ? BrowseTableView.searchRecords.length : 0, // SNAPSHOT GOD!
+            itemBuilder: (context, index) {
+              return Container(
+                  margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                  height: 6 * widget.MQ.devicePixelRatio,
+                  child: Row( // TODO: Load elements from another view class!
+                      children: <Widget>[
+                        Expanded(
+                          flex: 12,
+                          child:
+                          SizedBox.expand(
                               child:
-                              SizedBox.expand(
-                                  child:
-                                  FlatButton(
-                                      color: (index > BrowseTableView.savedPrefsData.creationIndices.length - 1)? BrowseTableView.timelineBtnColor : BrowseTableView.createdBtnColor,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(3.0),
-                                              bottomLeft: Radius.circular(3.0))
-                                      ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context, MaterialPageRoute(builder: (context) =>
-                                            TimelineScreen(
-                                                MQ: widget.MQ,
-                                                documentId: BrowseTableView.searchRecords.elementAt(index).key.toString(),
-                                                documentName: BrowseTableView.searchRecords.elementAt(index).value.toString(),
-                                            ))
-                                        );
-                                      },
-                                      child: Text(BrowseTableView.searchRecords.elementAt(index).value.toString(),
-                                          style: (BrowseTableView.searchRecords.elementAt(index).value.toString().length < 28)
-                                              ? BrowseTableView.timelineBtnScriptL : BrowseTableView.timelineBtnScriptS
-                                      )
+                              FlatButton(
+                                  color: (index > BrowseTableView.savedPrefsData.creationIndices.length - 1)? BrowseTableView.timelineBtnColor : BrowseTableView.createdBtnColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(3.0),
+                                          bottomLeft: Radius.circular(3.0))
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context, MaterialPageRoute(builder: (context) =>
+                                        TimelineScreen(
+                                            MQ: widget.MQ,
+                                            documentId: BrowseTableView.searchRecords.elementAt(index).key.toString(),
+                                            documentName: BrowseTableView.searchRecords.elementAt(index).value.toString(),
+                                        ))
+                                    );
+                                  },
+                                  child: Text(BrowseTableView.searchRecords.elementAt(index).value.toString(),
+                                      style: (BrowseTableView.searchRecords.elementAt(index).value.toString().length < 28)
+                                          ? BrowseTableView.timelineBtnScriptL : BrowseTableView.timelineBtnScriptS
                                   )
-                              ),
-                            ),
-                            Expanded(
-                              flex: 2,
+                              )
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child:
+                          SizedBox.expand(
                               child:
-                              SizedBox.expand(
-                                  child:
-                                  RaisedButton(
-                                      color: (index > BrowseTableView.savedPrefsData.creationIndices.length - 1)? BrowseTableView.timelineBtnColor : BrowseTableView.createdBtnColor,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(3.0),
-                                              bottomRight: Radius.circular(3.0))
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          BrowseTableView.savedPrefsData.addExclusionIndex(index);
-                                        });
-                                      },
-                                      child: Text("X", textAlign: TextAlign.right,
-                                          style: BrowseTableView.timelineBtnScriptL
-                                      )
+                              RaisedButton(
+                                  color: (index > BrowseTableView.savedPrefsData.creationIndices.length - 1)? BrowseTableView.timelineBtnColor : BrowseTableView.createdBtnColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(3.0),
+                                          bottomRight: Radius.circular(3.0))
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      BrowseTableView.savedPrefsData.addExclusionIndex(index);
+                                    });
+                                  },
+                                  child: Text("X", textAlign: TextAlign.right,
+                                      style: BrowseTableView.timelineBtnScriptL
                                   )
-                              ),
-                            )
-                          ]
-                      )
-                  );
-                });
+                              )
+                          ),
+                        )
+                      ]
+                  )
+                );
+              });
         });
 
     Widget gridDataDisplay =
@@ -212,6 +239,7 @@ class _BrowseTableView extends State<BrowseTableView> {
                             String creationId = genHash(); // A unique Id is generated for use in the global database
                             BrowseTableView.remoteDB.addEntry(creationId, 'Creation!'); // Attempting to add a record to the DB
 
+                            // TODO: Replace the code below with an alert dialog that
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (context) =>
                                     CreateScreen(

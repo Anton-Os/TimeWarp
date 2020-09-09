@@ -44,61 +44,61 @@ class _TimelineScreen extends State<TimelineScreen> {
             return
             MaterialApp( // TODO: Change the following code to match create_screen.dart, REMOVE ORIENTATION BUILDER
               home:
-                  OrientationBuilder(
-                    builder: (context, orientation){
-                          // TODO: Replace with Media Query Calls
-                          TimelineSegView.titleStr = widget.documentName;
+              OrientationBuilder(
+                builder: (context, orientation){
+                  // TODO: Replace with Media Query Calls
+                  TimelineSegView.titleStr = widget.documentName;
 
-                          MapEntry colorsEntry;
-                          colorsEntry = DB.data.themeColors.firstWhere((element) => element.key == "Title Colors");
+                  MapEntry colorsEntry;
+                  colorsEntry = DB.data.themeColors.firstWhere((element) => element.key == "Title Colors");
 
-                          TimelineSegView.title_Colors = getColorsFromMapEntry(colorsEntry);
-                          TimelineSegView.titleNameScript = TextStyle( fontSize: 20, color: TimelineSegView.title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Amita');
-                          TimelineSegView.titleDateScript = TextStyle( fontSize: 9, color: TimelineSegView.title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Dokdo');
-                          TimelineSegView.titleSubscriptScript = TextStyle( fontSize: 7, color: TimelineSegView.title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'EBGaramond');
+                  TimelineSegView.title_Colors = getColorsFromMapEntry(colorsEntry);
+                  TimelineSegView.titleNameScript = TextStyle( fontSize: 20, color: TimelineSegView.title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Amita');
+                  TimelineSegView.titleDateScript = TextStyle( fontSize: 9, color: TimelineSegView.title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Dokdo');
+                  TimelineSegView.titleSubscriptScript = TextStyle( fontSize: 7, color: TimelineSegView.title_Colors.getText, decoration: TextDecoration.none, fontFamily: 'EBGaramond');
 
-                          colorsEntry = DB.data.themeColors.firstWhere((element) => element.key == "Center Colors");
+                  colorsEntry = DB.data.themeColors.firstWhere((element) => element.key == "Center Colors");
 
-                          TimelineSegView.center_Colors = getColorsFromMapEntry(colorsEntry);
-                          TimelineSegView.centerDateScript = TextStyle( fontSize: 6.5, color: TimelineSegView.center_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Broadway');
+                  TimelineSegView.center_Colors = getColorsFromMapEntry(colorsEntry);
+                  TimelineSegView.centerDateScript = TextStyle( fontSize: 6.5, color: TimelineSegView.center_Colors.getText, decoration: TextDecoration.none, fontFamily: 'Broadway');
 
-                          colorsEntry = DB.data.themeColors.firstWhere((element) => element.key == "Item Colors");
+                  colorsEntry = DB.data.themeColors.firstWhere((element) => element.key == "Item Colors");
 
-                          TimelineSegView.items_Colors = getColorsFromMapEntry(colorsEntry);
-                          TimelineSegView.itemHeaderScript = TextStyle( fontSize: 10, color: TimelineSegView.items_Colors.getText, decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
-                          TimelineSegView.itemDescScript = TextStyle( fontSize: 8, color: TimelineSegView.items_Colors.getText, decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
+                  TimelineSegView.items_Colors = getColorsFromMapEntry(colorsEntry);
+                  TimelineSegView.itemHeaderScript = TextStyle( fontSize: 10, color: TimelineSegView.items_Colors.getText, decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
+                  TimelineSegView.itemDescScript = TextStyle( fontSize: 8, color: TimelineSegView.items_Colors.getText, decoration: TextDecoration.none, fontFamily: 'JosefinSlab');
 
-                          return
-                            ListView.builder(
-                                padding: EdgeInsets.zero,
-                                itemCount: (DB.data.segments.length * 2) + 2, // + 2 to add extra filler
-                                itemBuilder: (context, index) {
+                  return
+                  ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: (DB.data.segments.length * 2) + 2, // + 2 to add extra filler
+                    itemBuilder: (context, index) {
 
-                                  if(index == 0) TimelineSegView.itemIndex = 0; // Needs to reset when the builder starts over with first element
-                                  segment = new TimelineSegView.fromDB(MQ: widget.MQ, index: index, data: DB.data);
+                      if(index == 0) TimelineSegView.itemIndex = 0; // Needs to reset when the builder starts over with first element
+                      segment = new TimelineSegView.fromDB(MQ: widget.MQ, index: index, data: DB.data);
 
-                                  Row targetRow = (TimelineSegView.itemIndex % 2 == 0) ?
-                                  Row( // We can flip depending on the item index
-                                      children: <Widget>[
-                                        segment.targetWidgetS2, // targetWidgetS2,
-                                        segment.targetWidgetM,
-                                        segment.targetWidgetS1
-                                      ]
-                                  ) : Row(
-                                      children: <Widget>[
-                                        segment.targetWidgetS1, // targetWidgetS1,
-                                        segment.targetWidgetM,
-                                        segment.targetWidgetS2
-                                      ]
-                                  );
+                      Row targetRow = (TimelineSegView.itemIndex % 2 == 0) ?
+                      Row( // We can flip depending on the item index
+                          children: <Widget>[
+                            segment.targetWidgetS2, // targetWidgetS2,
+                            segment.targetWidgetM,
+                            segment.targetWidgetS1
+                          ]
+                      ) : Row(
+                          children: <Widget>[
+                            segment.targetWidgetS1, // targetWidgetS1,
+                            segment.targetWidgetM,
+                            segment.targetWidgetS2
+                          ]
+                      );
 
-                                  return Container( child: targetRow);
-                                }
-                            );
-                      }
-                  )
-            );
-          }
+                      return Container( child: targetRow);
+                    }
+                  );
+              }
+            )
+          );
+        }
       );
    }
 }
