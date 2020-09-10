@@ -7,9 +7,6 @@ import 'package:timewarpsoc/helper/ui_beauty.dart';
 class ColorPickerView extends StatefulWidget {
   ColorPickerView({Key key, this.pickerColor, this.colorTarget, this.colorScheme}) : super(key: key){
     assert(pickerColor != null);
-    redSlideVal = pickerColor.red.toDouble();
-    greenSlideVal = pickerColor.green.toDouble();
-    blueSlideVal = pickerColor.blue.toDouble();
 
     switch(colorTarget){
       case COLORSCHEME_Target.Primary:
@@ -29,6 +26,11 @@ class ColorPickerView extends StatefulWidget {
         pickerColor = colorScheme.text;
         break;
     }
+
+    // Goes after value assignments
+    redSlideVal = pickerColor.red.toDouble();
+    greenSlideVal = pickerColor.green.toDouble();
+    blueSlideVal = pickerColor.blue.toDouble();
   }
 
   String titleText;

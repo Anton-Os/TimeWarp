@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'dart:async';
 
 import 'package:timewarpsoc/helper/db_logic.dart';
@@ -107,13 +108,27 @@ class _CreateScreen extends State<CreateScreen> {
                       ],
                     ),
                   ),
-                  // TODO: This is a good place to save changes to the timeline in general!
-                  floatingActionButton: FloatingActionButton(
-                      backgroundColor: CreateScreen.navElemColor,
-                      mini: true,
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddItemScreen(DB: DB)));
-                      }
+                  floatingActionButton: SpeedDial(
+                    child: Icon(Icons.more_horiz),
+                    backgroundColor: Colors.tealAccent,
+                    foregroundColor: Colors.blueGrey,
+                    children: [
+                      SpeedDialChild(
+                          child: Icon(Icons.add_comment),
+                          backgroundColor: Colors.tealAccent,
+                          foregroundColor: Colors.blueGrey,
+                          label: "Add A Timeline Event",
+                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddItemScreen(DB: DB)))
+                      ),
+                      SpeedDialChild(
+                          child: Icon(Icons.save),
+                        backgroundColor: Colors.tealAccent,
+                        foregroundColor: Colors.blueGrey,
+                          label: "Save Timeline Contents",
+                          // TODO: On Tap Needs to Save Timeline
+                          // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddItemScreen(DB: DB)))
+                      ),
+                    ]
                   ),
                   body:
                       ListView.builder(

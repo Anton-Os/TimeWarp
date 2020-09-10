@@ -1,20 +1,5 @@
 import 'package:flutter/material.dart';
 
-/* enum COLORSCHEME_Target {
-  Title_Primary,
-  Title_Secondary,
-  Title_Text,
-
-  Item_Primary,
-  Item_Secondary,
-  Item_Filler,
-  Item_Text,
-
-  Center_Primary,
-  Center_Secondary,
-  Center_Text
-} */
-
 enum COLORSCHEME_Target {
   Primary,
   Secondary,
