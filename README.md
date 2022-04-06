@@ -1,5 +1,5 @@
-# TimeWarpSoc
+# TimeWarp
 
-Dart data-driven app built for easy reuse, provides good firebase integration.
+Data-driven app with firebase integration that allows users to create and upload historical/event timelines.
 
-Acts as a note-taker for historical events.
+This is an stale version and the active project is hosted privately. This app version is purely for learning purposes.
